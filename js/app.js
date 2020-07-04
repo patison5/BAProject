@@ -134,7 +134,7 @@ window.onload = function () {
 		if (counter < 16) {
 			if (counter % 2 != 0)
 				counter++;
-			
+
 			tmpArray.push(data[i].variable);
 			counter+=2;
 		} else {
@@ -178,7 +178,11 @@ window.onload = function () {
 	});
 
 	function drawSwiperElements (data) {
-		var container = document.getElementsByClassName('swiper-wrapper')[0];
+		var mainCont = document.getElementsByClassName('sw-organization')[0];
+		if (!mainCont)
+			return;
+		
+		var container = mainCont.getElementsByClassName('swiper-wrapper')[0];
 		var wraper = document.createElement('div');
 			wraper.className = "organization-swiper swiper-slide";
 
