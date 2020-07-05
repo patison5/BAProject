@@ -1,0 +1,117 @@
+.main-info{
+	display: flex;
+	background-color: black;
+	opacity: 0.85;
+	border-radius: 20px;
+	margin-top: 50px;
+}
+.info-content {
+	display: flex;
+	position: initial;
+	margin-top: 100px;
+	width: 100%;
+	height: 220px;
+	background: rgb(0, 180, 238);
+	background: linear-gradient(90deg, rgba(0, 180, 238, 1) 0%, rgba(0, 180, 238, 1) 100%);
+}
+/*.find-button{*/
+/*	height: 100%;*/
+/*	display: flex;*/
+/*	flex-direction: column;*/
+/*	justify-content: center;*/
+/*	align-items: center;*/
+/*	flex:1;*/
+/*}*/
+/*.find-button img{*/
+/*	width: 38%;*/
+/*	height: auto;*/
+/*}*/
+.letter{
+	margin-top: 40px;
+	margin-bottom: 44px;
+	font-size: 70px;
+	color: white;
+}
+/*.find-content{*/
+/*	height: 100%;*/
+/*	display: flex;*/
+/*	flex: 8;*/
+/*}*/
+/*.content-slide{*/
+/*	height: 100%;*/
+/*	display: flex;*/
+/*	flex-direction: column;*/
+/*}*/
+.content-item{
+	display: flex;
+	flex-direction: column;
+	height: auto;
+}
+.content-inner{
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	height: auto;
+	justify-content: space-between;
+}
+.content{
+	width: 100%;
+	align-items: center;
+	height: 110px;
+	color: white;
+	font-size: 30px;
+	border-radius: 30px;
+	border-color: #00b0e7;
+	border-style: solid;
+	border-width: 3px;
+	margin-bottom: 45px;
+}
+.content-inner a{
+	text-decoration: none;
+	width: 48%;
+	height: 110px;
+	margin-bottom: 45px;
+}
+.content p{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	text-align: center;
+}
+/*.slider-item{*/
+/*	position: absolute;*/
+/*	width: 1628px;*/
+/*	height: 2090px;*/
+/*	display: none;*/
+/*	flex-direction: column;*/
+/*}*/
+
+ .search-input {
+	border-radius: 15px;
+	background: white;
+	font-size: 40px;
+	margin-top: -10px;
+	color: black;
+	height: 100px;
+	width: 100%;
+ }
+
+ .search-bar{
+	display: block;
+	position: relative;
+	left: 250px;
+	top: 38px;
+	height: 85px;
+	width: 1000px;
+}
+
+/*http://hdseria.tv/zarubezhnye/227-sherlok.html
+*/
+
+
+
+
+
+
+
+
+

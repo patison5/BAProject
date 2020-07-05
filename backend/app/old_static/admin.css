@@ -1,0 +1,32 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+html {
+    background: rgb(0, 0, 0);
+    background: linear-gradient(38deg, rgba(0, 0, 0, 1) 0%, rgba(54, 229, 255, 1) 0%, rgba(32, 34, 44, 0.8337710084033614) 95%);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    width: 800px;
+    height: 30px;
+    text-align: left;
+    margin: 10px 10px 10px 10px;
+    font-size: 20px;
+    color: black;
+}
+
+body {
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+h1 {
+    margin-top: 50px;
+}

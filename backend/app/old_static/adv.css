@@ -1,0 +1,46 @@
+body{
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+
+}
+html{
+	width: 100%;
+	height: 100%;
+
+}
+img{
+	height: 100%;
+	width: auto;
+}
+.search {
+     display: flex;
+    width: 100%;
+    height: 155px;
+     background: rgb(0, 180, 238);
+     background: linear-gradient(90deg, rgba(0, 180, 238, 1) 0%, rgba(0, 180, 238, 1) 100%);
+
+     border-radius: 10px;
+
+     font-size: 3em;
+     color: white;
+ }
+ .time {
+     position: relative;
+    left: 53px;
+    top: 13px;
+    font-size: 43px;
+}
+.date{
+     font-size: 43px;
+    position: relative;
+    top: 12px;
+    left: 95px;
+}
+.home{
+	height: 100px;
+	width: auto;
+	margin-top: 20px;
+	margin-left: 30px;
+}

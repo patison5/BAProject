@@ -1,0 +1,152 @@
+<div class="header">
+	                <img src="../static/imgs/logo.png" class="logo">
+	                <div class="header__texts">
+	                    <div class="header__text">Государственное унитарное предприятие города Москвы</div>
+	                    <div class="header__text">&#171;Медицинский центр Управления делами Мэра и Правительства Москвы&#187;</div>
+	                </div>
+	            </div>
+
+	            <div class="advertising__imgs">
+	                <div class="advertising__img">
+	                    <img src="../static/imgs/adv_imgs/1.png">
+	                </div>
+	                <div class="advertising__img">
+	                    <img src="../static/imgs/adv_imgs/2.png">
+	                </div>
+	                <div class="advertising__img">
+	                    <img src="../static/imgs/adv_imgs/3.png">
+	                </div>
+	            </div>
+
+	            <div class="advertising__texts">
+	                <div class="advertising__text">СПЕЦИАЛЬНОЕ ПРЕДЛОЖЕНИЕ С 09.01.2020 по 30.04.2020</div>
+	                <div class="advertising__text">Пансионат &#171;Изумруд&#187; приглашает в Сочи</div>
+
+	                <div class="advertising__infos">
+	                    <div class="advertising__block">
+	                        <img src="../static/imgs/adv_imgs/qr.png">
+	                    </div>
+	                    <div class="advertising__block">
+	                        <div class="advertising__feedback">
+	                            <div class="advertising__phone">Отдел продаж +7 (499) 290 02 06</div>
+	                            <div class="advertising__site">gumpc.ru</div>
+	                        </div>
+	                    </div>
+	                    <div class="advertising__block">
+	                        <div class="advertising__title">Программа &#171;Завтрак в Сочи&#187;</div>
+	                        <div class="advertising__price">от 1200 руб. *</div>
+	                        <div class="advertising__title">Программа &#171;Климатолечение&#187;</div>
+	                        <div class="advertising__price">от 1700 руб. *</div>
+	                        <div class="advertising__info">*стоимость указана за 1 человека при двухместном размещении</div>
+	                    </div>
+
+	                </div>
+	            </div>
+
+
+
+.header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: #A64F43;
+padding: 25px 0;
+margin-bottom: 43px;
+}
+
+.header__texts {
+margin-right: 50px;
+}
+
+.header__text {
+text-align: end;
+font-size: 1.5rem;
+color: #ffffff;
+margin-bottom: 10px;
+}
+
+.header__text:last-child {
+margin-bottom: 0;
+}
+
+.logo {
+width: 108px;
+height: 108px;
+margin-left: 40px;
+}
+
+.advertising__imgs {
+width: 100%;
+display: flex;
+justify-content: space-between;
+margin-bottom: 35px;
+}
+
+.advertising__img {
+width: 32%;
+height: 360px;
+}
+
+.advertising__img img {
+width: 100%;
+max-height: 100%;
+}
+
+.advertising__texts {
+padding-top: 36px;
+padding-bottom: 44px;
+margin-bottom: 15px;
+}
+
+.advertising__text {
+color: #fff;
+font-size: 1rem;
+text-align: center;
+margin-bottom: 17px;
+}
+
+.advertising__infos {
+display: flex;
+height: 240px;
+padding: 0 50px 0 40px;
+justify-content: space-between;
+background-color: #547497;
+}
+
+.advertising__block {
+display: flex;
+}
+
+.advertising__block:nth-child(2) {
+margin-right: auto;
+align-self: flex-end;
+margin-left: 30px;
+padding-bottom: 16px;
+}
+.advertising__block:nth-child(3) {
+justify-content: center;
+flex-direction: column;
+padding: 16px 0;
+}
+
+.advertising__phone,
+.advertising__site {
+color: #fff;
+font-size: 1rem;
+}
+
+.advertising__title,
+.advertising__price,
+.advertising__info {
+text-align: right;
+color: #fff;
+}
+
+.advertising__title {
+font-size: 1.2rem;
+}
+
+.advertising__price {
+margin-bottom: 20px;
+font-size: 2rem;
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Админ панель</title>
+    <link href="{{ url_for('static', filename='admin.css') }}" rel="stylesheet">
+</head>
+
+<body>
+    <h1>Добавление банка</h1>
+    <form class="add_bank" action="/add_bank" method=post enctype=multipart/form-data>
+        <input type=file name=file>
+        <input name="name" placeholder="Введите название банка" type="text">
+        <input name="time" placeholder="Время работы банка" type="text">
+        <input name="floors" placeholder="Расположение" type="text">
+        <input name="description" placeholder="Описание" type="text">
+        <input type=submit value=Upload>
+    </form>
+    <h1>Удаление банка</h1>
+    <form class="del_bank" action="/delete_bank" method=post enctype=multipart/form-data>
+        <input name="name" placeholder="Введите название банка" type="text">
+        <input type=submit value=Upload>
+    </form>
+    <h1>Добавление организации</h1>
+    <form class="add_org" action="/add_org" method=post enctype=multipart/form-data>
+        <input type=file name=file>
+        <input name="name" placeholder="Введите название организации" type="text">
+        <input name="description" placeholder="Введите описание организации" type="text">
+        <input name="address" placeholder="Введите адресс организации" type="text">
+        <input name="phone" placeholder="Введите номер телефона организации" type="text">
+        <input name="mail" placeholder="Введите почту организации" type="text">
+        <input name="url" placeholder="Введите ссылку на организацию" type="text">
+        <input name="time" placeholder="Введите время работы организации" type="text">
+        <input type=file name=main_photo_src>
+        <input name="main_photo_description" placeholder="Введите дополнительное описание организации" type="text">
+        <input name="additional_title" placeholder="Введите описание для дополнительных фотографий" type="text">
+        <input type=file name=additional_photos_1> <input name="additional_photo_text_1" placeholder="Описание к первой дополнительной фотографии" type="text">
+        <input type=file name=additional_photos_2><input name="additional_photo_text_2" placeholder="Описание ко второй дополнительной фотографии" type="text">
+        <input type=file name=additional_photos_3><input name="additional_photo_text_3" placeholder="Описание к третьей дополнительной фотографии" type="text">
+        <input type=file name=additional_photos_4><input name="additional_photo_text_4" placeholder="Описание к четвертой дополнительной фотографии" type="text">
+        <p><input name="org" type="radio" value="organization">Организация</p>
+        <p><input name="org" type="radio" value="service">Услуга</p>
+        <p><input name="org" type="radio" value="cinema">Концертный зал</p>
+        <p><input name="org" type="radio" value="cafe">Кафе</p>
+        <p><input name="org" type="radio" value="tourist_agency">Туристическое агентство</p>
+        <p><input name="org" type="radio" value="photo">Фото и полиграфия</p>
+        <p><input name="org" type="radio" value="market">Минемаркет</p>
+        <p><input name="org" type="radio" value="pharmacy">Аптечный пункт</p>
+        <input type=submit value=Upload>
+    </form>
+    <h1>Удаление организации</h1>
+    <form class="del_bank" action="/delete_org" method=post enctype=multipart/form-data> <input name="name" placeholder="Введите название организации" type="text">
+        <input type=submit value=Upload>
+    </form>
+    <h1>Добавление тура</h1>
+     <form class="add_travel_tour" action="/add_travel_tour" method=post enctype=multipart/form-data>
+        <input name="name" placeholder="Заголовок" type="text">
+        <input name="description" placeholder="Даты" type="text">
+        <input name="address" placeholder="Описание" type="text">
+         <p>Логотип</p>
+        <input type=file name=additional_photos_1>
+         <p>QR-код</p>
+        <input type=file name=additional_photos_2>
+        <input type=submit value=Upload>
+    </form>
+    <h1>Добавление статьи о путешествиях</h1>
+     <form class="add_travel_adv" action="/add_travel_adv" method=post enctype=multipart/form-data>
+        <input name="text1" placeholder="Верхний левый текст" type="text">
+         <input name="text2" placeholder="Верхний правый текст" type="text">
+         <input name="text3" placeholder="Нижний левый текст" type="text">
+         <input name="text4" placeholder="Верхний правый текст" type="text">
+
+         <p>Фото 1</p>
+        <input type=file name=additional_photos_1>
+         <p>Фото 2</p>
+        <input type=file name=additional_photos_2>
+         <p>Фото 3 (опционально)</p>
+        <input type=file name=additional_photos_3>
+         <p>Фото 4</p>
+        <input type=file name=additional_photos_4>
+         <p>Фото 5</p>
+        <input type=file name=additional_photos_5>
+         <p>Фото 6 (опционально)</p>
+        <input type=file name=additional_photos_6>
+        <input type=submit value=Upload>
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+[
+    {
+        "path": "static/uploads/6ewoHNal50M.png",
+        "name": "oioi",
+        "description": "oio",
+        "address": "ioio",
+        "additional_photo": [
+            "static/uploads/6ewoHNal50M.png",
+            "static/uploads/6ewoHNal50M.png"
+        ],
+        "type": "tour"
+    },
+    {
+        "imgs": [
+            "static/uploads/0l8yvOk_-oc.png",
+            "static/uploads/0l8yvOk_-oc.png",
+            "static/uploads/0l8yvOk_-oc.png",
+            "static/uploads/0l8yvOk_-oc.png",
+            "static/uploads/0l8yvOk_-oc.png",
+            "static/uploads/0l8yvOk_-oc.png"
+        ],
+        "text1": "ed",
+        "text2": "asd",
+        "text3": "111",
+        "text4": "222",
+        "type": "adv"
+    },
+    {
+        "path": "path",
+        "name": "1111",
+        "description": "2222",
+        "address": "3333",
+        "additional_photo": [
+            "static/uploads/6ewoHNal50M.png",
+            "static/uploads/6ewoHNal50M.png"
+        ],
+        "type": "tour"
+    }
+]

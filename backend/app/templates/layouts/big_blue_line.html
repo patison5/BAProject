@@ -1,0 +1,22 @@
+<div class="big__line">
+	<a href="javascript:history.back()" class="big-line__left-btn">
+		<img src="static/images/icons/img-9.svg">
+	</a>
+	<div class="blue-line">
+		<div class="blue-line__desc">
+			<p class="line-desc__text">
+				{{title}}
+			</p>
+		</div>
+
+		{% if search %}
+		    <div class="blue-line__search">
+				<input type="text" class="line__search" placeholder="Поиск" id="klava">
+			</div>
+	    {% endif %}
+	</div>
+
+	<a href="/" class="big-line__right-btn">
+		<img src="static/images/icons/img-8.svg">
+	</a>
+</div>
