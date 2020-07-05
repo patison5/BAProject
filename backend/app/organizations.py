@@ -2,147 +2,125 @@ import json
 import os
 import config
 import string
-
+from contextlib import closing
+import pymysql
+from pymysql.cursors import DictCursor
 
 class OrganizationsController:
-    data = []
+    
+    # Вся информация организаций
+    data_set = [
+        {
+            "title": "Комитет общественных связей и молодежной политики города Москвы", 
+            "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
+            "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
+            "right_part": {
+                "image": "http://127.0.0.1:5000/static/images/woman.png",
+                "title": "Драгунова Екатерина Вячеслаовна",
+                "desc": "Председатель коммитета общественных сязей и молодежной политики города Москвы,"
+            },
+            "address": [
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+                "19 этаж, кабинет 1928"
+            ], 
+            "phones": [
+                "+7 (495) 633-60-02",
+                "+7 (495) 633-60-02 - Офис",
+                "+7 (495) 633-60-02 - Пресс-служба"
+            ],
+            "email": "kow@mos.ru",
+            "link": "https://www.mos.ru/kos",
+        },
+        {
+            "title": "Комитет общественных связей и молодежной политики города Москвы", 
+            "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
+            "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
+            "right_part": {
+                "image": "http://127.0.0.1:5000/static/images/woman.png",
+                "title": "Драгунова Екатерина Вячеслаовна",
+                "desc": "Председатель коммитета общественных сязей и молодежной политики города Москвы,"
+            },
+            "address": [
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+                "19 этаж, кабинет 1928"
+            ], 
+            "phones": [
+                "+7 (495) 633-60-02",
+                "+7 (495) 633-60-02 - Офис",
+                "+7 (495) 633-60-02 - Пресс-служба"
+            ],
+            "email": "kow@mos.ru",
+            "link": "https://www.mos.ru/kos"
+        },
+    ]
 
-    def __init__(self):
-        self.data = self.__load_org()
+    # пример того, как должны возвращаться заголовки (в link помещается id этой организации)
+    organizations_titles = [
+        {
+            "variable": "A",
+            "elements": [
+                {
+                    "text": 'Адвокат Березин МОСКОВСКАЯ КОЛЛЕГИЯ АДВОКАТОВ "ПРАВОВОЙ ЦЕНТР "АРБАТ"',
+                    "link": "1"
+                },
+                {
+                    "text": 'Адвокат Березин МОСКОВСКАЯ КОЛЛЕГИЯ АДВОКАТОВ "ПРАВОВОЙ ЦЕНТР "АРБАТ"',
+                    "link": "3"
+                }
+            ]
+        },
+        {
+            "variable": "B",
+            "elements": [
+                {
+                    "text": 'Адвокат Березин МОСКОВСКАЯ КОЛЛЕГИЯ АДВОКАТОВ "ПРАВОВОЙ ЦЕНТР "АРБАТ"',
+                    "link": "2"
+                },
+                {
+                    "text": 'Адвокат Березин МОСКОВСКАЯ КОЛЛЕГИЯ АДВОКАТОВ "ПРАВОВОЙ ЦЕНТР "АРБАТ"',
+                    "link": "5"
+                },
+                {
+                    "text": 'Адвокат Березин МОСКОВСКАЯ КОЛЛЕГИЯ АДВОКАТОВ "ПРАВОВОЙ ЦЕНТР "АРБАТ"',
+                    "link": "8"
+                }
+            ]
+        },
+    ]
 
-    def find_all(self, org_type):
-        alphabet_li = list(string.ascii_lowercase)
-        result_d = {}
-        for element in alphabet_li:
-            result_d[element] = (self.find_org(element, org_type))
-        return str(result_d).replace("'", '"')
+    
 
-    def find_org(self, char, org_type):
-        result = []
-        char = char.lower()
-        for element in self.data:
-            if (element["page_type"] == org_type) and (element["name"][0] == char or element["name"][0] == char.upper()):
-                result.append(element["name"])
-        return result
-
-    def load_org(self, org_name):
-        data = {}
-
-        for element in self.data:
-            if element["page_type"] == org_name:
-                data = element
-                r = str(data).replace("'", '"')
-                r = r.replace('filename="', "filename='")
-                r = r.replace('")', "')")
-                return r.replace('"static"', "'static'")
-
-        for element in self.data:
-            if element["name"] == org_name:
-                data = element
-                break
-
-        r = str(data).replace("'", '"')
-        r = r.replace('filename="', "filename='")
-        r = r.replace('")', "')")
-        return r.replace('"static"', "'static'")
-
-    def delete_org(self, org_name):
-        for element in self.data:
-            if element["name"] == org_name:
-                self.data.remove(element)
-                self.__save_data()
-                break
-        return 0
-
-    def org_len(self):
-        return str(len(self.data))
-
-    @staticmethod
-    def __load_org():
-        data = []
-        try:
-            with open(config.UPLOAD_FOLDER + '/' + 'organizations.json') as json_file:
-                data = json.load(json_file)
-        except FileNotFoundError:
-            with open(config.UPLOAD_FOLDER + '/' + 'organizations.json', 'w') as outfile:
-                json.dump(data, outfile)
-        return data
-
-    def __save_data(self):
-        with open(config.UPLOAD_FOLDER + '/' + 'organizations.json', 'w') as outfile:
-            json.dump(self.data, outfile, indent=4)
-
-    def add_new_org(self, logo_src, name, description, address, phones, mail, url, time, main_photo_src,
-                    additional_title, additional_photos, additional_photos_text, main_photo_description, page_type):
-
-        new_org = {"logo": logo_src, "name": name, "description": description, "address": address,
-                   "phone": phones, "mail": mail, "url": url, "time": time, "main_photo": main_photo_src,
-                   "additional_title": additional_title, "additional_photos": additional_photos,
-                   "additional_photos_text": additional_photos_text, "main_photo_description": main_photo_description,
-                   "page_type": page_type}
-        self.data.append(new_org)
-        self.__save_data()
-        return new_org
+    def __init__ (self):
+        print("OrganizationsController created")
 
 
-class ToursController:
-    data = []
-    def __init__(self):
-        self.data = self.__load_org()
+    def get_organization_titles (self):
+        # arr = []
+        # for item in self.data_set:
+        #     if item[0] not in arr:
+        #         arr[item[0]] = {}
+            # arr["item[0]"].title = item['title']
 
-    def load_org(self, org_name):
-        data = {}
+        return self.organizations_titles
 
-        for element in self.data:
-            if element["page_type"] == org_name:
-                data = element
-                r = str(data).replace("'", '"')
-                r = r.replace('filename="', "filename='")
-                r = r.replace('")', "')")
-                return r.replace('"static"', "'static'")
 
-        for element in self.data:
-            if element["name"] == org_name:
-                data = element
-                break
+    def get_single_organization (self, id):
+        # находит и возвращает организацию по id
+        return self.data_set[id]
 
-        r = str(data).replace("'", '"')
-        r = r.replace('filename="', "filename='")
-        r = r.replace('")', "')")
-        return r.replace('"static"', "'static'")
 
-    @staticmethod
-    def __load_org():
-        data = []
-        try:
-            with open(config.UPLOAD_FOLDER + '/' + 'travels.json') as json_file:
-                data = json.load(json_file)
-        except FileNotFoundError:
-            with open(config.UPLOAD_FOLDER + '/' + 'travels.json', 'w') as outfile:
-                json.dump(data, outfile)
-        return data
+    def create_new_organization (self, data):
+        # в data придет вся необходимая информация для добавления новой организации
+        return True
 
-    def __save_data(self):
-        with open(config.UPLOAD_FOLDER + '/' + 'travels.json', 'w') as outfile:
-            json.dump(self.data, outfile, indent=4)
 
-    def add_new_travel_tour(self, path, name, description, address, additional_photo):
-        new_travel = {"path": path, "name": name, "description": description,
-                      "address": address, "additional_photo": additional_photo, "type": "tour"}
+    def update_organization (self, data):
+        # в data придет информация которую нужно обновить. минимум 1 какое-то поле, максимум все поля
+        return True
 
-        self.data.append(new_travel)
-        self.__save_data()
 
-    def add_adv(self, imgs, text1, text2, text3, text4):
-        new_travel = {"imgs": imgs, "text1": text1, "text2": text2,
-                      "text3": text3, "text4": text4, "type": "adv"}
-
-        self.data.append(new_travel)
-        self.__save_data()
-
-    def load_all(self):
-        d = self.data
-        r = str(d).replace("'", '"')
-        r = r.replace('filename="', "filename='")
-        r = r.replace('")', "')")
-        return r.replace('"static"', "'static'")
+    def delete_organization (self, id):
+        # удаляет организацию по id
+        return True

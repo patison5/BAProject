@@ -501,7 +501,7 @@ a:hover {
 .services-inactive .m_services,
 .concert_zal-inactive .m_concert_zal,
 .kafe-inactive .m_kafe,
-.bankomat-inactive .m_bankomat,
+.banks-inactive .m_bankomat,
 .tour_agent-inactive .m_tour_agent,
 .photo-inactive .m_photo,
 .minimarket-inactive .m_minimarket,
@@ -635,9 +635,10 @@ a:hover {
 
 
 .content-white__header {
-  display: block;
+  display: flex;
   overflow: hidden;
   margin-bottom: 4em;
+  align-items: center;
 }
 
 .white-header__img {
@@ -647,7 +648,7 @@ a:hover {
 .white-header__title {
   width: calc(100% - 160px);
   float: left;
-  font-size: 80px;
+  font-size: 70px;
   line-height: 80px;
   padding-left: 50px;
 }
@@ -673,12 +674,17 @@ a:hover {
   font-size: 40px;
   line-height: 50px;
   text-align: justify;
-  padding-right: 2em;
   margin-bottom: 50px;
 }
 
+
+.white-wrap__right {
+  padding-left: 4em;
+}
 .wrap-right__img {
   width: 100%;
+  min-width: 250px;
+  margin-bottom: 30px;
 }
 
 .wrap-write__title {
@@ -700,7 +706,7 @@ a:hover {
   display: flex;
   /*align-items: center;*/
   /*justify-content: center;*/
-  margin-bottom: 50px;
+  margin-bottom: 35px;
 }
 
 .list-item__text {

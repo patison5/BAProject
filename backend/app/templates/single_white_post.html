@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script> -->
+
+	<script src="../static/js/jquery.js"></script>
+
+	<!-- {% raw %}
+		<link rel="stylesheet" href="{{ url_for('/', filename='../static/style.css' }}">
+	{% endraw %}
+	 -->
+	<link rel="stylesheet" href="../static/css/style.css">
+
+
+</head>
+<body>
+	<div class="wraper">
+		
+		<div class="container">
+			{% include "layouts/top_menu.html" %}
+
+			{% include "layouts/big_blue_line.html" %}
+
+			<div class="center">
+				<div class="content-white organization">
+					<div class="content-white__header">
+						<img class="white-header__img" src="{{ data.logo }}" width="160" height="160">
+						<h2 class="white-header__title">{{ data.title }}</h2>
+					</div>
+
+					<div class="content-white__wrap">
+						<div class="white-content__left">
+							<div class="wrap-left__text">
+								{{ data.text }}
+							</div>
+
+							<div class="white-content__list-wrap">
+								<ul class="white-content__list">
+									<li class="wrap-list__item">
+										<img src="../static/images/icons/img-3.svg" alt="" width="150" height="150">
+
+										<div class="list-item__text">
+
+											{% for element in data.address %}
+												<p> {{ element }} </p>
+											{% endfor %}
+
+										</div>
+									</li>
+									<li class="wrap-list__item">
+										<img src="../static/images/icons/img-4.svg" alt="" width="150" height="150">
+
+										<div class="list-item__text">
+											{% for element in data.phones %}
+												<p> {{ element }} </p>
+											{% endfor %}
+										</div>
+									</li>
+									<li class="wrap-list__item">
+										<img src="../static/images/icons/img-5.svg" alt="" width="150" height="150">
+
+										<div class="list-item__text">
+											<p>{{ data.email }}</p>
+										</div>
+									</li>
+
+									<li class="wrap-list__item">
+										<img src="../static/images/icons/img-7.svg" alt="" width="150" height="150">
+
+										<div class="list-item__text">
+											<p>{{ data.link }}</p>
+										</div>
+									</li>
+									<li class="wrap-list__item">
+										<img src="../static/images/icons/img-9_9.svg" alt="" width="150" height="150">
+
+										<div class="list-item__text">
+											<p>График работы:</p>
+											<p>ПН-ЧТ – 08:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной</p>
+										</div>
+									</li>
+								</ul>
+								
+
+								{% if data.barcode %}
+									<div class="content-list__barcode">
+										<img src="{{ data.barcode }}" alt="" class="list-barcode__img">
+									</div>
+								{% endif %}
+							</div>
+
+							<div class="white-content__galary">
+								
+								{% for img in data.images %}
+									<div class="galary__block">
+										<div class="g-block__content">
+											<img src="{{ img.src }}" alt="" class="galary__img">
+											
+
+											{% if img.desc %}
+											<div class="block-content__desc">
+												<p class="content__desc">{{ img.desc }}</p>
+											</div>
+											{% endif %}
+										</div>
+									</div>
+								{% endfor %}
+
+							</div>
+						</div>
+
+
+						{% if data.right_part %}
+							<div class="white-wrap__right">
+								<img class="wrap-right__img" src="{{ data.right_part.image }}" width="150">
+								<div class="wrap-write__title">{{ data.right_part.title }}</div>
+								<div class="wrap-write__desc">{{ data.right_part.desc }}</div>
+							</div>
+						{% endif %}
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		{% include "layouts/footer.html" %}
+	</div>
+
+	<div class="black__bg"></div>
+
+    <script src="../static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script> -->
+
+	<script src="static/js/jquery.js"></script>
+
+	<link rel="stylesheet" href="static/css/swiper.css">
+	<link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+	<div class="wraper">
+		
+		<div class="container">
+			{% include "layouts/top_menu.html" %}
+		
+			{% include "layouts/big_blue_line.html" %}
+
+			<div class="center posts">
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						
+						{% for slide in data %}
+							<!-- 1 слайд -->
+							<div class="swiper-slide">
+
+							{% for post in slide %}
+								<div class="posts__block">
+									<div class="b-posts__image">
+										<img src="{{ post.logo }}" alt="" class="posts__image">
+									</div>
+
+									<div class="b-posts__content">
+										<div class="b-posts__title">{{ data.length }}</div>
+										<div class="b-posts__info">
+											<span class="info-calendar">{{ post.date }}</span>
+											<span class="info-time">{{ post.time }}</span>
+											<span class="info-stage">{{ post.address }}</span>
+										</div>
+										<div class="b-posts__text">{{ post.text }}</div>
+										<div class="b-posts__watch-preview">Подробнее..</div>
+									</div>
+								</div>
+							{% endfor %}
+							</div> <!-- 1 слайд -->	
+						{% endfor %}
+						
+					</div>
+
+				    <div class="swiper-button-prev"></div>
+				    <div class="swiper-button-next"></div>
+				</div>
+			</div>
+		</div>
+
+
+
+		{% include "layouts/footer.html" %}
+	</div>
+
+	<div class="black__bg"></div>
+
+    <script src="static/js/app.js"></script>
+
+
+    <!-- Swiper JS -->
+  	<script src="static/js/swiper.min.js"></script>
+</body>
+</html>

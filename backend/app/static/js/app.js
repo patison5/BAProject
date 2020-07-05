@@ -1,21 +1,9 @@
 window.onload = function () {
 
-	var data = [
+	var data2 = [
 		{
 			"variable": "A",
 			"elements": [
-				{
-					"text": 'Адвокат Березин МОСКОВСКАЯ КОЛЛЕГИЯ АДВОКАТОВ "ПРАВОВОЙ ЦЕНТР "АРБАТ"',
-					"link": "#"
-				},
-				{
-					"text": 'Адвокат Березин МОСКОВСКАЯ КОЛЛЕГИЯ АДВОКАТОВ "ПРАВОВОЙ ЦЕНТР "АРБАТ"',
-					"link": "#"
-				},
-				{
-					"text": 'Адвокат Березин МОСКОВСКАЯ КОЛЛЕГИЯ АДВОКАТОВ "ПРАВОВОЙ ЦЕНТР "АРБАТ"',
-					"link": "#"
-				},
 				{
 					"text": 'Адвокат Березин МОСКОВСКАЯ КОЛЛЕГИЯ АДВОКАТОВ "ПРАВОВОЙ ЦЕНТР "АРБАТ"',
 					"link": "#"
@@ -129,53 +117,68 @@ window.onload = function () {
 	var counter = 0;
 	var tmpArray = [];
 
-	for (var i = 0; i < data.length; i++) {
+	var http = new XMLHttpRequest();
+	http.open('POST', '/organizations', true);
 
-		if (counter < 16) {
-			if (counter % 2 != 0)
-				counter++;
+	//Send the proper header information along with the request
+	http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-			tmpArray.push(data[i].variable);
-			counter+=2;
-		} else {
-			drawSwiperElements(tmpArray)
-			tmpArray = [];
-			counter = 0;
-		}
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	        var data = JSON.parse(http.responseText)
+	        console.log(data)
 
-		for (var j = 0; j < data[i].elements.length; j++) {
-			var el = data[i].elements[j];
-			tmpArray.push(el)
-			counter++;
+	        for (var i = 0; i < data.length; i++) {
+				if (counter < 16) {
+					if (counter % 2 != 0)
+						counter++;
 
-			if(counter >= 16) {
+					tmpArray.push(data[i].variable);
+					counter+=2;
+				} else {
+					drawSwiperElements(tmpArray)
+					tmpArray = [];
+					counter = 0;
+				}
+
+				for (var j = 0; j < data[i].elements.length; j++) {
+					var el = data[i].elements[j];
+					tmpArray.push(el)
+					counter++;
+
+					if(counter >= 16) {
+						drawSwiperElements(tmpArray);
+						tmpArray = [];
+						counter = 0;
+					} 
+				}
+			}
+
+			if (tmpArray.length > 0) {
+				// if (tmpArray.length < 16) {
+				// 	for (var i = 0; i < (16 -tmpArray.length) / 2 + 2; i++) {
+				// 		tmpArray.push("")
+				// 	}
+				// }
+
 				drawSwiperElements(tmpArray);
 				tmpArray = [];
 				counter = 0;
-			} 
-		}
+			}
+
+			var swiper = new Swiper('.swiper-container', {
+				direction: 'horizontal',
+		    	loop: true,
+				navigation: {
+					nextEl: '.swiper-button-next',
+					prevEl: '.swiper-button-prev',
+				},
+			});
+	    }
 	}
+	http.send();
 
-	if (tmpArray.length > 0) {
-		// if (tmpArray.length < 16) {
-		// 	for (var i = 0; i < (16 -tmpArray.length) / 2 + 2; i++) {
-		// 		tmpArray.push("")
-		// 	}
-		// }
-
-		drawSwiperElements(tmpArray);
-		tmpArray = [];
-		counter = 0;
-	}
-
-	var swiper = new Swiper('.swiper-container', {
-		direction: 'horizontal',
-    	loop: true,
-		navigation: {
-			nextEl: '.swiper-button-next',
-			prevEl: '.swiper-button-prev',
-		},
-	});
+	
 
 	function drawSwiperElements (data) {
 		var mainCont = document.getElementsByClassName('sw-organization')[0];

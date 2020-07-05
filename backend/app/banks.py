@@ -1,48 +1,41 @@
 import json
 import os
 import config
-
+import string
+from contextlib import closing
+import pymysql
+from pymysql.cursors import DictCursor
 
 class BanksController:
-    data = []
+    
+    # Вся информация организаций
+    data_set = [
+        {
+            "title": "Сбербанк",
+            "time": "Круглосуточно",
+            "stage": "1,5,12,19 Этажи",
+            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore odit at impedit corporis, deserunt, totam velit architecto exercitationem enim similique quia expedita, fugit quam praesentium accusantium! Earum velit mollitia fuga minus quae quaerat at cumque nobis adipisci commodi est aliquid quis reprehenderit animi veniam, architecto nemo doloribus illo harum! Distinctio sit iure mollitia consequuntur libero! Ex, minus ducimus. Temporibus obcaecati quibusdam cupiditate, quasi impedit nostrum dolores ab laborum odit excepturi, recusandae voluptas, quisquam tenetur blanditiis est nesciunt tempora ipsa inventore necessitatibus. Earum suscipit sapiente, velit cum quis, ratione maxime minus dignissimos alias unde! Quae excepturi, sapiente ipsum vitae voluptatibus vero?",
+            "img": "http://127.0.0.1:5000/static/images/afisha.png"
+        },
+        {
+            "title": "Сбербанк",
+            "time": "Круглосуточно",
+            "stage": "1,5,12,19 Этажи",
+            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore odit at impedit corporis, deserunt, totam velit architecto exercitationem enim similique quia expedita, fugit quam praesentium accusantium! Earum velit mollitia fuga minus quae quaerat at cumque nobis adipisci commodi est aliquid quis reprehenderit animi veniam, architecto nemo doloribus illo harum! Distinctio sit iure mollitia consequuntur libero! Ex, minus ducimus. Temporibus obcaecati quibusdam cupiditate, quasi impedit nostrum dolores ab laborum odit excepturi, recusandae voluptas, quisquam tenetur blanditiis est nesciunt tempora ipsa inventore necessitatibus. Earum suscipit sapiente, velit cum quis, ratione maxime minus dignissimos alias unde! Quae excepturi, sapiente ipsum vitae voluptatibus vero?",
+            "img": "http://127.0.0.1:5000/static/images/afisha.png"
+        }
+    ]
 
-    def __init__(self):
-        self.data = self.__load_banks()
+    def __init__ (self):
+        print("OrganizationsController created")
 
-    def load_bank(self, index):
-        r = str(self.data[index]).replace("'", '"')
-        r = r.replace('filename="', "filename='")
-        r = r.replace('")', "')")
-        return r.replace('"static"', "'static'")
 
-    def delete_bank(self, bank_name):
-        for element in self.data:
-            if element["name"] == bank_name:
-                self.data.remove(element)
-                self.__save_data()
-                break
-        return 0
+    def get_banks (self):
+        return self.data_set
 
-    def banks_len(self):
-        return str(len(self.data))
+    def get_banks_by_id (self, id):
+        return self.data_set[id]
 
-    @staticmethod
-    def __load_banks():
-        data = []
-        try:
-            with open(config.UPLOAD_FOLDER + '/' + 'banks.json') as json_file:
-                data = json.load(json_file)
-        except FileNotFoundError:
-            with open(config.UPLOAD_FOLDER + '/' + 'banks.json', 'w') as outfile:
-                json.dump(data, outfile)
-        return data
-
-    def __save_data(self):
-        with open(config.UPLOAD_FOLDER + '/' + 'banks.json', 'w') as outfile:
-            json.dump(self.data, outfile, indent=4)
-
-    def add_new_bank(self, logo, name, time, floors, description):
-        new_bank = {"logo": logo, "name": name, "time": time, "floors": floors, "description": description}
-        self.data.append(new_bank)
-        self.__save_data()
-        return new_bank
+    def update_banks_info (self, data):
+        # в data придет информация которую нужно обновить. минимум 1 какое-то поле, максимум все поля
+        return True
