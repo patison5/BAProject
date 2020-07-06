@@ -24,6 +24,7 @@ class PharmacyController:
         "email": "kow@mos.ru",
         "link": "https://www.mos.ru/kos",
         "barcode": "http://127.0.0.1:5000/static/images/icons/img-1.svg",
+        "timetable": "ПН-ЧТ – 08:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
         "images": [
             {
                 "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",

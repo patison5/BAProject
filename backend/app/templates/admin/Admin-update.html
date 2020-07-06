@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <title>AdminLTE 3 | Starter</title>
+
+  <!-- Compiled and minified CSS -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="../../static/admin/plugins/fontawesome-free/css/all.min.css">
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../static/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../static/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
+    <!-- summernote -->
+  <link rel="stylesheet" href="../../static/admin/plugins/summernote/summernote-bs4.css">
+
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../static/admin/dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="../../static/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+
+  <style>
+    @font-face {
+      font-family: 'Material Icons';
+      font-style: normal;
+      font-weight: 400;
+      src: url(https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+    }
+
+    .multipleSelectionResult {
+      border: none;
+      margin-top: 5px;
+      display: flex;
+      line-height: inherit;
+    }
+    .multipleSelection__element {
+      display: flex;
+      border: 1px solid #007bff;
+      margin-right: 10px;
+      padding: 0 0 0 15px;
+    }
+
+    .multipleSelection__element-delete {
+      margin-left: 10px;
+      background: #007bff;
+      color: #fff;
+      padding: 0 10px;
+      cursor: pointer;
+      line-height: 1.4;
+    }
+
+
+
+    .input-field {
+      position: relative;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+    .chips {
+      border: none;
+      /*border-bottom: 1px solid #9e9e9e;*/
+      border-radius: .25rem;
+      border: 1px solid #ced4da;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      margin: 0 0 8px 0;
+      min-height: 45px;
+      outline: none;
+      -webkit-transition: all .3s;
+      transition: all .3s;
+      padding-left: .75rem;
+    }
+
+    .input-field {
+      position: relative;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .chip {
+      display: inline-block;
+      height: 32px;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(0,0,0,0.6);
+      line-height: 32px;
+      padding: 0 12px;
+      border-radius: 16px;
+      background-color: #e4e4e4;
+      margin-bottom: 5px;
+      margin-right: 5px;
+    }
+
+  .chip .close {
+    cursor: pointer;
+    float: right;
+    font-size: 16px;
+    line-height: 32px;
+    padding-left: 8px;
+  }
+
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .chips .input {
+    background: none;
+    border: 0;
+    color: rgba(0,0,0,0.6);
+    display: inline-block;
+    font-size: 16px;
+    height: 3rem;
+    line-height: 32px;
+    outline: 0;
+    margin: 0;
+    padding: 0 !important;
+    width: 120px !important;
+  }
+  .chip:focus {
+    outline: none;
+    background-color: #26a69a;
+    color: #fff;
+  }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  {% include "admin/layouts/navbar.html" %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+      <img src="../../static/admin/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">Админ панель</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+      <!-- Sidebar Menu -->
+        {% include "admin/layouts/navbar_menu.html" %}
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">{{ title1 }}</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Главная</a></li>
+              <li class="breadcrumb-item active">{{ title1 }}</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+  
+          <div class="col-lg-12">
+             <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Добавление {{ title2 }} </h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Заголовок</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" value="{{ data.title }}">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Местоположение</label>
+                    <!-- <input type="text" class="form-control multipleSelection" id="exampleInputPassword1" placeholder="Местоположение"> -->
+                    
+                    <div class="chips chips-initial"></div>
+
+
+                    <!-- <div class="form-control multipleSelectionResult">
+                      <div class="multipleSelection__element">
+                        <span class="multipleSelection__element-text">Hello</span> 
+                        <span class="multipleSelection__element-delete">x</span>
+                      </div>
+
+                      <div class="multipleSelection__element">
+                        <span class="multipleSelection__element-text">Hello</span> 
+                        <span class="multipleSelection__element-delete">x</span>
+                      </div>
+                    </div> -->
+                  </div>
+
+                  <div class="form-group">
+                    <label for="startTime">График начала</label>
+                    <input type="text" class="form-control" id="startTime" value="{{ data.timetable }}">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="startTime">Email</label>
+                    <input type="text" class="form-control" id="startTime" value="{{ data.email }}">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="startTime">Ссылка</label>
+                    <input type="text" class="form-control" id="startTime" value="{{ data.link }}">
+                  </div>
+
+                  <!-- <div class="form-group">
+                  <label>Дата:</label>
+                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                  </div> -->
+
+                  <div class="form-group">
+                    <label for="exampleInputFile">Лого</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="exampleInputFile">
+                        <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
+                      </div>
+                      <div class="input-group-append">
+                        <span class="input-group-text" id="">Загрузить</span>
+                      </div>
+                    </div>
+                  </div>
+
+                   <div class="form-group">
+                    <label for="mainLogo">Добавить основную фотографию</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="mainLogo">
+                        <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
+                      </div>
+                      <div class="input-group-append">
+                        <span class="input-group-text" id="">Загрузить</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="mainLogo">Текст записи</label>
+                      <div class="card card-outline card-info">
+                          <textarea class="textarea" placeholder="Place some text here">{{ data.text }}</textarea>
+                      </div>
+                  </div>
+
+                   
+
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Добавить</button>
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+          </div>
+
+  
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Title</h5>
+      <p>Sidebar content</p>
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+
+</div>
+<!-- ./wrapper -->
+
+
+
+
+<script>
+  var multipleSelection = document.getElementsByClassName('multipleSelection')[0];
+  console.log(multipleSelection)
+</script>
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="../../static/admin/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../static/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- DataTables -->
+<script src="../../static/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../static/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../static/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../static/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
+
+
+<script src="../../static/admin/plugins/moment/moment.min.js"></script>
+<script src="../../static/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+
+
+<!-- AdminLTE App -->
+<script src="../../static/admin/dist/js/adminlte.min.js"></script>
+
+<!-- Summernote -->
+<script src="../../static/admin/plugins/summernote/summernote-bs4.min.js"></script>
+
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+    // $('#example2').DataTable({
+    //   "paging": true,
+    //   "lengthChange": false,
+    //   "searching": false,
+    //   "ordering": true,
+    //   "info": true,
+    //   "autoWidth": false,
+    //   "responsive": true,
+    // });
+
+
+    $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
+
+    // Summernote
+    $('.textarea').summernote()
+  });
+</script>
+
+
+
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+
+    var config = {{ data.address | tojson }};
+    var arr = [];
+
+    for (var i = 0; i < config.length; i++) {
+      var obj = {}
+      obj.tag = config[i];
+
+      arr.push(obj);
+    }
+
+    var elem = $('.chips-initial').chips({
+      data: arr,
+    });
+
+
+
+    var instance = M.Chips.getInstance(elem);
+    var chipsArray = instance.$chips;
+    for (var i = 0; i < chipsArray.length; i++) {
+      var element = chipsArray[i].innerHTML.replace('<i class="material-icons close">close</i>', '')
+      console.log(element)
+    }
+
+  </script>
+
+</body>
+</html>

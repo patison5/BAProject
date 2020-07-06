@@ -12,7 +12,10 @@ from pharmacy import PharmacyController
 from minimarket import MinimarketController
 from cafe import CafeController
 from services import ServicesController
-
+from banks import BanksController
+from photo import PhotoController
+from tour_agent import TourAgentController
+from afisha import AfishaController
 
 
 import json
@@ -40,106 +43,21 @@ def convert_to_slide_array (array):
     return li2
 
 
-data_set = {
-    "title": "Комитет общественных связей и молодежной политики города Москвы", 
-    "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
-    "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
-    "address": [
-        "121099, Г. Москва",
-        "ул. Новый Арбат, д.36",
-        "19 этаж, кабинет 1928"
-    ], 
-    "phones": [
-        "+7 (495) 633-60-02",
-        "+7 (495) 633-60-02 - Офис",
-        "+7 (495) 633-60-02 - Пресс-служба"
-    ],
-    "email": "kow@mos.ru",
-    "link": "https://www.mos.ru/kos",
-    "barcode": "http://127.0.0.1:5000/static/images/icons/img-1.svg",
-    "images": [
-        {
-            "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
-            "desc": "Фото на документы"
-        },
-        {
-            "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
-            "desc": "Поликлиника медицинского центра"
-        },
-        {
-            "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
-            "desc": "Фото на документы"
-        },
-    ] 
-}
 
-
-black_post_set = [
-    {
-        "title": "Комитет общественных связей и молодежной политики города Москвы", 
-        "logo": "http://127.0.0.1:5000/static/images/woman.png",
-        "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
-        "date": "22.02.12",
-        "time": "13:00",
-        "address": "Большой концертный зал",
-    },
-    {
-        "title": "Комитет общественных связей и молодежной политики города Москвы", 
-        "logo": "http://127.0.0.1:5000/static/images/woman.png",
-        "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
-        "date": "22.02.12",
-        "time": "13:00",
-        "address": "Большой концертный зал",
-    },
-    {
-        "title": "Комитет общественных связей и молодежной политики города Москвы", 
-        "logo": "http://127.0.0.1:5000/static/images/woman.png",
-        "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
-        "date": "22.02.12",
-        "time": "13:00",
-        "address": "Большой концертный зал",
-    },
-    {
-        "title": "Комитет общественных связей и молодежной политики города Москвы", 
-        "logo": "http://127.0.0.1:5000/static/images/woman.png",
-        "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
-        "date": "22.02.12",
-        "time": "13:00",
-        "address": "Большой концертный зал",
-    },
-    {
-        "title": "Комитет общественных связей и молодежной политики города Москвы", 
-        "logo": "http://127.0.0.1:5000/static/images/woman.png",
-        "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
-        "date": "22.02.12",
-        "time": "13:00",
-        "address": "Большой концертный зал",
-    },
-]
-
-afisha_single = {
-    "title": "Концерт для ложечников баяна",
-    "date": "22.02.12",
-    "time": "13:00",
-    "stage": "Большой концертный зал",
-    "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore odit at impedit corporis, deserunt, totam velit architecto exercitationem enim similique quia expedita, fugit quam praesentium accusantium! Earum velit mollitia fuga minus quae quaerat at cumque nobis adipisci commodi est aliquid quis reprehenderit animi veniam, architecto nemo doloribus illo harum! Distinctio sit iure mollitia consequuntur libero! Ex, minus ducimus. Temporibus obcaecati quibusdam cupiditate, quasi impedit nostrum dolores ab laborum odit excepturi, recusandae voluptas, quisquam tenetur blanditiis est nesciunt tempora ipsa inventore necessitatibus. Earum suscipit sapiente, velit cum quis, ratione maxime minus dignissimos alias unde! Quae excepturi, sapiente ipsum vitae voluptatibus vero?",
-    "img": "http://127.0.0.1:5000/static/images/afisha.png"
-}
-
-
-black_post_set = convert_to_slide_array(black_post_set)
+# black_post_set = convert_to_slide_array(black_post_set)
 # data_set =  json.loads(data_set)
 
 
 if __name__ == '__main__':
-    # banks = BanksController()
+    banks = BanksController()
     organizations = OrganizationsController()
     pharmacy = PharmacyController()
     minimarket = MinimarketController()
     cafe = CafeController()
     services = ServicesController()
-    # tours = ToursController()
-    # adv = AdvController()
+    photo = PhotoController()
+    tour_agent = TourAgentController()
+    afisha = AfishaController()
 
     @app.route('/')
     def page_index():
@@ -149,24 +67,26 @@ if __name__ == '__main__':
             search = 'true'
         )
 
-    @app.route('/organizations', methods=['GET'])
-    def page_organizations():
-        template = env.get_template('organizations.html')
-        return template.render(
-            title = 'Организации',
-            menuElement = "organizations-inactive",
-            search = 'true'
-        )
 
-    @app.route('/organizations', methods=['POST'])
-    def organizations_post():
-        titles = organizations.get_organization_titles()
-        return json.dumps(titles)
+    @app.route('/organizations', methods=['GET', 'POST'])
+    def page_organizations():
+        if request.method == 'GET':
+            template = env.get_template('organizations.html')
+            return template.render(
+                title = 'Организации',
+                menuElement = "organizations-inactive",
+                search = 'true'
+            )
+
+        if request.method == 'POST':
+            titles = organizations.get_organization_titles()
+            return json.dumps(titles)
+
+
 
     @app.route('/organizations/<int:id>')
     def show_single_organizations(id):
         single_org  = organizations.get_single_organization(id)
-
         template = env.get_template('single_white_post.html')
         return template.render(
             title = 'Фото и полиграфия',
@@ -174,33 +94,40 @@ if __name__ == '__main__':
             data = single_org
         )
 
+
     @app.route('/services')
     def page_services():
-        single_service = ServicesController.get_single_service()
+        single_service = services.get_titles_of_services()
         template = env.get_template('organizations.html')
         return template.render(
             title = 'Услуги',
-            menuElement = "organizations-inactive",
-            data = single_service
+            menuElement = "services-inactive",
+            # data = single_service
         )
+
 
     @app.route('/afisha')
     def page_afisha():
+        allAfisha = afisha.get_all_afisha()
         template = env.get_template('posts_black.html')
         return template.render(
             title = 'Афиша концертного зала',
             menuElement = "concert_zal-inactive",
-            data = black_post_set
+            data = convert_to_slide_array(allAfisha)
         )
+
 
     @app.route('/afisha/<int:id>')
     def page_single_afisha(id):
+        afisha_single = afisha.get_single_afisha(id)
+
         template = env.get_template('page7.html')
         return template.render(
             title = 'Афиша концертного зала',
             menuElement = "concert_zal-inactive",
             data = afisha_single
         )
+
 
     @app.route('/kafe')
     def page_kafe():
@@ -212,33 +139,48 @@ if __name__ == '__main__':
             data = cafe_info
         )
 
+
     @app.route('/banks')
     def page_banks():
-        template = env.get_template('posts_black.html')
+        banks_info = banks.get_banks()
+        template = env.get_template('page5.html')
         return template.render(
             title = 'Банкоматы',
             menuElement = "banks-inactive",
-            data = black_post_set
+            data = banks_info
         )
 
 
     @app.route('/tour_agent')
     def page_tour_agent():
-        template = env.get_template('posts_black.html')
+        tours_list = tour_agent.get_all_tour_agent()
+        template = env.get_template('posts_white.html')
         return template.render(
-            title = 'Банкоматы',
+            title = 'Туристические агенства',
             menuElement = "tour_agent-inactive",
-            data = black_post_set
+            data = convert_to_slide_array(tours_list)
+        )
+
+
+    @app.route('/tour_agent/<int:id>')
+    def page_single_tour_agent(id):
+        tours_list = tour_agent.get_single_tour_agent(id)
+        template = env.get_template('single_white_post.html')
+        return template.render(
+            title = 'Туристические агенства',
+            menuElement = "tour_agent-inactive",
+            data = tours_list
         )
 
 
     @app.route('/photo')
     def page_photo():
+        photo_info = photo.get_photo_info()
         template = env.get_template('single_white_post.html')
         return template.render(
             title = 'Фото и полиграфия',
             menuElement = "photo-inactive",
-            data = data_set
+            data = photo_info
         )
 
 
@@ -252,6 +194,7 @@ if __name__ == '__main__':
             data = minimarket_info
         )
 
+
     @app.route('/pharmacy')
     def page_pharmacy():
         pharmacy_info = pharmacy.get_pharmacy_info()
@@ -262,6 +205,63 @@ if __name__ == '__main__':
             data = pharmacy_info
         )
 
+
+
+
+    @app.route('/admin')
+    def admin_index():
+        template = env.get_template('admin/Admin-index.html')
+        return template.render()
+
+    @app.route('/admin/organizations')
+    def admin_organizations():
+        all_organizations = organizations.get_all_organizations()
+        template = env.get_template('admin/Admin-index.html')
+        return template.render(
+            data = all_organizations,
+            title1 = "Организация",
+            title2 = "Организации"
+        )
+
+    @app.route('/admin/organizations/add')
+    def admin_organizations_add():
+        template = env.get_template('admin/Admin-add.html')
+        return template.render(
+            title1 = "Организация",
+            title2 = "Организации"
+        )
+
+
+    @app.route('/admin/afisha')
+    def admin_afisha():
+        afisha_info = afisha.get_all_afisha()
+        template = env.get_template('admin/Admin-index.html')
+        return template.render(
+            data = afisha_info,
+            title1 = "Афиша",
+            title2 = "Афиши"
+        )
+
+
+    @app.route('/admin/banks')
+    def admin_banks():
+        all_banks = banks.get_banks()
+        template = env.get_template('admin/Admin-index.html')
+        return template.render(
+            data = all_banks,
+            title1 = "Банк",
+            title2 = "Банки"
+        )
+
+    @app.route('/admin/cafe')
+    def admin_cafe():
+        all_cafe = cafe.get_cafe_info()
+        template = env.get_template('admin/Admin-update.html')
+        return template.render(
+            data = all_cafe,
+            title1 = "кафе",
+            title2 = "Кафе"
+        )
 
     # @app.route('/banks')
     # def bank_page():

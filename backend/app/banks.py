@@ -14,16 +14,30 @@ class BanksController:
             "title": "Сбербанк",
             "time": "Круглосуточно",
             "stage": "1,5,12,19 Этажи",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore odit at impedit corporis, deserunt, totam velit architecto exercitationem enim similique quia expedita, fugit quam praesentium accusantium! Earum velit mollitia fuga minus quae quaerat at cumque nobis adipisci commodi est aliquid quis reprehenderit animi veniam, architecto nemo doloribus illo harum! Distinctio sit iure mollitia consequuntur libero! Ex, minus ducimus. Temporibus obcaecati quibusdam cupiditate, quasi impedit nostrum dolores ab laborum odit excepturi, recusandae voluptas, quisquam tenetur blanditiis est nesciunt tempora ipsa inventore necessitatibus. Earum suscipit sapiente, velit cum quis, ratione maxime minus dignissimos alias unde! Quae excepturi, sapiente ipsum vitae voluptatibus vero?",
-            "img": "http://127.0.0.1:5000/static/images/afisha.png"
+            "text": "Прием и выдача наличных, оплата квитанций",
+            "img": "http://127.0.0.1:5000/static/images/icons/cafe-1.svg"
         },
         {
             "title": "Сбербанк",
             "time": "Круглосуточно",
             "stage": "1,5,12,19 Этажи",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore odit at impedit corporis, deserunt, totam velit architecto exercitationem enim similique quia expedita, fugit quam praesentium accusantium! Earum velit mollitia fuga minus quae quaerat at cumque nobis adipisci commodi est aliquid quis reprehenderit animi veniam, architecto nemo doloribus illo harum! Distinctio sit iure mollitia consequuntur libero! Ex, minus ducimus. Temporibus obcaecati quibusdam cupiditate, quasi impedit nostrum dolores ab laborum odit excepturi, recusandae voluptas, quisquam tenetur blanditiis est nesciunt tempora ipsa inventore necessitatibus. Earum suscipit sapiente, velit cum quis, ratione maxime minus dignissimos alias unde! Quae excepturi, sapiente ipsum vitae voluptatibus vero?",
-            "img": "http://127.0.0.1:5000/static/images/afisha.png"
-        }
+            "text": "Прием и выдача наличных, оплата квитанций",
+            "img": "http://127.0.0.1:5000/static/images/icons/cafe-1.svg"
+        },
+        {
+            "title": "Сбербанк",
+            "time": "Круглосуточно",
+            "stage": "1,5,12,19 Этажи",
+            "text": "Прием и выдача наличных, оплата квитанций",
+            "img": "http://127.0.0.1:5000/static/images/icons/cafe-1.svg"
+        },
+        {
+            "title": "Сбербанк",
+            "time": "Круглосуточно",
+            "stage": "1,5,12,19 Этажи",
+            "text": "Прием и выдача наличных, оплата квитанций",
+            "img": "http://127.0.0.1:5000/static/images/icons/cafe-1.svg"
+        },
     ]
 
     def __init__ (self):

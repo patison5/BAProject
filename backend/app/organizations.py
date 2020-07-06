@@ -9,8 +9,10 @@ from pymysql.cursors import DictCursor
 class OrganizationsController:
     
     # Вся информация организаций
+
     data_set = [
         {
+            "id": '0',
             "title": "Комитет общественных связей и молодежной политики города Москвы", 
             "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
             "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
@@ -31,8 +33,10 @@ class OrganizationsController:
             ],
             "email": "kow@mos.ru",
             "link": "https://www.mos.ru/kos",
+            "timetable": "ПН-ЧТ – 08:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной"
         },
         {
+            "id": '1',
             "title": "Комитет общественных связей и молодежной политики города Москвы", 
             "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
             "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
@@ -52,7 +56,9 @@ class OrganizationsController:
                 "+7 (495) 633-60-02 - Пресс-служба"
             ],
             "email": "kow@mos.ru",
-            "link": "https://www.mos.ru/kos"
+            "link": "https://www.mos.ru/kos",
+            "timetable": "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной"
+
         },
     ]
 
@@ -104,6 +110,10 @@ class OrganizationsController:
             # arr["item[0]"].title = item['title']
 
         return self.organizations_titles
+
+
+    def get_all_organizations (self): 
+        return self.data_set
 
 
     def get_single_organization (self, id):

@@ -55,11 +55,10 @@ class ServicesController:
     def get_single_service (self, id):
         return self.data_set[id]
 
-    def get_titles_of_services (self, id):
+    def get_titles_of_services (self):
         arr = []
         for item in self.data_set:
-            if item[0] not in arr:
-                arr.append(item['title'])
+            arr.append(item['title'])
 
         return arr
 
