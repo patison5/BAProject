@@ -253,15 +253,51 @@ if __name__ == '__main__':
             title2 = "Банки"
         )
 
-    @app.route('/admin/cafe')
+    @app.route('/admin/cafe', methods=['GET', 'PUT'])
     def admin_cafe():
-        all_cafe = cafe.get_cafe_info()
-        template = env.get_template('admin/Admin-update.html')
-        return template.render(
-            data = all_cafe,
-            title1 = "кафе",
-            title2 = "Кафе"
-        )
+        if request.method == 'GET':
+            all_cafe = cafe.get_cafe_info()
+            template = env.get_template('admin/Admin-update-cafe.html')
+            return template.render(
+                data = all_cafe,
+                title1 = "кафе",
+                title2 = "Кафе"
+            )
+
+
+        if request.method == 'PUT':
+            k = request.form
+            k = k.to_dict()
+
+            link        = k['link']
+            timetable   = k['timetable']
+            title       = k['title']            
+           
+            return json.dumps(k)
+
+
+    @app.route('/admin/pharmacy', methods=['GET', 'PUT'])
+    def admin_pharmacy():
+        if request.method == 'GET':
+            all_pharmacy = pharmacy.get_pharmacy_info()
+            template = env.get_template('admin/Admin-update-pharmacy.html')
+            return template.render(
+                data = all_pharmacy,
+                title1 = "Аптечный пункт",
+                title2 = "Аптечного пункта"
+            )
+
+
+        if request.method == 'PUT':
+            k = request.form
+            k = k.to_dict()
+
+            link        = k['link']
+            timetable   = k['timetable']
+            title       = k['title']            
+           
+            pharmacy.update_pharmacy_info(k)
+            return json.dumps(k)
 
     # @app.route('/banks')
     # def bank_page():
