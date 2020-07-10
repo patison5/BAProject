@@ -588,6 +588,7 @@ a:hover {
 .swiper__element {
   padding: 20px;
   border-radius: 30px;
+  color: #fff;
 }
 
 .swiper__letter {
@@ -932,6 +933,10 @@ a:hover {
   position: relative;
 }
 
+
+.posts-white a:hover {
+  color: #000 !important;
+}
 .b-posts__title {
   font-size: 35px;
   line-height: 40px;
@@ -1088,3 +1093,31 @@ a:hover {
   font-size: 30px;
   line-height: 35px;
 }
+
+
+
+
+.services-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr ;
+  grid-gap: 20em 10em;
+}
+
+.services__item {
+  font-size: 45px;
+  display: flex;
+  align-items: center;
+  align-content: space-between;
+}
+
+
+.services-icon {
+  width: 250px;
+  display: block;
+  margin-right: 40px;
+}
+
+.servces-icon span {
+  display: block;
+}
+

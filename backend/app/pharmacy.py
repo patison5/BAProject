@@ -84,6 +84,7 @@ class PharmacyController:
                             p_id INTEGER PRIMARY KEY,
                             p_title text NOT NULL,
                             p_logo text,
+                            p_text text,
                             p_address text, 
                             p_phones text,
                             p_email text,
@@ -97,15 +98,17 @@ class PharmacyController:
         cursor.execute('''INSERT INTO pharmacy (
                              p_title, 
                              p_logo, 
+                             p_text,
                              p_address, 
                              p_phones, 
                              p_email, 
                              p_link, 
                              p_barcode, 
                              p_timetable)
-                          VALUES (?,?,?,?,?,?,?,?)''', (
+                          VALUES (?,?,?,?,?,?,?,?,?)''', (
                              self.data_set["title"], 
                              self.data_set["logo"], 
+                             self.data_set['text'],
                              json.dumps(self.data_set["address"]), 
                              json.dumps(self.data_set["phones"]), 
                              self.data_set["email"], 
@@ -124,20 +127,52 @@ class PharmacyController:
         cursor = conn.cursor()
         cursor.execute(sql)
 
-        print(cursor.fetchone())
-        return cursor.fetchone()
+        data = cursor.fetchone()
+        cursor.close()
+        conn.close()
+       
+        return {
+            "id":           data[0],
+            "title":        data[1], 
+            "logo":         data[2],
+            "text":         data[3], 
+            "address":      json.loads(data[4]), 
+            "phones":       json.loads(data[5]),
+            "email":        data[6],
+            "link":         data[7],
+            "barcode":      data[8],
+            "timetable":    data[9]
+        }
 
 
     def update_pharmacy_info (self, data):
-        # в data придет информация которую нужно обновить. минимум 1 какое-то поле, максимум все поля
+        conn = sqlite3.connect("mydatabase.db", timeout=10) # или :memory: чтобы сохранить в RAM
+        cursor = conn.cursor()
 
-        link        = data['link']
-        timetable   = data['timetable']
-        title       = data['title']
-        address     = data['address']
-        # print(data)
+        cursor.execute("""
+                        UPDATE pharmacy 
+                        SET 
+                            p_title = ?,
+                            p_text = ?,
+                            p_address = ?, 
+                            p_phones = ?, 
+                            p_email = ?, 
+                            p_link = ?, 
+                            p_timetable = ?
+                        WHERE p_id = '1' """, (
+                            data["title"], 
+                            data['text'],
+                            data["address"], 
+                            data["phones"], 
+                            data["email"], 
+                            data["link"], 
+                            data["timetable"]))
 
-        return True
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return self.get_pharmacy_info()
 
 
 

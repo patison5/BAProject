@@ -98,7 +98,7 @@ if __name__ == '__main__':
     @app.route('/services')
     def page_services():
         single_service = services.get_titles_of_services()
-        template = env.get_template('organizations.html')
+        template = env.get_template('services.html')
         return template.render(
             title = 'Услуги',
             menuElement = "services-inactive",
@@ -296,8 +296,23 @@ if __name__ == '__main__':
             timetable   = k['timetable']
             title       = k['title']            
            
-            pharmacy.update_pharmacy_info(k)
-            return json.dumps(k)
+            return pharmacy.update_pharmacy_info(k)
+
+
+    @app.route('/admin/pharmacy/update-image', methods=['POST'])
+    def ph_update_image():
+        files = request.files.to_dict()
+
+        print(files)
+        if 'logo' in request.files:
+            logo = files['logo']
+            print(logo)
+            print(logo.filename)
+            return logo.filename
+
+        return "updated"
+
+
 
     # @app.route('/banks')
     # def bank_page():

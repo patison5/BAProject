@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+
+	<link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+	<div class="wraper">
+		
+		<div class="container">
+			{% include "layouts/top_menu.html" %}
+		
+			{% include "layouts/big_blue_line.html" %}
+
+			<div class="center">
+				<div class="content-black services">
+					<div class="services-list__wrap">
+						<ul class="services-list">
+							<li class="services__item">
+								<img src="../static/images/icons/service-9.svg" alt="" class="services-icon">
+								<span>Цветы</span>
+							</li>
+							<li class="services__item">
+								<img src="../static/images/icons/service-2.svg" alt="" class="services-icon">
+								<span>нотариус</span>
+							</li>
+							<li class="services__item">
+								<img src="../static/images/icons/service-10.svg" alt="" class="services-icon">
+								<span>Ремонт обуви</span>
+							</li>
+							<li class="services__item">
+								<img src="../static/images/icons/service-4.svg" alt="" class="services-icon">
+								<span>Страхование</span>
+							</li>
+							<li class="services__item">
+								<img src="../static/images/icons/service-5.svg" alt="" class="services-icon">
+								<span>подарки</span>
+							</li>
+							<li class="services__item">
+								<img src="../static/images/icons/service-6.svg" alt="" class="services-icon">
+								<span>Салон красоты</span>
+							</li>
+							<li class="services__item">
+								<img src="../static/images/icons/service-7.svg" alt="" class="services-icon">
+								<span>Почтовые услуги</span>
+							</li>
+							<li class="services__item">
+								<img src="../static/images/icons/service-8.svg" alt="" class="services-icon">
+								<span>Ателье</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		{% include "layouts/footer.html" %}
+	</div>
+
+	<div class="black__bg"></div>
+
+    <script src="static/js/app.js"></script>
+</body>
+</html>

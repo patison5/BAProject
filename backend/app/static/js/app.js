@@ -193,6 +193,9 @@ window.onload = function () {
 
 
 		for (var i = 0; i < data.length; i++) {
+			var href = document.createElement('a')
+			href.setAttribute('href', "/organizations/0")
+
 			if (typeof data[i] == 'string') {
 				var swiper__letter = document.createElement('div');
 				swiper__letter.className = 'swiper__letter';
@@ -204,7 +207,9 @@ window.onload = function () {
 				swiper__element.className = 'swiper__element';
 				swiper__element.innerHTML = data[i].text;
 
-				wraper.appendChild(swiper__element);
+
+				href.appendChild(swiper__element)
+				wraper.appendChild(href);
 			}
 		}
 

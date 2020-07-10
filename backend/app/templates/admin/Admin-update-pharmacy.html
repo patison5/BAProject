@@ -157,7 +157,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
                 
                 <!-- footer -->
-
                 <div class="card-footer">
                   <div class="row">
                     <div class="col-12">
@@ -167,6 +166,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                   </div>
                 </div>
+                <!-- footer -->
+
               </form>
             </div>
           </div>
@@ -181,7 +182,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-lg-12">
                     <div class="card-body">
                       <div class="form-group">
-                        <label for="exampleInputFile">Лого</label>
+                        <label for="logo_file">Лого</label>
                         <div class="row">
 
                           <div class="col-md-12 text-center">
@@ -191,8 +192,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         <div class="input-group">
                           <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="exampleInputFile">
-                            <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
+                            <input type="file" class="custom-file-input" id="logo_file">
+                            <label class="custom-file-label" for="logo_file">Выберите файл</label>
                           </div>
                           <div class="input-group-append">
                             <span class="input-group-text" id="">Загрузить</span>
@@ -201,7 +202,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </div>
 
                       <div class="form-group">
-                        <label for="exampleInputFile">QR-код</label>
+                        <label for="barcode_file">QR-код</label>
                         <div class="row">
 
                           <div class="col-md-12 text-center">
@@ -211,8 +212,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         <div class="input-group">
                           <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="exampleInputFile">
-                            <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
+                            <input type="file" class="custom-file-input" id="barcode_file">
+                            <label class="custom-file-label" for="barcode_file">Выберите файл</label>
                           </div>
                           <div class="input-group-append">
                             <span class="input-group-text" id="">Загрузить</span>
@@ -274,6 +275,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </table>
                       </div>
                     </div>
+
+                    <!-- footer -->
+                    <div class="card-footer">
+                      <div class="row">
+                        <div class="col-12">
+                          <a href="javascript:history.back()" class="btn btn-secondary">Отменить</a>
+                          <!-- <input type="submit" value="Save Changes" class="btn btn-success float-right"> -->
+                          <button type="submit" class="btn btn-success float-right" id="save_images-js">Сохранить</button>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- footer -->
                   </div>
                 </div>
               </div>
@@ -373,6 +386,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     });
 
 
+    function getTags (arr) {
+      var res = []
+      for (var i = 0; i < arr.length; i++) {
+        res.push(arr[i].tag)
+      }
+
+      return res
+    }
+
+
     var sendData = document.getElementById('sendData-js');
     sendData.addEventListener('click', function (e) {
       e.preventDefault();
@@ -383,8 +406,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       var data_timetable  = document.getElementById('data_timetable');
       var data_email      = document.getElementById('data_email');
       var data_link       = document.getElementById('data_link');
-      var data_address    = M.Chips.getInstance(addressChips).chipsData
-      var data_phones     = M.Chips.getInstance(addressChips).chipsData
+      var data_address    = getTags(M.Chips.getInstance(addressChips).chipsData);
+      var data_phones     = getTags(M.Chips.getInstance(phonesChips).chipsData);
 
       var areaText = $('.textarea').summernote('code');
       // cleanText = areaText.replace(/<\/?[^>]+(>|$)/g, "");
@@ -393,15 +416,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
       formData.append("timetable",  data_timetable.value);
       formData.append("email",      data_email.value);
       formData.append("link" ,      data_link.value);
-      formData.append("address",    data_address);
-      formData.append("phones",     data_phones);
+      formData.append("address",    JSON.stringify(data_address));
+      formData.append("phones",     JSON.stringify(data_phones));
       formData.append("text",       areaText)      
 
 
       var xhttp;
       xhttp = new XMLHttpRequest();
       xhttp.withCredentials = false;
-      xhttp.open('PUT', '/admin/cafe');
+      xhttp.open('PUT', '/admin/pharmacy');
 
       xhttp.onload = function () {
         var json;
@@ -418,9 +441,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
         console.log(json)
+        alert("Данные обновлены!")
       }
 
+      // // Display the values
+      // for (var value of formData.values()) {
+      //    console.log(value); 
+      // }
+
+      console.log(JSON.stringify(data_address))
       xhttp.send(formData)
+    })
+
+
+
+
+
+    var save_images = document.getElementById('save_images-js');
+
+    save_images.addEventListener('click', function (e) {
+      var logo_file = document.getElementById('logo_file');
+      var fdata = new FormData();
+
+      fdata.append('logo', logo_file.files[0])
+
+      $.ajax({
+        url: '/admin/pharmacy/update-image',
+        data: fdata,
+        type: "POST",
+        contentType: false,
+        processData: false,
+      }).done(function(data) {
+        console.log(data)
+      })
     })
 
 
