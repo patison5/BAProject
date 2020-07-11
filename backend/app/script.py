@@ -60,7 +60,7 @@ if __name__ == '__main__':
     afisha = AfishaController()
 
     @app.route('/')
-    def page_index():
+    def index():
         template = env.get_template('page1.html')
         return template.render(
             # title = 'Организации'
@@ -216,7 +216,7 @@ if __name__ == '__main__':
     @app.route('/admin/organizations')
     def admin_organizations():
         all_organizations = organizations.get_all_organizations()
-        template = env.get_template('admin/Admin-index.html')
+        template = env.get_template('admin/admin-watch-organization.html')
         return template.render(
             data = all_organizations,
             title1 = "Организация",
@@ -225,10 +225,19 @@ if __name__ == '__main__':
 
     @app.route('/admin/organizations/add')
     def admin_organizations_add():
-        template = env.get_template('admin/Admin-add.html')
+        template = env.get_template('admin/Admin-add-organization.html')
         return template.render(
             title1 = "Организация",
             title2 = "Организации"
+        )
+
+    @app.route('/admin/organizations/update/<int:id>')
+    def admin_organizations_update(id):
+        template = env.get_template('admin/admin-update-organization.html')
+        return template.render(
+            title1 = "Организация",
+            title2 = "Организации",
+            data = pharmacy.get_pharmacy_info()
         )
 
 
@@ -242,13 +251,39 @@ if __name__ == '__main__':
             title2 = "Афиши"
         )
 
+    @app.route('/admin/afisha/add')
+    def admin_afisha_add():
+        afisha_info = afisha.get_all_afisha()
+        template = env.get_template('admin/Admin-add-afisha.html')
+        return template.render(
+            data = afisha_info,
+            title1 = "Афиша",
+            title2 = "Афиши"
+        )
+
 
     @app.route('/admin/banks')
     def admin_banks():
         all_banks = banks.get_banks()
-        template = env.get_template('admin/Admin-index.html')
+        template = env.get_template('admin/admin-watch-banks.html')
         return template.render(
             data = all_banks,
+            title1 = "Банк",
+            title2 = "Банки"
+        )
+
+    @app.route('/admin/banks/add')
+    def admin_banks_add():
+        template = env.get_template('admin/admin-add-banks.html')
+        return template.render(
+            title1 = "Банк",
+            title2 = "Банки"
+        )
+
+    @app.route('/admin/banks/update/<int:id>')
+    def admin_banks_update(id):
+        template = env.get_template('admin/admin-update-banks.html')
+        return template.render(
             title1 = "Банк",
             title2 = "Банки"
         )
@@ -313,6 +348,102 @@ if __name__ == '__main__':
         return "updated"
 
 
+
+
+
+    @app.route('/admin/photo', methods=['GET', 'PUT'])
+    def admin_photo():
+        if request.method == 'GET':
+            all_photo = pharmacy.get_pharmacy_info()
+            template = env.get_template('admin/Admin-update-photo.html')
+            return template.render(
+                data = all_photo,
+                title1 = "Фото и полиграфия",
+                title2 = "Фото и полиграфии"
+            )
+
+
+    @app.route('/admin/minimarket', methods=['GET', 'PUT'])
+    def admin_minimarket():
+        if request.method == 'GET':
+            all_minimarket = pharmacy.get_pharmacy_info()
+            template = env.get_template('admin/Admin-update-minimarket.html')
+            return template.render(
+                data = all_minimarket,
+                title1 = "Минимаркет",
+                title2 = "Минимаркета"
+            )
+
+
+    @app.route('/admin/services', methods=['GET', 'PUT'])
+    def admin_services():
+        if request.method == 'GET':
+            all_services = pharmacy.get_pharmacy_info()
+            template = env.get_template('admin/Admin-watch-services.html')
+            return template.render(
+                data = all_services,
+                title1 = "Сервис",
+                title2 = "Сервиса"
+            )
+
+    @app.route('/admin/services/update/<int:id>', methods=['GET', 'PUT'])
+    def admin_services_update(id):
+        if request.method == 'GET':
+            all_services = pharmacy.get_pharmacy_info()
+            template = env.get_template('admin/Admin-update-services.html')
+            return template.render(
+                data = all_services,
+                title1 = "Сервис",
+                title2 = "Сервиса"
+            )
+
+
+
+
+
+    @app.route('/admin/tour_agent', methods=['GET', 'PUT'])
+    def admin_tour_agent():
+        if request.method == 'GET':
+            all_tour_agent = pharmacy.get_pharmacy_info()
+            template = env.get_template('admin/admin-watch-tour_agent.html')
+            return template.render(
+                data = all_tour_agent,
+                title1 = "Туристическое агенство",
+                title2 = "Туристического агенства"
+            )
+
+    @app.route('/admin/tour_agent/update', methods=['GET', 'PUT'])
+    def admin_tour_agent_update():
+        if request.method == 'GET':
+            all_tour_agent = pharmacy.get_pharmacy_info()
+            template = env.get_template('admin/admin-watch-tour_agent.html')
+            return template.render(
+                data = all_tour_agent,
+                title1 = "Туристическое агенство",
+                title2 = "Туристического агенства"
+            )
+
+    @app.route('/admin/tour_agent/agents', methods=['GET', 'PUT'])
+    def admin_tour_agent_agents():
+        if request.method == 'GET':
+            all_tour_agent = banks.get_banks()
+            template = env.get_template('admin/admin-watch-tour_agent-agents.html')
+            return template.render(
+                data = all_tour_agent,
+                title1 = "Туристическое агенство",
+                title2 = "Туристического агенства"
+            )
+
+    @app.route('/admin/tour_agent/agents-add')
+    def admin_tour_agent_agents_add():
+        if request.method == 'GET':
+            all_tour_agent = banks.get_banks()
+            template = env.get_template('admin/admin-add-tour_agent-agents.html')
+            return template.render(
+                data = all_tour_agent,
+                title1 = "Агенства",
+                title2 = "Агенства"
+            )
 
     # @app.route('/banks')
     # def bank_page():

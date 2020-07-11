@@ -80,3 +80,25 @@
     background-color: #26a69a;
     color: #fff;
   }
+
+
+
+
+.delete-image {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: red;
+  /*padding: 8px 10px;*/
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.delete-image:hover {
+  background: #bf1010;
+}

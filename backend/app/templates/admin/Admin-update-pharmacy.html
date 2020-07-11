@@ -186,7 +186,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="row">
 
                           <div class="col-md-12 text-center">
-                            <img src="{{ data.logo }}" alt="" class="img-fluid" width="30%" style="margin-bottom: 30px;">
+                            <img src="{{ data.logo }}" alt="" class="img-fluid logo_image" width="30%" style="margin-bottom: 30px;">
+
+                           <span class="delete-image" id="delete_image-js">x</span> 
                           </div>
                         </div>
 
@@ -206,7 +208,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="row">
 
                           <div class="col-md-12 text-center">
-                            <img src="" alt="" class="img-fluid" width="30%" style="margin-bottom: 30px;">
+                            <img src="" alt="" class="img-fluid barcode_image" width="30%" style="margin-bottom: 30px;">
+                          </div>
+                        </div>
+
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="barcode_file">
+                            <label class="custom-file-label" for="barcode_file">Выберите файл</label>
+                          </div>
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="">Загрузить</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label for="barcode_file">Фото</label>
+                        <div class="row">
+
+                          <div class="col-md-12 text-center">
+                            <img src="" alt="" class="img-fluid barcode_image" width="30%" style="margin-bottom: 30px;">
                           </div>
                         </div>
 
@@ -221,7 +243,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                       </div>
 
-                      <div class="form-group">
+                       <div class="form-group">
+                        <label for="data_title">Заголовок фото</label>
+                        <input type="text" class="form-control" id="data_title" value="">
+                      </div>
+                       <div class="form-group">
+                        <label for="data_title">Описание для фото</label>
+                        <input type="text" class="form-control" id="data_title" value="">
+                      </div>
+
+
+                      <div class="form-group"  style="margin-top: 50px;">
                         <table class="table">
                           <thead>
                             <tr>
@@ -270,9 +302,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </div>
                               </td>
                             </tr>
-
                           </tbody>
                         </table>
+
+                        <div class="col-12">
+                          <a href="javascript:history.back()" class="btn btn-info col-12">Добавить сервис</a>
+                        </div>
                       </div>
                     </div>
 
@@ -473,6 +508,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         processData: false,
       }).done(function(data) {
         console.log(data)
+
+        var barcode_image = document.getElementsByClassName('barcode_image')[0];
+        var logo_image    = document.getElementsByClassName('logo_image')[0];
+
+        console.log(barcode_image);
+        console.log(logo_image);
+
       })
     })
 

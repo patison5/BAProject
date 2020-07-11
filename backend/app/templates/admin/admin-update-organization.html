@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <title>AdminLTE 3 | Starter</title>
+
+  <!-- Compiled and minified CSS -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="../../../static/admin/plugins/fontawesome-free/css/all.min.css">
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../../static/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../../static/admin/plugins/myCustom.css">
+
+
+  <link rel="stylesheet" href="../../../static/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
+    <!-- summernote -->
+  <link rel="stylesheet" href="../../../static/admin/plugins/summernote/summernote-bs4.css">
+
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../../static/admin/dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="../../../static/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  {% include "admin/layouts/navbar.html" %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+      <img src="../../../static/admin/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">Админ панель</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+      <!-- Sidebar Menu -->
+        {% include "admin/layouts/navbar_menu.html" %}
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">{{ title1 }}</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Главная</a></li>
+              <li class="breadcrumb-item active">{{ title1 }}</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+  
+          <div class="col-lg-8">
+             <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Редактирование {{ title2 }} </h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form">
+                <div class="row">
+
+                  <!-- левая часть -->
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="data_title">Заголовок</label>
+                        <input type="text" class="form-control" id="data_title" value="{{ data.title }}">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Местоположение</label>                    
+                        <div class="chips chips-address" id="data_address"></div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Телефоны</label>                    
+                        <div class="chips chips-phones" id="data_phones"></div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="data_timetable">График дня</label>
+                        <input type="text" class="form-control" id="data_timetable" value="{{ data.timetable }}">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="data_email">Email</label>
+                        <input type="text" class="form-control" id="data_email" value="{{ data.email }}">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="data_link">Ссылка</label>
+                        <input type="text" class="form-control" id="data_link" value="{{ data.link }}">
+                      </div>
+
+                      <!-- <div class="form-group">
+                      <label>Дата:</label>
+                        <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                      </div> -->
+                    </div>
+                  </div>
+
+                 
+
+                  <div class="col-lg-12">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="mainLogo">Текст записи</label>
+                          <div class="card card-outline card-info">
+                              <textarea class="textarea" placeholder="Place some text here" id="textarea1">{{ data.text }}</textarea>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- footer -->
+                <div class="card-footer">
+                  <div class="row">
+                    <div class="col-12">
+                      <a href="javascript:history.back()" class="btn btn-secondary">Отменить</a>
+                      <!-- <input type="submit" value="Save Changes" class="btn btn-success float-right"> -->
+                      <button type="submit" class="btn btn-success float-right" id="sendData-js">Сохранить</button>
+                    </div>
+                  </div>
+                </div>
+                <!-- footer -->
+
+              </form>
+            </div>
+          </div>
+
+            <div class="col-lg-4">
+              <div class="card card-primary">
+                <div class="card-header">
+                  <div class="card-title">Приложения</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="logo_file">Лого</label>
+                        <div class="row">
+
+                          <div class="col-md-12 text-center">
+                            <img src="{{ data.logo }}" alt="" class="img-fluid logo_image" width="30%" style="margin-bottom: 30px;">
+
+                           <span class="delete-image" id="delete_image-js">x</span> 
+                          </div>
+                        </div>
+
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="logo_file">
+                            <label class="custom-file-label" for="logo_file">Выберите файл</label>
+                          </div>
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="">Загрузить</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="barcode_file">QR-код</label>
+                        <div class="row">
+
+                          <div class="col-md-12 text-center">
+                            <img src="" alt="" class="img-fluid barcode_image" width="30%" style="margin-bottom: 30px;">
+                          </div>
+                        </div>
+
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="barcode_file">
+                            <label class="custom-file-label" for="barcode_file">Выберите файл</label>
+                          </div>
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="">Загрузить</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Управление сервисами</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            <tr>
+                              <td>Название сервиса 1</td>
+                              <td class="text-right py-0 align-middle">
+                                <div class="btn-group btn-group-sm">
+                                  <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                  <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>Название сервиса 2</td>
+                              <td class="text-right py-0 align-middle">
+                                <div class="btn-group btn-group-sm">
+                                  <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                  <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>Название сервиса 3</td>
+                              <td class="text-right py-0 align-middle">
+                                <div class="btn-group btn-group-sm">
+                                  <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                  <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>Название сервиса 4</td>
+                              <td class="text-right py-0 align-middle">
+                                <div class="btn-group btn-group-sm">
+                                  <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                  <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                        <div class="col-12">
+                          <a href="javascript:history.back()" class="btn btn-info col-12">Добавить сервис</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- footer -->
+                    <div class="card-footer">
+                      <div class="row">
+                        <div class="col-12">
+                          <a href="javascript:history.back()" class="btn btn-secondary">Отменить</a>
+                          <!-- <input type="submit" value="Save Changes" class="btn btn-success float-right"> -->
+                          <button type="submit" class="btn btn-success float-right" id="save_images-js">Сохранить</button>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- footer -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Title</h5>
+      <p>Sidebar content</p>
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+
+</div>
+<!-- ./wrapper -->
+
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="../../../static/admin/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../../static/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- DataTables -->
+<script src="../../../static/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../../static/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../../static/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../../static/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
+
+
+<script src="../../../static/admin/plugins/moment/moment.min.js"></script>
+<script src="../../../static/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+
+
+<!-- AdminLTE App -->
+<script src="../../../static/admin/dist/js/adminlte.min.js"></script>
+
+<!-- Summernote -->
+<script src="../../../static/admin/plugins/summernote/summernote-bs4.min.js"></script>
+
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+
+    $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
+
+    // Summernote
+    var textArea = $('.textarea').summernote();
+  });
+</script>
+
+
+
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+
+    function convertToArray (config) {
+       var arr = [];
+       for (var i = 0; i < config.length; i++) {
+        var obj = {}
+        obj.tag = config[i];
+
+        arr.push(obj);
+      }
+
+      return arr
+    }
+
+    var config = {}
+    config.address = convertToArray({{ data.address | tojson }})
+    config.phones =  convertToArray({{ data.phones  | tojson }})
+
+    var addressChips = $('.chips-address').chips({
+      data: config.address,
+    });
+
+    var phonesChips = $('.chips-phones').chips({
+      data: config.phones,
+    });
+
+
+    function getTags (arr) {
+      var res = []
+      for (var i = 0; i < arr.length; i++) {
+        res.push(arr[i].tag)
+      }
+
+      return res
+    }
+
+
+    var sendData = document.getElementById('sendData-js');
+    sendData.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      var formData = new FormData();
+
+      var data_title      = document.getElementById('data_title');
+      var data_timetable  = document.getElementById('data_timetable');
+      var data_email      = document.getElementById('data_email');
+      var data_link       = document.getElementById('data_link');
+      var data_address    = getTags(M.Chips.getInstance(addressChips).chipsData);
+      var data_phones     = getTags(M.Chips.getInstance(phonesChips).chipsData);
+
+      var areaText = $('.textarea').summernote('code');
+      // cleanText = areaText.replace(/<\/?[^>]+(>|$)/g, "");
+
+      formData.append("title",      data_title.value);
+      formData.append("timetable",  data_timetable.value);
+      formData.append("email",      data_email.value);
+      formData.append("link" ,      data_link.value);
+      formData.append("address",    JSON.stringify(data_address));
+      formData.append("phones",     JSON.stringify(data_phones));
+      formData.append("text",       areaText)      
+
+
+      var xhttp;
+      xhttp = new XMLHttpRequest();
+      xhttp.withCredentials = false;
+      xhttp.open('PUT', '/admin/pharmacy');
+
+      xhttp.onload = function () {
+        var json;
+        if (xhttp.status != 200) {
+          console.log('HTTP Error: ' + xhttp.status);
+          return;
+        }
+
+        json = JSON.parse(xhttp.responseText);
+        if (!json) {
+          console.log("INVALID JSON: " + xhttp.responseText);
+          return;
+        }
+
+
+        console.log(json)
+        alert("Данные обновлены!")
+      }
+
+      // // Display the values
+      // for (var value of formData.values()) {
+      //    console.log(value); 
+      // }
+
+      console.log(JSON.stringify(data_address))
+      xhttp.send(formData)
+    })
+
+
+
+
+
+    var save_images = document.getElementById('save_images-js');
+
+    save_images.addEventListener('click', function (e) {
+      var logo_file = document.getElementById('logo_file');
+      var fdata = new FormData();
+
+      fdata.append('logo', logo_file.files[0])
+
+      $.ajax({
+        url: '/admin/pharmacy/update-image',
+        data: fdata,
+        type: "POST",
+        contentType: false,
+        processData: false,
+      }).done(function(data) {
+        console.log(data)
+
+        var barcode_image = document.getElementsByClassName('barcode_image')[0];
+        var logo_image    = document.getElementsByClassName('logo_image')[0];
+
+        console.log(barcode_image);
+        console.log(logo_image);
+
+      })
+    })
+
+
+  </script>
+
+</body>
+</html>

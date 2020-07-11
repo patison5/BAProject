@@ -87,7 +87,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row">
   
-          <div class="col-lg-12">
+          <div class="col-lg-8">
              <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
@@ -96,95 +96,206 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- /.card-header -->
               <!-- form start -->
               <form role="form">
-                <div class="card-body">
-                  <div class="form-group">
-                    <label for="data_title">Заголовок</label>
-                    <input type="text" class="form-control" id="data_title" value="{{ data.title }}">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Местоположение</label>                    
-                    <div class="chips chips-address" id="data_address"></div>
-                  </div>
+                <div class="row">
 
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Телефоны</label>                    
-                    <div class="chips chips-phones" id="data_phones"></div>
-                  </div>
+                  <!-- левая часть -->
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="data_title">Заголовок</label>
+                        <input type="text" class="form-control" id="data_title" value="{{ data.title }}">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Местоположение</label>                    
+                        <div class="chips chips-address" id="data_address"></div>
+                      </div>
 
-                  <div class="form-group">
-                    <label for="data_timetable">График дня</label>
-                    <input type="text" class="form-control" id="data_timetable" value="{{ data.timetable }}">
-                  </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Телефоны</label>                    
+                        <div class="chips chips-phones" id="data_phones"></div>
+                      </div>
 
-                  <div class="form-group">
-                    <label for="data_email">Email</label>
-                    <input type="text" class="form-control" id="data_email" value="{{ data.email }}">
-                  </div>
+                      <div class="form-group">
+                        <label for="data_timetable">График дня</label>
+                        <input type="text" class="form-control" id="data_timetable" value="{{ data.timetable }}">
+                      </div>
 
-                  <div class="form-group">
-                    <label for="data_link">Ссылка</label>
-                    <input type="text" class="form-control" id="data_link" value="{{ data.link }}">
-                  </div>
+                      <div class="form-group">
+                        <label for="data_email">Email</label>
+                        <input type="text" class="form-control" id="data_email" value="{{ data.email }}">
+                      </div>
 
-                  <!-- <div class="form-group">
-                  <label>Дата:</label>
-                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
-                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                      <div class="form-group">
+                        <label for="data_link">Ссылка</label>
+                        <input type="text" class="form-control" id="data_link" value="{{ data.link }}">
+                      </div>
+
+                      <!-- <div class="form-group">
+                      <label>Дата:</label>
+                        <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
                         </div>
-                    </div>
-                  </div> -->
-
-                  <div class="form-group">
-                    <label for="exampleInputFile">Лого</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
-                      </div>
-                      <div class="input-group-append">
-                        <span class="input-group-text" id="">Загрузить</span>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
 
-                   <div class="form-group">
-                    <label for="mainLogo">Добавить основную фотографию</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="mainLogo">
-                        <label class="custom-file-label" for="exampleInputFile">Выберите файл</label>
-                      </div>
-                      <div class="input-group-append">
-                        <span class="input-group-text" id="">Загрузить</span>
+                 
+
+                  <div class="col-lg-12">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="mainLogo">Текст записи</label>
+                          <div class="card card-outline card-info">
+                              <textarea class="textarea" placeholder="Place some text here" id="textarea1">{{ data.text }}</textarea>
+                          </div>
                       </div>
                     </div>
                   </div>
-
-                  <div class="form-group">
-                    <label for="mainLogo">Текст записи</label>
-                      <div class="card card-outline card-info">
-                          <textarea class="textarea" placeholder="Place some text here" id="textarea1">{{ data.text }}</textarea>
-                      </div>
-                  </div>
-
-                   
-
-
                 </div>
-                <!-- /.card-body -->
-
+                
+                <!-- footer -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary" id="sendData-js">Добавить</button>
+                  <div class="row">
+                    <div class="col-12">
+                      <a href="javascript:history.back()" class="btn btn-secondary">Отменить</a>
+                      <!-- <input type="submit" value="Save Changes" class="btn btn-success float-right"> -->
+                      <button type="submit" class="btn btn-success float-right" id="sendData-js">Сохранить</button>
+                    </div>
+                  </div>
                 </div>
+                <!-- footer -->
+
               </form>
             </div>
-            <!-- /.card -->
           </div>
 
-  
-        </div>
+            <div class="col-lg-4">
+              <div class="card card-primary">
+                <div class="card-header">
+                  <div class="card-title">Приложения</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="logo_file">Лого</label>
+                        <div class="row">
+
+                          <div class="col-md-12 text-center">
+                            <img src="{{ data.logo }}" alt="" class="img-fluid logo_image" width="30%" style="margin-bottom: 30px;">
+
+                           <span class="delete-image" id="delete_image-js">x</span> 
+                          </div>
+                        </div>
+
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="logo_file">
+                            <label class="custom-file-label" for="logo_file">Выберите файл</label>
+                          </div>
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="">Загрузить</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="barcode_file">QR-код</label>
+                        <div class="row">
+
+                          <div class="col-md-12 text-center">
+                            <img src="" alt="" class="img-fluid barcode_image" width="30%" style="margin-bottom: 30px;">
+                          </div>
+                        </div>
+
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="barcode_file">
+                            <label class="custom-file-label" for="barcode_file">Выберите файл</label>
+                          </div>
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="">Загрузить</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Управление сервисами</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            <tr>
+                              <td>Название сервиса 1</td>
+                              <td class="text-right py-0 align-middle">
+                                <div class="btn-group btn-group-sm">
+                                  <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                  <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>Название сервиса 2</td>
+                              <td class="text-right py-0 align-middle">
+                                <div class="btn-group btn-group-sm">
+                                  <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                  <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>Название сервиса 3</td>
+                              <td class="text-right py-0 align-middle">
+                                <div class="btn-group btn-group-sm">
+                                  <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                  <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td>Название сервиса 4</td>
+                              <td class="text-right py-0 align-middle">
+                                <div class="btn-group btn-group-sm">
+                                  <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                  <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                        <div class="col-12">
+                          <a href="javascript:history.back()" class="btn btn-info col-12">Добавить сервис</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- footer -->
+                    <div class="card-footer">
+                      <div class="row">
+                        <div class="col-12">
+                          <a href="javascript:history.back()" class="btn btn-secondary">Отменить</a>
+                          <!-- <input type="submit" value="Save Changes" class="btn btn-success float-right"> -->
+                          <button type="submit" class="btn btn-success float-right" id="save_images-js">Сохранить</button>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- footer -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -279,6 +390,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     });
 
 
+    function getTags (arr) {
+      var res = []
+      for (var i = 0; i < arr.length; i++) {
+        res.push(arr[i].tag)
+      }
+
+      return res
+    }
+
+
     var sendData = document.getElementById('sendData-js');
     sendData.addEventListener('click', function (e) {
       e.preventDefault();
@@ -289,8 +410,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       var data_timetable  = document.getElementById('data_timetable');
       var data_email      = document.getElementById('data_email');
       var data_link       = document.getElementById('data_link');
-      var data_address    = M.Chips.getInstance(addressChips).chipsData
-      var data_phones     = M.Chips.getInstance(addressChips).chipsData
+      var data_address    = getTags(M.Chips.getInstance(addressChips).chipsData);
+      var data_phones     = getTags(M.Chips.getInstance(phonesChips).chipsData);
 
       var areaText = $('.textarea').summernote('code');
       // cleanText = areaText.replace(/<\/?[^>]+(>|$)/g, "");
@@ -299,15 +420,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
       formData.append("timetable",  data_timetable.value);
       formData.append("email",      data_email.value);
       formData.append("link" ,      data_link.value);
-      formData.append("address",    data_address);
-      formData.append("phones",     data_phones);
+      formData.append("address",    JSON.stringify(data_address));
+      formData.append("phones",     JSON.stringify(data_phones));
       formData.append("text",       areaText)      
 
 
       var xhttp;
       xhttp = new XMLHttpRequest();
       xhttp.withCredentials = false;
-      xhttp.open('PUT', '/admin/cafe');
+      xhttp.open('PUT', '/admin/pharmacy');
 
       xhttp.onload = function () {
         var json;
@@ -324,9 +445,46 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
         console.log(json)
+        alert("Данные обновлены!")
       }
 
+      // // Display the values
+      // for (var value of formData.values()) {
+      //    console.log(value); 
+      // }
+
+      console.log(JSON.stringify(data_address))
       xhttp.send(formData)
+    })
+
+
+
+
+
+    var save_images = document.getElementById('save_images-js');
+
+    save_images.addEventListener('click', function (e) {
+      var logo_file = document.getElementById('logo_file');
+      var fdata = new FormData();
+
+      fdata.append('logo', logo_file.files[0])
+
+      $.ajax({
+        url: '/admin/pharmacy/update-image',
+        data: fdata,
+        type: "POST",
+        contentType: false,
+        processData: false,
+      }).done(function(data) {
+        console.log(data)
+
+        var barcode_image = document.getElementsByClassName('barcode_image')[0];
+        var logo_image    = document.getElementsByClassName('logo_image')[0];
+
+        console.log(barcode_image);
+        console.log(logo_image);
+
+      })
     })
 
 

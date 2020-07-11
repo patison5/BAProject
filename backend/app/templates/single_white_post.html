@@ -4,14 +4,16 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script> -->
+	<link href="../static/fonts/stylesheet.css" rel="stylesheet">
 
 	<script src="../static/js/jquery.js"></script>
 
-	<!-- {% raw %}
-		<link rel="stylesheet" href="{{ url_for('/', filename='../static/style.css' }}">
+	{% raw %}
+		<!-- <link rel="stylesheet" href="{{ url_for('/', filename='../static/style.css' }}"> -->
+		<link rel="stylesheet" href="{{url_for('index')}}/../../../static/css/style.css">
 	{% endraw %}
-	 -->
-	<link rel="stylesheet" href="../static/css/style.css">
+	
+	<!-- <link rel="stylesheet" href="../static/css/style.css"> -->
 
 
 </head>
