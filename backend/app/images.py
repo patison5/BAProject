@@ -66,6 +66,52 @@ class ImagesController:
         )''')
         self.conn.commit()
 
+    def drop_additional(self):
+        self.cursor.execute("""DROP TABLE IF EXISTS org_images""")
+        self.cursor.execute("""DROP TABLE IF EXISTS srv_images""")
+        self.cursor.execute("""DROP TABLE IF EXISTS pst_images""")
+        self.cursor.execute("""DROP TABLE IF EXISTS trv_images""")
+        self.cursor.execute("""DROP TABLE IF EXISTS msc_images""")
+        self.conn.commit()
+
+    def create_additional(self):
+        self.cursor.execute('''CREATE TABLE org_images (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            image_id INTEGER,
+            organization_id INTEGER,
+            FOREIGN KEY (image_id) REFERENCES images (id),
+            FOREIGN KEY (organization_id) REFERENCES organizations (id)
+        )''')
+        self.cursor.execute('''CREATE TABLE srv_images (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            image_id INTEGER,
+            service_id INTEGER,
+            FOREIGN KEY (image_id) REFERENCES images (id),
+            FOREIGN KEY (service_id) REFERENCES services (id)
+        )''')
+        self.cursor.execute('''CREATE TABLE pst_images (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            image_id INTEGER,
+            poster_id INTEGER,
+            FOREIGN KEY (image_id) REFERENCES images (id),
+            FOREIGN KEY (poster_id) REFERENCES posters (id)
+        )''')
+        self.cursor.execute('''CREATE TABLE trv_images (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            image_id INTEGER,
+            travel_id INTEGER,
+            FOREIGN KEY (image_id) REFERENCES images (id),
+            FOREIGN KEY (travel_id) REFERENCES travels (id)
+        )''')
+        self.cursor.execute('''CREATE TABLE msc_images (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            image_id INTEGER,
+            misc_id INTEGER,
+            FOREIGN KEY (image_id) REFERENCES images (id),
+            FOREIGN KEY (misc_id) REFERENCES misc (id)
+        )''')
+        self.conn.commit()
+
     def get_image_info (self):
         return self.data_set
 

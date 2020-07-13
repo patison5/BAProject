@@ -7,12 +7,13 @@ from images import ImagesController
 from posters import PostersController
 
 def flush_db(images, organizations, services, posters, travels, misc):
-	posters.drop_table()
-	travels.drop_table()
-	misc.drop_table()
-	services.drop_table()
-	organizations.drop_table()
-	images.drop_table()
+    images.drop_additional()
+    posters.drop_table()
+    travels.drop_table()
+    misc.drop_table()
+    services.drop_table()
+    organizations.drop_table()
+    images.drop_table()
 
 def create_tables(images, organizations, services, posters, travels, misc):
     images.create_table()
@@ -21,6 +22,7 @@ def create_tables(images, organizations, services, posters, travels, misc):
     posters.create_table()
     travels.create_table()
     misc.create_table()
+    images.create_additional()
 
 def init_db():
     images = ImagesController()
