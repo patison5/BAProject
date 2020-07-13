@@ -77,22 +77,16 @@ class PharmacyController:
         cursor = conn.cursor()
 
         # Создание таблицы
-        cursor.execute(""" DROP TABLE IF EXISTS pharmacy""")
+        cursor.execute("""DROP TABLE IF EXISTS pharmacy""")
         conn.commit()
 
-        cursor.execute('''CREATE TABLE IF NOT EXISTS pharmacy (
-                            p_id INTEGER PRIMARY KEY,
-                            p_title text NOT NULL,
-                            p_logo text,
-                            p_text text,
-                            p_address text, 
-                            p_phones text,
-                            p_email text,
-                            p_link text,
-                            p_barcode text,
-                            p_timetable text,
-                            p_images text
-                        )''')
+        cursor.execute('''
+        CREATE TABLE images (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            src TEXT NOT NULL,
+            desc TEXT,
+        )
+        ''')
         conn.commit()
 
         cursor.execute('''INSERT INTO pharmacy (

@@ -1,9 +1,10 @@
-from flask import Flask, flash, request, redirect, url_for, render_template
+from flask import Flask, flash, request, redirect, url_for, render_template, current_app, g
 
 import json
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-from backend.app import create_app
+from initdb import init_db
+
 
 env = Environment(
     loader=PackageLoader('script', 'templates'),
@@ -30,18 +31,8 @@ def convert_to_slide_array(array):
 
 
 if __name__ == '__main__':
-    create_app(app)
-
-    # banks = BanksController()
-    # organizations = OrganizationsController()
-    # pharmacy = PharmacyController()
-    # minimarket = MinimarketController()
-    # cafe = CafeController()
-    # services = ServicesController()
-    # photo = PhotoController()
-    # tour_agent = TourAgentController()
-    # afisha = AfishaController()
-
+    images, organizations, services, posters, travels, misc = init_db()
+    print(organizations.get_organization_titles())
 
     @app.route('/')
     def index():

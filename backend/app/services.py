@@ -5,6 +5,9 @@ import string
 from contextlib import closing
 import pymysql
 from pymysql.cursors import DictCursor
+import sqlite3
+
+database = "mydatabase.db"
 
 class ServicesController:
     
@@ -49,7 +52,32 @@ class ServicesController:
     ]
 
     def __init__ (self):
-        print("OrganizationsController created")
+        self.conn = sqlite3.connect(database, timeout=10)
+        self.cursor = self.conn.cursor()
+        print("ServicesController created")
+
+    def drop_table(self):
+        self.cursor.execute("""DROP TABLE IF EXISTS services""")
+        self.conn.commit()
+
+    def create_table(self):
+        self.cursor.execute('''
+        CREATE TABLE services (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            organization_id INTEGER NOT NULL,
+            title TEXT NOT NULL,
+            image INTEGER NOT NULL,
+            address TEXT NOT NULL,
+            phones TEXT NOT NULL,
+            email TEXT NOT NULL,
+            link TEXT NOT NULL,
+            barcode TEXT NOT NULL,
+            timetable TEXT NOT NULL,
+            FOREIGN KEY (organization_id) REFERENCES organizations (id),
+            FOREIGN KEY (image) REFERENCES images (id)
+        )
+        ''')
+        self.conn.commit()
 
 
     def get_single_service (self, id):

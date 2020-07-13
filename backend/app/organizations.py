@@ -5,6 +5,9 @@ import string
 from contextlib import closing
 import pymysql
 from pymysql.cursors import DictCursor
+import sqlite3
+
+database = "mydatabase.db"
 
 class OrganizationsController:
     
@@ -99,17 +102,37 @@ class OrganizationsController:
     
 
     def __init__ (self):
+        self.conn = sqlite3.connect(database, timeout=10)
+        self.cursor = self.conn.cursor()
         print("OrganizationsController created")
 
+    def drop_table(self):
+        self.cursor.execute("""DROP TABLE IF EXISTS organizations""")
+        self.conn.commit()
+
+    def create_table(self):
+        self.cursor.execute('''
+        CREATE TABLE organizations (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            image INTEGER NOT NULL,
+            address TEXT NOT NULL,
+            phones TEXT NOT NULL,
+            email TEXT NOT NULL,
+            link TEXT NOT NULL,
+            barcode TEXT NOT NULL,
+            timetable TEXT NOT NULL,
+            FOREIGN KEY (image) REFERENCES images (id)
+        )
+        ''')
+        self.conn.commit()
 
     def get_organization_titles (self):
-        # arr = []
-        # for item in self.data_set:
-        #     if item[0] not in arr:
-        #         arr[item[0]] = {}
-            # arr["item[0]"].title = item['title']
+        self.cursor.execute('''
+        SELECT title FROM organizations
+        ''')
 
-        return self.organizations_titles
+        return self.cursor.fetchall()
 
 
     def get_all_organizations (self): 
