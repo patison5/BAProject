@@ -1,25 +1,10 @@
-import os
 from flask import Flask, flash, request, redirect, url_for, render_template
-from werkzeug.utils import secure_filename
-# from banks import BanksController
-# from organizations import OrganizationsController, ToursController
-# from adv import AdvController
-
-from string import Template
-
-from organizations import OrganizationsController
-from pharmacy import PharmacyController
-from minimarket import MinimarketController
-from cafe import CafeController
-from services import ServicesController
-from banks import BanksController
-from photo import PhotoController
-from tour_agent import TourAgentController
-from afisha import AfishaController
-
 
 import json
 from jinja2 import Environment, PackageLoader, select_autoescape
+
+from backend.app import create_app
+
 env = Environment(
     loader=PackageLoader('script', 'templates'),
     autoescape=select_autoescape(['html', 'xml'])
@@ -36,35 +21,34 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def convert_to_slide_array (array):
+
+def convert_to_slide_array(array):
     li2 = []
     for i in range(0, len(array), 4):
-        li2.append(array[i:i+4])
+        li2.append(array[i:i + 4])
     return li2
 
 
-
-# black_post_set = convert_to_slide_array(black_post_set)
-# data_set =  json.loads(data_set)
-
-
 if __name__ == '__main__':
-    banks = BanksController()
-    organizations = OrganizationsController()
-    pharmacy = PharmacyController()
-    minimarket = MinimarketController()
-    cafe = CafeController()
-    services = ServicesController()
-    photo = PhotoController()
-    tour_agent = TourAgentController()
-    afisha = AfishaController()
+    create_app(app)
+
+    # banks = BanksController()
+    # organizations = OrganizationsController()
+    # pharmacy = PharmacyController()
+    # minimarket = MinimarketController()
+    # cafe = CafeController()
+    # services = ServicesController()
+    # photo = PhotoController()
+    # tour_agent = TourAgentController()
+    # afisha = AfishaController()
+
 
     @app.route('/')
     def index():
         template = env.get_template('page1.html')
         return template.render(
             # title = 'Организации'
-            search = 'true'
+            search='true'
         )
 
 
@@ -73,9 +57,9 @@ if __name__ == '__main__':
         if request.method == 'GET':
             template = env.get_template('organizations.html')
             return template.render(
-                title = 'Организации',
-                menuElement = "organizations-inactive",
-                search = 'true'
+                title='Организации',
+                menuElement="organizations-inactive",
+                search='true'
             )
 
         if request.method == 'POST':
@@ -83,15 +67,14 @@ if __name__ == '__main__':
             return json.dumps(titles)
 
 
-
     @app.route('/organizations/<int:id>')
     def show_single_organizations(id):
-        single_org  = organizations.get_single_organization(id)
+        single_org = organizations.get_single_organization(id)
         template = env.get_template('single_white_post.html')
         return template.render(
-            title = 'Фото и полиграфия',
-            menuElement = "minimarket-inactive",
-            data = single_org
+            title='Фото и полиграфия',
+            menuElement="minimarket-inactive",
+            data=single_org
         )
 
 
@@ -100,8 +83,8 @@ if __name__ == '__main__':
         single_service = services.get_titles_of_services()
         template = env.get_template('services.html')
         return template.render(
-            title = 'Услуги',
-            menuElement = "services-inactive",
+            title='Услуги',
+            menuElement="services-inactive",
             # data = single_service
         )
 
@@ -111,9 +94,9 @@ if __name__ == '__main__':
         allAfisha = afisha.get_all_afisha()
         template = env.get_template('posts_black.html')
         return template.render(
-            title = 'Афиша концертного зала',
-            menuElement = "concert_zal-inactive",
-            data = convert_to_slide_array(allAfisha)
+            title='Афиша концертного зала',
+            menuElement="concert_zal-inactive",
+            data=convert_to_slide_array(allAfisha)
         )
 
 
@@ -123,9 +106,9 @@ if __name__ == '__main__':
 
         template = env.get_template('page7.html')
         return template.render(
-            title = 'Афиша концертного зала',
-            menuElement = "concert_zal-inactive",
-            data = afisha_single
+            title='Афиша концертного зала',
+            menuElement="concert_zal-inactive",
+            data=afisha_single
         )
 
 
@@ -134,9 +117,9 @@ if __name__ == '__main__':
         cafe_info = cafe.get_cafe_info()
         template = env.get_template('single_white_post.html')
         return template.render(
-            title = 'Кафе',
-            menuElement = "kafe-inactive",
-            data = cafe_info
+            title='Кафе',
+            menuElement="kafe-inactive",
+            data=cafe_info
         )
 
 
@@ -145,9 +128,9 @@ if __name__ == '__main__':
         banks_info = banks.get_banks()
         template = env.get_template('page5.html')
         return template.render(
-            title = 'Банкоматы',
-            menuElement = "banks-inactive",
-            data = banks_info
+            title='Банкоматы',
+            menuElement="banks-inactive",
+            data=banks_info
         )
 
 
@@ -156,9 +139,9 @@ if __name__ == '__main__':
         tours_list = tour_agent.get_all_tour_agent()
         template = env.get_template('posts_white.html')
         return template.render(
-            title = 'Туристические агенства',
-            menuElement = "tour_agent-inactive",
-            data = convert_to_slide_array(tours_list)
+            title='Туристические агенства',
+            menuElement="tour_agent-inactive",
+            data=convert_to_slide_array(tours_list)
         )
 
 
@@ -167,9 +150,9 @@ if __name__ == '__main__':
         tours_list = tour_agent.get_single_tour_agent(id)
         template = env.get_template('single_white_post.html')
         return template.render(
-            title = 'Туристические агенства',
-            menuElement = "tour_agent-inactive",
-            data = tours_list
+            title='Туристические агенства',
+            menuElement="tour_agent-inactive",
+            data=tours_list
         )
 
 
@@ -178,9 +161,9 @@ if __name__ == '__main__':
         photo_info = photo.get_photo_info()
         template = env.get_template('single_white_post.html')
         return template.render(
-            title = 'Фото и полиграфия',
-            menuElement = "photo-inactive",
-            data = photo_info
+            title='Фото и полиграфия',
+            menuElement="photo-inactive",
+            data=photo_info
         )
 
 
@@ -189,9 +172,9 @@ if __name__ == '__main__':
         minimarket_info = minimarket.get_minimarket_info()
         template = env.get_template('single_white_post.html')
         return template.render(
-            title = 'Фото и полиграфия',
-            menuElement = "minimarket-inactive",
-            data = minimarket_info
+            title='Фото и полиграфия',
+            menuElement="minimarket-inactive",
+            data=minimarket_info
         )
 
 
@@ -200,12 +183,10 @@ if __name__ == '__main__':
         pharmacy_info = pharmacy.get_pharmacy_info()
         template = env.get_template('single_white_post.html')
         return template.render(
-            title = 'Фото и полиграфия',
-            menuElement = "pharmacy-inactive",
-            data = pharmacy_info
+            title='Фото и полиграфия',
+            menuElement="pharmacy-inactive",
+            data=pharmacy_info
         )
-
-
 
 
     @app.route('/admin')
@@ -213,31 +194,34 @@ if __name__ == '__main__':
         template = env.get_template('admin/Admin-index.html')
         return template.render()
 
+
     @app.route('/admin/organizations')
     def admin_organizations():
         all_organizations = organizations.get_all_organizations()
         template = env.get_template('admin/admin-watch-organization.html')
         return template.render(
-            data = all_organizations,
-            title1 = "Организация",
-            title2 = "Организации"
+            data=all_organizations,
+            title1="Организация",
+            title2="Организации"
         )
+
 
     @app.route('/admin/organizations/add')
     def admin_organizations_add():
         template = env.get_template('admin/Admin-add-organization.html')
         return template.render(
-            title1 = "Организация",
-            title2 = "Организации"
+            title1="Организация",
+            title2="Организации"
         )
+
 
     @app.route('/admin/organizations/update/<int:id>')
     def admin_organizations_update(id):
         template = env.get_template('admin/admin-update-organization.html')
         return template.render(
-            title1 = "Организация",
-            title2 = "Организации",
-            data = pharmacy.get_pharmacy_info()
+            title1="Организация",
+            title2="Организации",
+            data=pharmacy.get_pharmacy_info()
         )
 
 
@@ -246,19 +230,20 @@ if __name__ == '__main__':
         afisha_info = afisha.get_all_afisha()
         template = env.get_template('admin/Admin-index.html')
         return template.render(
-            data = afisha_info,
-            title1 = "Афиша",
-            title2 = "Афиши"
+            data=afisha_info,
+            title1="Афиша",
+            title2="Афиши"
         )
+
 
     @app.route('/admin/afisha/add')
     def admin_afisha_add():
         afisha_info = afisha.get_all_afisha()
         template = env.get_template('admin/Admin-add-afisha.html')
         return template.render(
-            data = afisha_info,
-            title1 = "Афиша",
-            title2 = "Афиши"
+            data=afisha_info,
+            title1="Афиша",
+            title2="Афиши"
         )
 
 
@@ -267,26 +252,29 @@ if __name__ == '__main__':
         all_banks = banks.get_banks()
         template = env.get_template('admin/admin-watch-banks.html')
         return template.render(
-            data = all_banks,
-            title1 = "Банк",
-            title2 = "Банки"
+            data=all_banks,
+            title1="Банк",
+            title2="Банки"
         )
+
 
     @app.route('/admin/banks/add')
     def admin_banks_add():
         template = env.get_template('admin/admin-add-banks.html')
         return template.render(
-            title1 = "Банк",
-            title2 = "Банки"
+            title1="Банк",
+            title2="Банки"
         )
+
 
     @app.route('/admin/banks/update/<int:id>')
     def admin_banks_update(id):
         template = env.get_template('admin/admin-update-banks.html')
         return template.render(
-            title1 = "Банк",
-            title2 = "Банки"
+            title1="Банк",
+            title2="Банки"
         )
+
 
     @app.route('/admin/cafe', methods=['GET', 'PUT'])
     def admin_cafe():
@@ -294,20 +282,19 @@ if __name__ == '__main__':
             all_cafe = cafe.get_cafe_info()
             template = env.get_template('admin/Admin-update-cafe.html')
             return template.render(
-                data = all_cafe,
-                title1 = "кафе",
-                title2 = "Кафе"
+                data=all_cafe,
+                title1="кафе",
+                title2="Кафе"
             )
-
 
         if request.method == 'PUT':
             k = request.form
             k = k.to_dict()
 
-            link        = k['link']
-            timetable   = k['timetable']
-            title       = k['title']            
-           
+            link = k['link']
+            timetable = k['timetable']
+            title = k['title']
+
             return json.dumps(k)
 
 
@@ -317,20 +304,19 @@ if __name__ == '__main__':
             all_pharmacy = pharmacy.get_pharmacy_info()
             template = env.get_template('admin/Admin-update-pharmacy.html')
             return template.render(
-                data = all_pharmacy,
-                title1 = "Аптечный пункт",
-                title2 = "Аптечного пункта"
+                data=all_pharmacy,
+                title1="Аптечный пункт",
+                title2="Аптечного пункта"
             )
-
 
         if request.method == 'PUT':
             k = request.form
             k = k.to_dict()
 
-            link        = k['link']
-            timetable   = k['timetable']
-            title       = k['title']            
-           
+            link = k['link']
+            timetable = k['timetable']
+            title = k['title']
+
             return pharmacy.update_pharmacy_info(k)
 
 
@@ -348,18 +334,15 @@ if __name__ == '__main__':
         return "updated"
 
 
-
-
-
     @app.route('/admin/photo', methods=['GET', 'PUT'])
     def admin_photo():
         if request.method == 'GET':
             all_photo = pharmacy.get_pharmacy_info()
             template = env.get_template('admin/Admin-update-photo.html')
             return template.render(
-                data = all_photo,
-                title1 = "Фото и полиграфия",
-                title2 = "Фото и полиграфии"
+                data=all_photo,
+                title1="Фото и полиграфия",
+                title2="Фото и полиграфии"
             )
 
 
@@ -369,9 +352,9 @@ if __name__ == '__main__':
             all_minimarket = pharmacy.get_pharmacy_info()
             template = env.get_template('admin/Admin-update-minimarket.html')
             return template.render(
-                data = all_minimarket,
-                title1 = "Минимаркет",
-                title2 = "Минимаркета"
+                data=all_minimarket,
+                title1="Минимаркет",
+                title2="Минимаркета"
             )
 
 
@@ -381,10 +364,11 @@ if __name__ == '__main__':
             all_services = pharmacy.get_pharmacy_info()
             template = env.get_template('admin/Admin-watch-services.html')
             return template.render(
-                data = all_services,
-                title1 = "Сервис",
-                title2 = "Сервиса"
+                data=all_services,
+                title1="Сервис",
+                title2="Сервиса"
             )
+
 
     @app.route('/admin/services/update/<int:id>', methods=['GET', 'PUT'])
     def admin_services_update(id):
@@ -392,13 +376,10 @@ if __name__ == '__main__':
             all_services = pharmacy.get_pharmacy_info()
             template = env.get_template('admin/Admin-update-services.html')
             return template.render(
-                data = all_services,
-                title1 = "Сервис",
-                title2 = "Сервиса"
+                data=all_services,
+                title1="Сервис",
+                title2="Сервиса"
             )
-
-
-
 
 
     @app.route('/admin/tour_agent', methods=['GET', 'PUT'])
@@ -407,10 +388,11 @@ if __name__ == '__main__':
             all_tour_agent = pharmacy.get_pharmacy_info()
             template = env.get_template('admin/admin-watch-tour_agent.html')
             return template.render(
-                data = all_tour_agent,
-                title1 = "Туристическое агенство",
-                title2 = "Туристического агенства"
+                data=all_tour_agent,
+                title1="Туристическое агенство",
+                title2="Туристического агенства"
             )
+
 
     @app.route('/admin/tour_agent/update', methods=['GET', 'PUT'])
     def admin_tour_agent_update():
@@ -418,10 +400,11 @@ if __name__ == '__main__':
             all_tour_agent = pharmacy.get_pharmacy_info()
             template = env.get_template('admin/admin-watch-tour_agent.html')
             return template.render(
-                data = all_tour_agent,
-                title1 = "Туристическое агенство",
-                title2 = "Туристического агенства"
+                data=all_tour_agent,
+                title1="Туристическое агенство",
+                title2="Туристического агенства"
             )
+
 
     @app.route('/admin/tour_agent/agents', methods=['GET', 'PUT'])
     def admin_tour_agent_agents():
@@ -429,10 +412,11 @@ if __name__ == '__main__':
             all_tour_agent = banks.get_banks()
             template = env.get_template('admin/admin-watch-tour_agent-agents.html')
             return template.render(
-                data = all_tour_agent,
-                title1 = "Туристическое агенство",
-                title2 = "Туристического агенства"
+                data=all_tour_agent,
+                title1="Туристическое агенство",
+                title2="Туристического агенства"
             )
+
 
     @app.route('/admin/tour_agent/agents-add')
     def admin_tour_agent_agents_add():
@@ -440,10 +424,11 @@ if __name__ == '__main__':
             all_tour_agent = banks.get_banks()
             template = env.get_template('admin/admin-add-tour_agent-agents.html')
             return template.render(
-                data = all_tour_agent,
-                title1 = "Агенства",
-                title2 = "Агенства"
+                data=all_tour_agent,
+                title1="Агенства",
+                title2="Агенства"
             )
+
 
     # @app.route('/banks')
     # def bank_page():
@@ -639,7 +624,6 @@ if __name__ == '__main__':
     #     organizations.delete_org(request.form.get('name'))
     #     return "0"
 
-
     # @app.route('/add_travel_tour', methods=['GET', 'POST'])
     # def add_travel_tour():
     #     if request.method == 'POST':
@@ -668,7 +652,6 @@ if __name__ == '__main__':
     #         tours.add_new_travel_tour("path", request.form.get('name'), request.form.get('description'),
     #                                           request.form.get('address'), additional_photos)
     #     return "0"
-
 
     # @app.route('/add_travel_adv', methods=['GET', 'POST'])
     # def add_travel_adv():
@@ -733,16 +716,6 @@ if __name__ == '__main__':
     #     return tours.load_all()
 
     app.run(debug=True, host="127.0.0.1", port=5000)
-
-
-
-
-
-
-
-
-
-
 
 # services-inactive
 # concert_zal-inactive
