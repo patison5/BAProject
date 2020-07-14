@@ -5,7 +5,6 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 
 from initdb import init_db
 
-
 env = Environment(
     loader=PackageLoader('script', 'templates'),
     autoescape=select_autoescape(['html', 'xml'])
@@ -67,6 +66,9 @@ if __name__ == '__main__':
             data=single_org
         )
 
+    @app.route('/organizations/delete/<int:id>')
+    def delete_single_organizations(id):
+        return organizations.delete_organization(id)
 
     @app.route('/services')
     def page_services():
@@ -196,13 +198,19 @@ if __name__ == '__main__':
         )
 
 
-    @app.route('/admin/organizations/add')
+    @app.route('/admin/organizations/add', methods=['GET', 'POST'])
     def admin_organizations_add():
-        template = env.get_template('admin/Admin-add-organization.html')
-        return template.render(
-            title1="Организация",
-            title2="Организации"
-        )
+        if request.method == 'GET':
+            template = env.get_template('admin/Admin-add-organization.html')
+            return template.render(
+                title1="Организация",
+                title2="Организации"
+            )
+
+        if request.method == 'POST':
+            data = request.form
+            data = data.to_dict()
+            return json.dumps(organizations.create_new_organization(data))
 
 
     @app.route('/admin/organizations/update/<int:id>')
@@ -220,8 +228,17 @@ if __name__ == '__main__':
         if request.method == 'PUT':
             data = request.form
             data = data.to_dict()
-
             return organizations.update_organization(data)
+
+
+    @app.route('/admin/organizations/add-service/<int:id>')
+    def admin_organizations_add_service(id):
+        template = env.get_template('admin/admin-add-organization-service.html')
+        return template.render(
+            title1="Сервис Организации",
+            title2="Сервиса Организации",
+            data=organizations.get_single_organization(id)
+        )
 
 
 

@@ -378,7 +378,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       var data_phones     = getTags(M.Chips.getInstance(phonesChips).chipsData);
 
       var areaText = $('.textarea').summernote('code');
-      // cleanText = areaText.replace(/<\/?[^>]+(>|$)/g, "");
+      cleanText = areaText.replace(/<\/?[^>]+(>|$)/g, "");
 
       formData.append("title",      data_title.value);
       formData.append("timetable",  data_timetable.value);
@@ -386,13 +386,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       formData.append("link" ,      data_link.value);
       formData.append("address",    JSON.stringify(data_address));
       formData.append("phones",     JSON.stringify(data_phones));
-      formData.append("text",       areaText)      
+      formData.append("text",       cleanText)      
 
 
       var xhttp;
       xhttp = new XMLHttpRequest();
       xhttp.withCredentials = false;
-      xhttp.open('PUT', '/admin/pharmacy');
+      xhttp.open('POST', '/admin/organizations/add');
 
       xhttp.onload = function () {
         var json;
@@ -425,31 +425,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
-    var save_images = document.getElementById('save_images-js');
+    // var save_images = document.getElementById('save_images-js');
 
-    save_images.addEventListener('click', function (e) {
-      var logo_file = document.getElementById('logo_file');
-      var fdata = new FormData();
+    // save_images.addEventListener('click', function (e) {
+    //   var logo_file = document.getElementById('logo_file');
+    //   var fdata = new FormData();
 
-      fdata.append('logo', logo_file.files[0])
+    //   fdata.append('logo', logo_file.files[0])
 
-      $.ajax({
-        url: '/admin/pharmacy/update-image',
-        data: fdata,
-        type: "POST",
-        contentType: false,
-        processData: false,
-      }).done(function(data) {
-        console.log(data)
+    //   $.ajax({
+    //     url: '/admin/pharmacy/update-image',
+    //     data: fdata,
+    //     type: "POST",
+    //     contentType: false,
+    //     processData: false,
+    //   }).done(function(data) {
+    //     console.log(data)
 
-        var barcode_image = document.getElementsByClassName('barcode_image')[0];
-        var logo_image    = document.getElementsByClassName('logo_image')[0];
+    //     var barcode_image = document.getElementsByClassName('barcode_image')[0];
+    //     var logo_image    = document.getElementsByClassName('logo_image')[0];
 
-        console.log(barcode_image);
-        console.log(logo_image);
+    //     console.log(barcode_image);
+    //     console.log(logo_image);
 
-      })
-    })
+    //   })
+    // })
 
 
   </script>

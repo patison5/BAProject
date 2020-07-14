@@ -133,6 +133,12 @@ class OrganizationsController:
         self.conn.commit()
 
 
+    def letter_index_in_data(self, data, letter):
+        for i in range(len(data)):
+            if data[i]["variable"] == letter:
+                return i
+        return 0
+
 
     def get_organization_titles (self):
         db = sqlite3.connect(database, timeout=10)
@@ -142,20 +148,32 @@ class OrganizationsController:
             SELECT id, title FROM organizations
         ''')
 
-
         data = cdb.fetchall();
 
-        print(data)
         json = []
-
-        for item in data:
-            json.append({
-                "variable": "A",
-                "elements": [{
-                    "id":   item[0],
-                    "text": item[1],
-                }]
-            })
+        for element in data:
+            letter_of_element = element[1][0]
+            print("letter_of_element")
+            print(letter_of_element)
+            letter_index = self.letter_index_in_data(json, letter_of_element)
+            if letter_index:
+                json[letter_index]["elements"].append(
+                    {
+                        "id": element[0],
+                        "title": element[1]
+                    }
+                )
+            else:
+                tmp_obj = {
+                    "variable": letter_of_element,
+                    "elements": [
+                        {
+                            "id": element[0],
+                            "title": element[1]
+                        }
+                    ],
+                }
+                json.append(tmp_obj)
 
         return json
 
@@ -197,6 +215,22 @@ class OrganizationsController:
 
         data = cdb.fetchone();
 
+        cdb.execute('''
+            SELECT id, title, image     
+            FROM services
+            WHERE organization_id = ?
+        ''', (str(id)))
+
+        services = cdb.fetchall();
+
+        servicesData = []
+
+        for service in services:
+            servicesData.append({
+                "id": service[0],
+                "title": service[1]
+            })
+
         return {
             "id":           data[0],
             "title":        data[1],
@@ -208,17 +242,43 @@ class OrganizationsController:
             "barcode":      data[8],
             "timetable":    data[9],
             "logo":         data[11],
+            "services":     servicesData
         }
 
 
     def create_new_organization (self, data):
-        # в data придет вся необходимая информация для добавления новой организации
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+        INSERT INTO organizations (
+            title,
+            image,
+            text,
+            address,
+            phones,
+            email,
+            link,
+            barcode,
+            timetable
+        )
+        VALUES (?,?,?,?,?,?,?,?,?)''', (
+            data["title"], 
+            1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
+            data["text"],
+            data["address"],
+            data["phones"],
+            data["email"],
+            data["link"],
+            data["title"],
+            data["timetable"])
+        )
+        db.commit()
+
         return True
 
 
     def update_organization (self, data):
-
-        print(data)
 
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
@@ -249,4 +309,7 @@ class OrganizationsController:
 
     def delete_organization (self, id):
         # удаляет организацию по id
+        print("You wanting to delete ")
+        print(id)
+        print("row")
         return True

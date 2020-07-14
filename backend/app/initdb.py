@@ -9,7 +9,7 @@ from posters import PostersController
 def insert_data(images, organizations, services, posters, travels, misc):
     images.init_data()
     organizations.init_data()
-    # services.init_data()
+    services.init_data()
     # posters.init_data()
     # travels.init_data()
     misc.init_data()

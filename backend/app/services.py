@@ -65,14 +65,15 @@ class ServicesController:
         CREATE TABLE services (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             organization_id INTEGER NOT NULL,
-            title TEXT NOT NULL,
-            image INTEGER NOT NULL,
-            address TEXT NOT NULL,
-            phones TEXT NOT NULL,
-            email TEXT NOT NULL,
-            link TEXT NOT NULL,
-            barcode TEXT NOT NULL,
-            timetable TEXT NOT NULL,
+            title TEXT,
+            image INTEGER,
+            text TEXT,
+            address TEXT,
+            phones TEXT,
+            email TEXT,
+            link TEXT,
+            barcode TEXT,
+            timetable TEXT,
             FOREIGN KEY (organization_id) REFERENCES organizations (id),
             FOREIGN KEY (image) REFERENCES images (id)
         )
@@ -93,3 +94,77 @@ class ServicesController:
     def update_services_info (self, data):
         # в data придет информация которую нужно обновить. минимум 1 какое-то поле, максимум все поля
         return True
+
+
+
+
+    def init_data(self):
+        self.cursor.execute('''
+        INSERT INTO services (
+            organization_id,
+            title,
+            image,
+            text,
+            address,
+            phones,
+            email,
+            link,
+            barcode,
+            timetable
+        )
+        VALUES (?,?,?,?,?,?,?,?,?,?)''', (
+            1,
+            "Это какой-то 1 тестовый сервис у организации, хранящийся в бд", 
+            1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
+            "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
+            json.dumps([
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+                "19 этаж, кабинет 1928"
+            ]),
+            json.dumps([
+                "+7 (495) 633-60-02",
+                "+7 (495) 633-60-02 - Офис",
+                "+7 (495) 633-60-02 - Пресс-служба"
+            ]),
+            "kow@mos.ru",
+            "https://www.mos.ru/kos",
+            "barcode",
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной")
+        )
+        self.conn.commit()
+
+        self.cursor.execute('''
+        INSERT INTO services (
+            organization_id,
+            title,
+            image,
+            text,
+            address,
+            phones,
+            email,
+            link,
+            barcode,
+            timetable
+        )
+        VALUES (?,?,?,?,?,?,?,?,?,?)''', (
+            1,
+            "Это какой-то 2 тестовый сервис у организации, хранящийся в бд", 
+            1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
+            "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
+            json.dumps([
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+                "19 этаж, кабинет 1928"
+            ]),
+            json.dumps([
+                "+7 (495) 633-60-02",
+                "+7 (495) 633-60-02 - Офис",
+                "+7 (495) 633-60-02 - Пресс-служба"
+            ]),
+            "kow@mos.ru",
+            "https://www.mos.ru/kos",
+            "barcode",
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной")
+        )
+        self.conn.commit()

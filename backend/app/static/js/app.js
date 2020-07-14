@@ -92,7 +92,7 @@ window.onload = function () {
 			} else {
 				var swiper__element = document.createElement('div');
 				swiper__element.className = 'swiper__element';
-				swiper__element.innerHTML = data[i].text;
+				swiper__element.innerHTML = data[i].title;
 
 
 				href.appendChild(swiper__element)
