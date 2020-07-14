@@ -69,7 +69,7 @@ class OrganizationsController:
         self.conn.commit()
 
 
-    def init_data():
+    def init_data(self):
         self.cursor.execute('''
         INSERT INTO organizations (
             title,
@@ -110,24 +110,20 @@ class OrganizationsController:
             text,
             address,
             phones,
-            email, Марксистская д3с1 оф 404
+            email,
             link,
             barcode,
             timetable
         )
         VALUES (?,?,?,?,?,?,?,?,?)''', (
             "Комитет общественных связей и молодежной политики города Москвы", 
-            "http://127.0.0.1:5000/static/images/icons/img-10.svg", 
+            1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
             "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
             json.dumps([
-                "121099, Г. Москва",
-                "ул. Новый Арбат, д.36",
-                "19 этаж, кабинет 1928"
+                "121099, Г. Москва"
             ]),
             json.dumps([
                 "+7 (495) 633-60-02",
-                "+7 (495) 633-60-02 - Офис",
-                "+7 (495) 633-60-02 - Пресс-служба"
             ]),
             "kow@mos.ru",
             "https://www.mos.ru/kos",
@@ -135,6 +131,7 @@ class OrganizationsController:
             "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной")
         )
         self.conn.commit()
+
 
 
     def get_organization_titles (self):
@@ -160,46 +157,57 @@ class OrganizationsController:
                 }]
             })
 
-
         return json
 
 
     def get_all_organizations (self): 
-        return self.data_set
+
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+            SELECT id, title, text FROM organizations
+        ''')
+
+        data = cdb.fetchall();
+        json = []
+
+        for item in data:
+            json.append({
+                "id":           item[0],
+                "title":        item[1],
+                "text":         item[2]
+            })
+
+        return json
 
 
     def get_single_organization (self, id):
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
 
-        # cdb.execute('''
-        #     SELECT * FROM organizations
-        #     WHERE id = ?
-        # ''', (str(id)))
-
         cdb.execute('''
             SELECT *
             FROM organizations
             INNER JOIN images
-            ON organizations.image = image.id
-            WHERE id = ?
+            ON organizations.image = images.id
+            WHERE organizations.id = ?
         ''', (str(id)))
 
 
         data = cdb.fetchone();
-        print(data)
 
         return {
             "id":           data[0],
-            "title":        data[1], 
-            "logo":         data[2],
-            "text":         data[3], 
-            "address":      json.loads(data[4]), 
+            "title":        data[1],
+            "text":         data[3],
+            "address":      json.loads(data[4]),
             "phones":       json.loads(data[5]),
             "email":        data[6],
             "link":         data[7],
             "barcode":      data[8],
-            "timetable":    data[9]
+            "timetable":    data[9],
+            "logo":         data[11],
         }
 
 
@@ -209,8 +217,34 @@ class OrganizationsController:
 
 
     def update_organization (self, data):
-        # в data придет информация которую нужно обновить. минимум 1 какое-то поле, максимум все поля
-        return True
+
+        print(data)
+
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE organizations 
+        SET 
+            title = ?,
+            text = ?,
+            address = ?, 
+            phones = ?, 
+            email = ?, 
+            link = ?, 
+            timetable = ?
+        WHERE id = '1' """, (
+            data["title"], 
+            data['text'],
+            data["address"], 
+            data["phones"], 
+            data["email"], 
+            data["link"], 
+            data["timetable"]))
+
+        db.commit()
+
+        return self.get_single_organization(data["id"])
 
 
     def delete_organization (self, id):

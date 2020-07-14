@@ -119,3 +119,32 @@ class ImagesController:
     def update_image_info (self, data):
         # в data придет информация которую нужно обновить. минимум 1 какое-то поле, максимум все поля
         return True
+
+
+
+
+    def init_data(self):
+
+        self.cursor.execute(''' 
+            INSERT INTO images(
+                src,
+                desc
+            )
+            VALUES(?,?) ''', (
+                "http://127.0.0.1:5000/static/images/icons/img-10.svg",
+                "desc",
+            )
+        )
+        self.conn.commit()
+
+        self.cursor.execute(''' 
+            INSERT INTO org_images(
+                image_id,
+                organization_id
+            )
+            VALUES(?,?) ''', (
+                1,
+                1
+            )
+        )
+        self.conn.commit()

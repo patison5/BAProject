@@ -380,6 +380,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     var config = {}
     config.address = convertToArray({{ data.address | tojson }})
     config.phones =  convertToArray({{ data.phones  | tojson }})
+    config.id = {{ data.id  | tojson }}
 
     var addressChips = $('.chips-address').chips({
       data: config.address,
@@ -389,6 +390,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       data: config.phones,
     });
 
+
+    console.log(config)
 
     function getTags (arr) {
       var res = []
@@ -423,12 +426,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       formData.append("address",    JSON.stringify(data_address));
       formData.append("phones",     JSON.stringify(data_phones));
       formData.append("text",       areaText)      
+      formData.append("id",         config.id)      
 
 
       var xhttp;
       xhttp = new XMLHttpRequest();
       xhttp.withCredentials = false;
-      xhttp.open('PUT', '/admin/pharmacy');
+      xhttp.open('PUT', '/admin/organizations/update');
 
       xhttp.onload = function () {
         var json;

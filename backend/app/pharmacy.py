@@ -115,16 +115,25 @@ class PharmacyController:
         conn.close()
 
     def get_pharmacy_info (self):
-        sql = "SELECT * FROM pharmacy"
+        # sql = "SELECT * FROM pharmacy"
 
-        conn = sqlite3.connect("mydatabase.db", timeout=10) # или :memory: чтобы сохранить в RAM
-        cursor = conn.cursor()
-        cursor.execute(sql)
+        # conn = sqlite3.connect("mydatabase.db", timeout=10) # или :memory: чтобы сохранить в RAM
+        # cursor = conn.cursor()
+        # cursor.execute(sql)
 
-        data = cursor.fetchone()
-        cursor.close()
-        conn.close()
+        # data = cursor.fetchone()
+        # cursor.close()
+        # conn.close()
+
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+            SELECT data FROM misc WHERE endpoint = 'pharmacy'
+        ''')
        
+        data = cursor.fetchone()
+
         return {
             "id":           data[0],
             "title":        data[1], 

@@ -75,3 +75,163 @@ class MiscController:
     def update_image_info (self, data):
         # в data придет информация которую нужно обновить. минимум 1 какое-то поле, максимум все поля
         return True
+
+
+
+
+    def init_data(self):
+
+        sql = ''' INSERT INTO misc(endpoint, data)
+              VALUES(?,?) '''
+
+        self.cursor.execute(sql, ("pharmacy", json.dumps({
+            "title": 'Аптечный пункт гуп "медицинский центр" управления делами мэра и правительства Москвы', 
+            "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
+            "text": "Мы позаботились о том, чтобы Вам было удобно. Воспользовавшись услугами нашей апткеи, Вы получите доступ к широкому ассортименту лекраственных стредств, а удобое расположение в здании клиники значительно сэкономит Ваше время и силы.", 
+            "address": [
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+            ], 
+            "phones": [
+                "+7 (495) 633-60-02",
+            ],
+            "email": "kow@mos.ru",
+            "link": "https://www.mos.ru/kos",
+            "barcode": "http://127.0.0.1:5000/static/images/icons/img-1.svg",
+            "timetable": "ПН-ЧТ – 08:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            "images": [
+                {
+                    "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
+                    "desc": "Фото на документы"
+                },
+                {
+                    "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
+                    "desc": "Поликлиника медицинского центра"
+                },
+                {
+                    "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
+                    "desc": "Фото на документы"
+                },
+                {
+                    "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
+                    "desc": "Фото на документы"
+                },
+            ] 
+        })))
+
+        self.conn.commit()
+
+
+        self.cursor.execute(sql, ("photo", json.dumps({
+            "title": "Студия дизайна и полиграфии", 
+            "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
+            "text": "Студия дизайна и полиграфии оказывает широкий спектр услуг производства и печати: оперативная печать фото на документы, копирования/канирование, разработка и производство полиграфической продукции, разработка дизайна и фирменного стиля, а также верстка, брошюровка, печать визиток и многое другое", 
+            "address": [
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+            ], 
+            "phones": [
+                "+7 (495) 633-60-02",
+            ],
+            "email": "kow@mos.ru",
+            "link": "https://www.mos.ru/kos",
+            "barcode": "http://127.0.0.1:5000/static/images/icons/img-1.svg",
+            "timetable": "ПН-ЧТ – 08:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            "images": [
+                {
+                    "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
+                    "desc": "Фото на документы"
+                },
+                {
+                    "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
+                    "desc": "Поликлиника медицинского центра"
+                },
+                {
+                    "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
+                    "desc": "Фото на документы"
+                },
+                {
+                    "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
+                    "desc": "Фото на документы"
+                },
+            ] 
+        })))
+
+        self.conn.commit()
+
+
+        self.cursor.execute(sql, ("minimarket", json.dumps({
+            "title": 'Минимаркет GREEN', 
+            "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
+            "text": "Минимаркет Green - это новая концепция организаций правильного питания. Мы предлагаем баланс между полноценным питанием, разнообразным меню, множеством форматов готовой еды и недостатком времени, предлагая здоровые пищевые привычки, удобство выбора, свежесть и качество.", 
+            "address": [
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36"
+            ], 
+            "phones": [
+                "+7 (495) 633-60-02"
+            ],
+            "email": "kow@mos.ru",
+            "link": "https://www.mos.ru/kos",
+            "barcode": "http://127.0.0.1:5000/static/images/icons/img-1.svg",
+            "timetable": "ПН-ЧТ – 08:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            "images": [
+                {
+                    "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
+                    "desc": "Фото на документы"
+                },
+                {
+                    "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
+                    "desc": "Поликлиника медицинского центра"
+                },
+                {
+                    "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
+                    "desc": "Фото на документы"
+                },
+                {
+                    "src": "http://127.0.0.1:5000/static/images/icons/Resurs_1.png",
+                    "desc": "Фото на документы"
+                },
+            ]  
+        })))
+
+        self.conn.commit()
+
+        self.cursor.execute(sql, ("cafe", json.dumps({
+            "title": 'Столовая комбината питания', 
+            "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
+            "text": "Минимаркет Green - это новая концепция организаций правильного питания. Мы предлагаем баланс между полноценным питанием, разнообразным меню, множеством форматов готовой еды и недостатком времени, предлагая здоровые пищевые привычки, удобство выбора, свежесть и качество.", 
+            "right_part": {
+                "image": "http://127.0.0.1:5000/static/images/woman.png",
+                "title": "Драгунова Екатерина Вячеслаовна",
+                "desc": "Председатель коммитета общественных сязей и молодежной политики города Москвы,"
+            },
+            "timetable": "ПН-ЧТ – 08:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            "address": [
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36"
+            ], 
+            "phones": [
+                "+7 (495) 633-60-02"
+            ],
+            "email": "kow@mos.ru",
+            "link": "https://www.mos.ru/kos",
+            "images": ""
+        })))
+
+        self.conn.commit()
+
+
+
+
+    def get_misc_info (self, endpoint):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+            SELECT data FROM misc WHERE endpoint = ?
+        ''', (endpoint,))
+       
+        data = cdb.fetchone()[0]
+
+        return json.loads(data)
