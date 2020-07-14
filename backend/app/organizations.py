@@ -137,7 +137,7 @@ class OrganizationsController:
         for i in range(len(data)):
             if data[i]["variable"] == letter:
                 return i
-        return 0
+        return -1
 
 
     def get_organization_titles (self):
@@ -156,7 +156,7 @@ class OrganizationsController:
             print("letter_of_element")
             print(letter_of_element)
             letter_index = self.letter_index_in_data(json, letter_of_element)
-            if letter_index:
+            if letter_index != -1:
                 json[letter_index]["elements"].append(
                     {
                         "id": element[0],
@@ -174,6 +174,9 @@ class OrganizationsController:
                     ],
                 }
                 json.append(tmp_obj)
+
+
+        print(json)
 
         return json
 
