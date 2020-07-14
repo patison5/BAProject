@@ -43,5 +43,6 @@ def init_db():
 
     flush_db(images, organizations, services, posters, travels, misc)
     create_tables(images, organizations, services, posters, travels, misc)
+    insert_data(images, organizations, services, posters, travels, misc)
     
     return (images, organizations, services, posters, travels, misc)
