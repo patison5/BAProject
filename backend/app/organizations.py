@@ -51,8 +51,6 @@ class OrganizationsController:
         self.conn.commit()
 
     def create_table(self):
-        self.drop_table()
-
         self.cursor.execute('''
         CREATE TABLE organizations (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -70,6 +68,8 @@ class OrganizationsController:
         ''')
         self.conn.commit()
 
+
+    def init_data():
         self.cursor.execute('''
         INSERT INTO organizations (
             title,
@@ -84,7 +84,7 @@ class OrganizationsController:
         )
         VALUES (?,?,?,?,?,?,?,?,?)''', (
             "Комитет общественных связей и молодежной политики города Москвы", 
-            "http://127.0.0.1:5000/static/images/icons/img-10.svg", 
+            1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
             "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
             json.dumps([
                 "121099, Г. Москва",
@@ -110,7 +110,7 @@ class OrganizationsController:
             text,
             address,
             phones,
-            email,
+            email, Марксистская д3с1 оф 404
             link,
             barcode,
             timetable
@@ -135,6 +135,7 @@ class OrganizationsController:
             "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной")
         )
         self.conn.commit()
+
 
     def get_organization_titles (self):
         db = sqlite3.connect(database, timeout=10)

@@ -6,6 +6,15 @@ from services import ServicesController
 from images import ImagesController
 from posters import PostersController
 
+def insert_data(images, organizations, services, posters, travels, misc):
+    # images.init_data()
+    organizations.init_data()
+    # services.init_data()
+    # posters.init_data()
+    # travels.init_data()
+    # misc.init_data()
+    # images.init_additional()
+
 def flush_db(images, organizations, services, posters, travels, misc):
     images.drop_additional()
     posters.drop_table()
