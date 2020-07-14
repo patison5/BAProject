@@ -32,7 +32,6 @@ def convert_to_slide_array(array):
 
 if __name__ == '__main__':
     images, organizations, services, posters, travels, misc = init_db()
-    print(organizations.get_organization_titles())
 
     @app.route('/')
     def index():
@@ -55,6 +54,8 @@ if __name__ == '__main__':
 
         if request.method == 'POST':
             titles = organizations.get_organization_titles()
+            print("HERE IS MY JSON :::::::")
+            print(titles)
             return json.dumps(titles)
 
 
