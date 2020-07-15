@@ -88,9 +88,34 @@ class ServicesController:
         return arr
 
     def update_services_info (self, data):
-        # в data придет информация которую нужно обновить. минимум 1 какое-то поле, максимум все поля
-        return True
+        print(data)
 
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE services 
+        SET 
+            title = ?,
+            text = ?,
+            address = ?,
+            phones = ?,
+            email = ?,
+            link = ?,
+            timetable = ?
+        WHERE id = ? """, (
+            data["title"], 
+            data['text'],
+            data["address"], 
+            data["phones"], 
+            data["email"], 
+            data["link"], 
+            data["timetable"],
+            data["id"]))
+
+        db.commit()
+
+        return json.dumps({"status": "ok"})
 
 
 

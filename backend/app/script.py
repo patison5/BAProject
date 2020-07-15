@@ -4,6 +4,8 @@ import json
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 from initdb import init_db
+from tour_agent import TourAgentController
+
 
 env = Environment(
     loader=PackageLoader('script', 'templates'),
@@ -31,6 +33,8 @@ def convert_to_slide_array(array):
 
 if __name__ == '__main__':
     images, organizations, services, posters, travels, misc = init_db()
+
+    tour_agent = TourAgentController()
 
     @app.route('/')
     def index():
@@ -80,7 +84,7 @@ if __name__ == '__main__':
 
     @app.route('/afisha')
     def page_afisha():
-        allAfisha = afisha.get_all_afisha()
+        allAfisha = posters.get_all_afisha()
         template = env.get_template('posts_black.html')
         return template.render(
             title='Афиша концертного зала',
@@ -250,7 +254,7 @@ if __name__ == '__main__':
         )
 
     @app.route('/admin/organizations/update-service/<int:id>', methods=['GET'])
-    def admin_organizations_update_service(id):
+    def admin_organizations_update_service_get(id):
         template = env.get_template('admin/admin-update-organization-service.html')
         print(services.get_single_service(id))
         return template.render(
@@ -259,22 +263,44 @@ if __name__ == '__main__':
             data=services.get_single_service(id)
         )
 
-
+    @app.route('/admin/organizations/update-service', methods=['PUT'])
+    def admin_organizations_update_service_put():
+        if request.method == 'PUT':
+            data = request.form
+            data = data.to_dict()
+            return services.update_services_info(data)
 
     @app.route('/admin/afisha')
     def admin_afisha():
-        afisha_info = afisha.get_all_afisha()
-        template = env.get_template('admin/Admin-index.html')
+        afisha_info = posters.get_all_afisha()
+        template = env.get_template('admin/admin-watch-afisha.html')
         return template.render(
             data=afisha_info,
             title1="Афиша",
             title2="Афиши"
         )
 
+    @app.route('/admin/afisha/update/<int:id>')
+    def admin_afisha_update_watch(id):
+        afisha_info = posters.get_single_afisha(id)
+        template = env.get_template('admin/admin-update-afisha.html')
+        return template.render(
+            data=afisha_info,
+            title1="Афиша",
+            title2="Афиши"
+        )
+
+    @app.route('/admin/afisha/update', methods=['PUT'])
+    def admin_afisha_update():
+        if request.method == 'PUT':
+            data = request.form
+            data = data.to_dict()
+            return posters.update_afisha(data)
+
 
     @app.route('/admin/afisha/add')
     def admin_afisha_add():
-        afisha_info = afisha.get_all_afisha()
+        afisha_info = posters.get_all_afisha()
         template = env.get_template('admin/Admin-add-afisha.html')
         return template.render(
             data=afisha_info,

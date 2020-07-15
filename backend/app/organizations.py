@@ -296,14 +296,15 @@ class OrganizationsController:
             email = ?, 
             link = ?, 
             timetable = ?
-        WHERE id = '1' """, (
+        WHERE id = ? """, (
             data["title"], 
             data['text'],
             data["address"], 
             data["phones"], 
             data["email"], 
             data["link"], 
-            data["timetable"]))
+            data["timetable"],
+            data["id"]))
 
         db.commit()
 

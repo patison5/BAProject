@@ -88,13 +88,14 @@ class MiscController:
             "title": 'Аптечный пункт гуп "медицинский центр" управления делами мэра и правительства Москвы', 
             "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
             "text": "Мы позаботились о том, чтобы Вам было удобно. Воспользовавшись услугами нашей апткеи, Вы получите доступ к широкому ассортименту лекраственных стредств, а удобое расположение в здании клиники значительно сэкономит Ваше время и силы.", 
-            "address": [
+            "address": json.dumps([
                 "121099, Г. Москва",
-                "ул. Новый Арбат, д.36",
-            ], 
-            "phones": [
+                "ул. Новый Арбат, д.36"
+            ]), 
+            "phones": json.dumps([
                 "+7 (495) 633-60-02",
-            ],
+                 "ул. Новый Арбат, д.36"
+            ]),
             "email": "kow@mos.ru",
             "link": "https://www.mos.ru/kos",
             "barcode": "http://127.0.0.1:5000/static/images/icons/img-1.svg",
@@ -126,13 +127,14 @@ class MiscController:
             "title": "Студия дизайна и полиграфии", 
             "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
             "text": "Студия дизайна и полиграфии оказывает широкий спектр услуг производства и печати: оперативная печать фото на документы, копирования/канирование, разработка и производство полиграфической продукции, разработка дизайна и фирменного стиля, а также верстка, брошюровка, печать визиток и многое другое", 
-            "address": [
+            "address": json.dumps([
                 "121099, Г. Москва",
-                "ул. Новый Арбат, д.36",
-            ], 
-            "phones": [
+                "ул. Новый Арбат, д.36"
+            ]), 
+            "phones": json.dumps([
                 "+7 (495) 633-60-02",
-            ],
+                 "ул. Новый Арбат, д.36"
+            ]),
             "email": "kow@mos.ru",
             "link": "https://www.mos.ru/kos",
             "barcode": "http://127.0.0.1:5000/static/images/icons/img-1.svg",
@@ -164,13 +166,14 @@ class MiscController:
             "title": 'Минимаркет GREEN', 
             "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
             "text": "Минимаркет Green - это новая концепция организаций правильного питания. Мы предлагаем баланс между полноценным питанием, разнообразным меню, множеством форматов готовой еды и недостатком времени, предлагая здоровые пищевые привычки, удобство выбора, свежесть и качество.", 
-            "address": [
+            "address": json.dumps([
                 "121099, Г. Москва",
                 "ул. Новый Арбат, д.36"
-            ], 
-            "phones": [
-                "+7 (495) 633-60-02"
-            ],
+            ]), 
+            "phones": json.dumps([
+                "+7 (495) 633-60-02",
+                 "ул. Новый Арбат, д.36"
+            ]),
             "email": "kow@mos.ru",
             "link": "https://www.mos.ru/kos",
             "barcode": "http://127.0.0.1:5000/static/images/icons/img-1.svg",
@@ -207,13 +210,14 @@ class MiscController:
                 "desc": "Председатель коммитета общественных сязей и молодежной политики города Москвы,"
             },
             "timetable": "ПН-ЧТ – 08:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
-            "address": [
+            "address": json.dumps([
                 "121099, Г. Москва",
                 "ул. Новый Арбат, д.36"
-            ], 
-            "phones": [
-                "+7 (495) 633-60-02"
-            ],
+            ]), 
+            "phones": json.dumps([
+                "+7 (495) 633-60-02",
+                 "ул. Новый Арбат, д.36"
+            ]),
             "email": "kow@mos.ru",
             "link": "https://www.mos.ru/kos",
             "images": ""
@@ -233,12 +237,20 @@ class MiscController:
         ''', (endpoint,))
        
         data = cdb.fetchone()[0]
+        data = json.loads(data)
+        data["address"] = json.loads(data["address"])
+        data["phones"]  = json.loads(data["phones"])
 
-        return json.loads(data)
+
+        return data
 
 
 
     def update_misc_info (self, endpoint, data):
+
+        print("WATAFUCK IS GOING ON!")
+
+
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
 
@@ -248,13 +260,17 @@ class MiscController:
        
         sqlData = json.loads(cdb.fetchone()[0])
 
+        print(sqlData["address"])
+        print(data["address"])
+
         sqlData["title"]        = data["title"]
         sqlData["text"]         = data["text"]
         sqlData["timetable"]    = data["timetable"]
         sqlData["address"]      = data["address"]
+        sqlData["phones"]       = data["phones"]
+        sqlData["email"]        = data["email"]
+        sqlData["link"]         = data["link"]
 
-        print(sqlData["title"])
-        print(data["title"])
 
         sql = '''
             UPDATE misc 
@@ -263,5 +279,7 @@ class MiscController:
         '''
 
         cdb.execute(sql, (json.dumps(sqlData), endpoint))
+        db.commit()
 
-        return "true"
+
+        return json.dumps({"status": "ok"})

@@ -21,39 +21,6 @@ class PostersController:
             "time": "13:00",
             "address": "Большой концертный зал",
             "img": "http://127.0.0.1:5000/static/images/afisha.png"
-        },
-        {
-            "title": "Комитет общественных связей и молодежной политики города Москвы", 
-            "logo": "http://127.0.0.1:5000/static/images/woman.png",
-            "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
-            "date": "22.02.12",
-            "time": "13:00",
-            "address": "Большой концертный зал",
-            "img": "http://127.0.0.1:5000/static/images/afisha.png"
-        },
-        {
-            "title": "Комитет общественных связей и молодежной политики города Москвы", 
-            "logo": "http://127.0.0.1:5000/static/images/woman.png",
-            "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
-            "date": "22.02.12",
-            "time": "13:00",
-            "address": "Большой концертный зал",
-        },
-        {
-            "title": "Комитет общественных связей и молодежной политики города Москвы", 
-            "logo": "http://127.0.0.1:5000/static/images/woman.png",
-            "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
-            "date": "22.02.12",
-            "time": "13:00",
-            "address": "Большой концертный зал",
-            "img": "http://127.0.0.1:5000/static/images/afisha.png"
-        },
-        {
-            "title": "Комитет общественных связей и молодежной политики города Москвы", 
-            "logo": "http://127.0.0.1:5000/static/images/woman.png",
-            "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
-            "date": "22.02.12",
-            "time": "13:00",
         }
     ]
 
@@ -72,10 +39,11 @@ class PostersController:
         self.cursor.execute('''
         CREATE TABLE posters (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL,
-            address TEXT NOT NULL,
-            timetable TEXT NOT NULL,
-            desc TEXT NOT NULL,
+            title TEXT,
+            address TEXT,
+            date TEXT,
+            time TEXT,
+            text TEXT,
             image INTEGER,
             FOREIGN KEY (image) REFERENCES images (id)
         )
@@ -84,21 +52,57 @@ class PostersController:
 
 
     def get_all_afisha (self):
-        # находит и возвращает организацию по id
-        return self.data_set
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+            SELECT *
+            FROM posters
+            INNER JOIN images
+            ON posters.image = images.id
+        ''')
+
+
+        afisha = cdb.fetchall();
+        afishaData = []
+
+        for element in afisha:
+            print(element)
+            afishaData.append({
+                "id":       element[0],
+                "title":    element[1],
+                "text":     element[5], 
+                "date":     element[3],
+                "time":     element[4],
+                "address":  element[2],
+                "img":      element[8],
+            })
+
+        return afishaData
 
     def get_single_afisha (self, id):
-        # находит и возвращает организацию по id
-        id = 0
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+            SELECT *
+            FROM posters
+            INNER JOIN images
+            ON posters.image = images.id
+            WHERE posters.id = ?
+        ''', (str(id)))
+
+
+        afisha = cdb.fetchone();
 
         single_afisha = {
-            "title":    self.data_set[id]['title'], 
-            "logo":     self.data_set[id]['logo'], 
-            "text":     self.data_set[id]['text'], 
-            "date":     self.data_set[id]['date'],
-            "time":     self.data_set[id]['time'],
-            "address":  self.data_set[id]['address'],
-            "img":      self.data_set[id]['img'],
+            "id":       afisha[0],
+            "title":    afisha[1],
+            "text":     afisha[5], 
+            "date":     afisha[3],
+            "time":     afisha[4],
+            "address":  afisha[2],
+            "img":      afisha[8],
         }
 
         return single_afisha
@@ -106,14 +110,69 @@ class PostersController:
 
     def create_new_afisha (self, data):
         # в data придет вся необходимая информация для добавления новой организации
-        return True
+
+        return "True"
 
 
     def update_afisha (self, data):
-        # в data придет информация которую нужно обновить. минимум 1 какое-то поле, максимум все поля
-        return True
+        print(data)
+
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE posters 
+        SET 
+
+            title = ?,
+            text = ?,
+            date = ?,
+            time = ?,
+            address = ?
+        WHERE id = ? """, (
+            data["title"], 
+            data['text'],
+            data["date"], 
+            data["timetable"], 
+            data["address"],
+            data["id"]
+        ))
+
+        db.commit()
+
+        return json.dumps({"status": "ok"})
 
 
     def delete_afisha (self, id):
         # удаляет организацию по id
         return True
+
+
+
+    def init_data(self):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        sql = ''' INSERT INTO posters(title, text, address, date, time, image)
+              VALUES(?,?,?,?,?,?) '''
+
+
+        cdb.execute(sql, (
+            "Комитет общественных связей и молодежной политики города Москвы", 
+            "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
+            "Большой концертный зал",
+            "22.02.12",
+            "13:00",
+            "1"
+        ))
+        db.commit()
+
+        cdb.execute(sql, (
+            "Комитет общественных связей и молодежной политики города Москвы", 
+            "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
+            "Большой концертный зал",
+            "22.02.12",
+            "13:00",
+            "1"
+        ))
+        db.commit()
