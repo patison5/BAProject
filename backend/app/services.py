@@ -88,7 +88,7 @@ class ServicesController:
         return arr
 
     def update_services_info (self, data):
-        print(data)
+        # print(data)
 
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()

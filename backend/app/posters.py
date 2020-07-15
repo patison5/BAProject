@@ -108,14 +108,33 @@ class PostersController:
         return single_afisha
 
 
-    def create_new_afisha (self, data):
-        # в data придет вся необходимая информация для добавления новой организации
+    def create_new_poster (self, data):
+        print(data)
 
-        return "True"
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        sql = ''' INSERT INTO posters(title, text, date, time, address, image)
+              VALUES(?,?,?,?,?,?) '''
+
+
+        cdb.execute(sql, (
+            data["title"], 
+            data['text'],
+            data["date"], 
+            data["timetable"], 
+            data["address"],
+            "1"
+        ))
+        db.commit()
+
+        db.commit()
+
+        return json.dumps({"status": "ok"})
 
 
     def update_afisha (self, data):
-        print(data)
+        # print(data)
 
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
@@ -143,9 +162,18 @@ class PostersController:
         return json.dumps({"status": "ok"})
 
 
-    def delete_afisha (self, id):
-        # удаляет организацию по id
-        return True
+    def delete_poster (self, id):
+
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+            DELETE FROM posters WHERE id = ?
+        ''', (str(id)))
+
+        db.commit()
+
+        return "afisha deleted"
 
 
 

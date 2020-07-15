@@ -1,6 +1,7 @@
 from organizations import OrganizationsController
 from pharmacy import PharmacyController
 from travels import TravelsController
+from trvnotes import TrvnotesController
 from misc import MiscController
 from services import ServicesController
 from images import ImagesController

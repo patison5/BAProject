@@ -1055,6 +1055,7 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 .posts-signle__image img {
   width: 100%;
   height: auto;
+  max-height: 1400px;
 }
 
 .b-posts__more-title {

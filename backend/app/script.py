@@ -31,6 +31,16 @@ def convert_to_slide_array(array):
         li2.append(array[i:i + 4])
     return li2
 
+def upload_file_on_server(file):
+    if file.filename == '':
+        flash('No selected file')
+        return "no selected file"
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        print('all right')
+        return app.config['UPLOAD_FOLDER'] + "/" + filename
+
 
 if __name__ == '__main__':
     images, organizations, services, posters, travels, trvnotes, misc = init_db()
@@ -121,7 +131,7 @@ if __name__ == '__main__':
 
     @app.route('/afisha/<int:id>')
     def page_single_afisha(id):
-        afisha_single = afisha.get_single_afisha(id)
+        afisha_single = posters.get_single_afisha(id)
 
         template = env.get_template('page7.html')
         return template.render(
@@ -324,15 +334,41 @@ if __name__ == '__main__':
             return posters.update_afisha(data)
 
 
-    @app.route('/admin/afisha/add')
+    @app.route('/admin/afisha/add', methods=['GET', 'POST'])
     def admin_afisha_add():
-        afisha_info = posters.get_all_afisha()
-        template = env.get_template('admin/Admin-add-afisha.html')
-        return template.render(
-            data=afisha_info,
-            title1="Афиша",
-            title2="Афиши"
-        )
+        if request.method == 'GET':
+            afisha_info = posters.get_all_afisha()
+            template = env.get_template('admin/Admin-add-afisha.html')
+            return template.render(
+                data=afisha_info,
+                title1="Афиша",
+                title2="Афиши"
+            )
+
+        if request.method == 'POST':
+            data = request.form
+            data = data.to_dict()
+
+            # print(json.dumps(data, sort_keys=True, indent=4))
+
+
+            files = request.files.to_dict()
+
+            print(files)
+            if 'logo' in request.files:
+                logo = files['logo']
+                logo_link = upload_file_on_server(logo)
+                return json.dumps(logo_link)
+                # print(logo)
+                # print(logo.filename)
+                # return json.dumps(logo.filename)
+                data["logo"] = logo_id
+
+            return posters.create_new_poster(data)
+
+    @app.route('/admin/afisha/delete/<int:id>')
+    def admin_afisha_update_delete(id):
+        return json.dumps(posters.delete_poster(id))
 
 
     @app.route('/admin/banks')
