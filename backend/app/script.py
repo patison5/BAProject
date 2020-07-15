@@ -1,6 +1,7 @@
-from flask import Flask, flash, request, redirect, url_for, render_template, current_app, g
-
+from flask import Flask, flash, request, redirect, url_for, render_template, current_app, g, send_from_directory
+from werkzeug.utils import secure_filename
 import json
+import os
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 from initdb import init_db
@@ -12,7 +13,7 @@ env = Environment(
     autoescape=select_autoescape(['html', 'xml'])
 )
 
-UPLOAD_FOLDER = 'app/static/uploads'
+UPLOAD_FOLDER = './static/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
@@ -32,7 +33,32 @@ def convert_to_slide_array(array):
 
 
 if __name__ == '__main__':
-    images, organizations, services, posters, travels, misc = init_db()
+    images, organizations, services, posters, travels, trvnotes, misc = init_db()
+
+
+    @app.route('/upload', methods=['GET','POST'])
+    def upload_file():
+        if request.method == 'POST':
+            if 'file' not in request.files:
+                flash('No file part')
+                return redirect(request.url)
+            file = request.files['file']
+            if file.filename == '':
+                flash('No selected file')
+                return redirect(request.url)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                print('all right')
+                return redirect(url_for('uploaded_file',
+                                        filename=filename))
+        return render_template('upload.html')
+
+
+    @app.route('/uploads/<filename>')
+    def uploaded_file(filename):
+        return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 
     tour_agent = TourAgentController()
 
