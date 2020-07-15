@@ -66,9 +66,6 @@ if __name__ == '__main__':
             data=single_org
         )
 
-    @app.route('/organizations/delete/<int:id>')
-    def delete_single_organizations(id):
-        return organizations.delete_organization(id)
 
     @app.route('/services')
     def page_services():
@@ -230,14 +227,36 @@ if __name__ == '__main__':
             data = data.to_dict()
             return organizations.update_organization(data)
 
+    
+    @app.route('/admin/organizations/delete/<int:id>')
+    def delete_single_organizations(id):
+        return organizations.delete_organization(id)
+
+
+
+    @app.route('/admin/organizations/add-service', methods=['POST'])
+    def admin_organizations_add_service_post():
+        data = request.form
+        data = data.to_dict()
+        return services.create_service(data)
 
     @app.route('/admin/organizations/add-service/<int:id>')
-    def admin_organizations_add_service(id):
+    def admin_organizations_add_service_show(id):
         template = env.get_template('admin/admin-add-organization-service.html')
         return template.render(
             title1="Сервис Организации",
             title2="Сервиса Организации",
             data=organizations.get_single_organization(id)
+        )
+
+    @app.route('/admin/organizations/update-service/<int:id>', methods=['GET'])
+    def admin_organizations_update_service(id):
+        template = env.get_template('admin/admin-update-organization-service.html')
+        print(services.get_single_service(id))
+        return template.render(
+            title1="Сервис Организации",
+            title2="Сервиса Организации",
+            data=services.get_single_service(id)
         )
 
 
@@ -330,11 +349,7 @@ if __name__ == '__main__':
             k = request.form
             k = k.to_dict()
 
-            link = k['link']
-            timetable = k['timetable']
-            title = k['title']
-
-            return pharmacy.update_pharmacy_info(k)
+            return misc.update_misc_info("pharmacy", k)
 
 
     @app.route('/admin/pharmacy/update-image', methods=['POST'])

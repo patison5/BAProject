@@ -80,10 +80,6 @@ class ServicesController:
         ''')
         self.conn.commit()
 
-
-    def get_single_service (self, id):
-        return self.data_set[id]
-
     def get_titles_of_services (self):
         arr = []
         for item in self.data_set:
@@ -115,7 +111,7 @@ class ServicesController:
         VALUES (?,?,?,?,?,?,?,?,?,?)''', (
             1,
             "Это какой-то 1 тестовый сервис у организации, хранящийся в бд", 
-            1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
+            1,
             "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
             json.dumps([
                 "121099, Г. Москва",
@@ -168,3 +164,70 @@ class ServicesController:
             "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной")
         )
         self.conn.commit()
+
+
+
+
+    def create_service(self, data):
+
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+        INSERT INTO services (
+            organization_id,
+            title,
+            image,
+            text,
+            address,
+            phones,
+            email,
+            link,
+            barcode,
+            timetable
+        )
+        VALUES (?,?,?,?,?,?,?,?,?,?)''', (
+            data["id"],
+            data["title"], 
+            1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
+            data["text"],
+            data["address"],
+            data["phones"],
+            data["email"],
+            data["link"],
+            "barcode",
+            data["timetable"]
+        ))
+
+        db.commit()
+
+        return json.dumps({"status": "ok"})
+
+
+
+    def get_single_service(self, id):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+            SELECT *
+            FROM services
+            INNER JOIN images
+            ON services.image = images.id
+            WHERE services.id = ?
+        ''', (str(id)))
+
+        data = cdb.fetchone();
+
+        return {
+            "id":           data[0],
+            "title":        data[2],
+            "text":         data[4],
+            "address":      json.loads(data[5]),
+            "phones":       json.loads(data[6]),
+            "email":        data[7],
+            "link":         data[8],
+            "barcode":      data[9],
+            "timetable":    data[10],
+            "logo":         data[12],
+        }

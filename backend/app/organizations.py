@@ -311,8 +311,13 @@ class OrganizationsController:
 
 
     def delete_organization (self, id):
-        # удаляет организацию по id
-        print("You wanting to delete ")
-        print(id)
-        print("row")
-        return True
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+            DELETE FROM organizations WHERE id = ?
+        ''', (str(id)))
+
+        db.commit()
+
+        return "organizations deleted"

@@ -235,3 +235,33 @@ class MiscController:
         data = cdb.fetchone()[0]
 
         return json.loads(data)
+
+
+
+    def update_misc_info (self, endpoint, data):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+            SELECT data FROM misc WHERE endpoint = ?
+        ''', (endpoint,))
+       
+        sqlData = json.loads(cdb.fetchone()[0])
+
+        sqlData["title"]        = data["title"]
+        sqlData["text"]         = data["text"]
+        sqlData["timetable"]    = data["timetable"]
+        sqlData["address"]      = data["address"]
+
+        print(sqlData["title"])
+        print(data["title"])
+
+        sql = '''
+            UPDATE misc 
+            SET data = ?
+            WHERE endpoint = ?
+        '''
+
+        cdb.execute(sql, (json.dumps(sqlData), endpoint))
+
+        return "true"
