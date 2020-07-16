@@ -38,9 +38,20 @@ def upload_file_on_server(file):
         return "no selected file"
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        print('all right')
-        return app.config['UPLOAD_FOLDER'] + "/" + filename
+        ext = filename.rsplit('.', 1)[1].lower()
+        id = images.insert_image('test description', ext, app.config['UPLOAD_FOLDER'])
+        filename = str(id) + '.' + ext
+        print("FILENAME IS : ")
+        print(str(id) + '.' + ext)
+
+        filename2 = str(id) + '.' + ext
+
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/' + filename2))
+        path = str(os.path.join(app.config['UPLOAD_FOLDER'] + '/' + filename2))
+
+        # file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(id) + '.' + ext))
+
+        return path
 
 
 if __name__ == '__main__':
@@ -361,8 +372,9 @@ if __name__ == '__main__':
             print(files)
             if 'logo' in request.files:
                 logo = files['logo']
+                filename = secure_filename(logo.filename)
                 logo_link = upload_file_on_server(logo)
-                return json.dumps(logo_link)
+                return json.dumps(filename)
                 # print(logo)
                 # print(logo.filename)
                 # return json.dumps(logo.filename)
