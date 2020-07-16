@@ -16,7 +16,7 @@ window.onload = function () {
 	        console.log(data)
 
 	        for (var i = 0; i < data.length; i++) {
-				if (counter < 16) {
+				if (counter < 20) {
 					if (counter % 2 != 0)
 						counter++;
 
@@ -33,7 +33,7 @@ window.onload = function () {
 					tmpArray.push(el)
 					counter++;
 
-					if(counter >= 16) {
+					if(counter >= 20) {
 						drawSwiperElements(tmpArray);
 						tmpArray = [];
 						counter = 0;
@@ -42,8 +42,8 @@ window.onload = function () {
 			}
 
 			if (tmpArray.length > 0) {
-				// if (tmpArray.length < 16) {
-				// 	for (var i = 0; i < (16 -tmpArray.length) / 2 + 2; i++) {
+				// if (tmpArray.length < 20) {
+				// 	for (var i = 0; i < (20 -tmpArray.length) / 2 + 2; i++) {
 				// 		tmpArray.push("")
 				// 	}
 				// }

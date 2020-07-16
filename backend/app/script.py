@@ -6,6 +6,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 
 from initdb import init_db
 from tour_agent import TourAgentController
+from banks import BanksController
 
 
 env = Environment(
@@ -73,6 +74,7 @@ if __name__ == '__main__':
 
 
     tour_agent = TourAgentController()
+    banks = BanksController()
 
     @app.route('/')
     def index():

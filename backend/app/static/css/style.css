@@ -277,8 +277,8 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 .blue-line {
   height: 140pt;
   /*background: rgb(0, 180, 238);*/
-  background: #0096d8;
-  /*background: linear-gradient(90deg, #1e667d 0%, rgba(0, 180, 238, 1) 100%);*/
+  /*background: #0096d8;*/
+  background: linear-gradient(90deg, #00aeef 0%, #0090d0 100%);
   width: 100%;
   display: block;
   border-radius: 20px;
@@ -298,6 +298,7 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 
 .line-desc__text {
   text-transform: uppercase;
+  font-family: 'Museo Sans Cyrl 700';
 }
 
 .blue-line__desc span {
@@ -480,7 +481,7 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   left: 0;
   padding: 5%;
   /*border: 10px solid #4A82C4;*/
-  border: 9px solid #0080c7;
+  border: 9px solid #007ec5;
   border-radius: 35px;
   color: white;
   text-align: center;
@@ -542,15 +543,16 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 
 
 .top__menu .main-menu__text {
-  font-size: 30px;
-  line-height: 30px;
+  font-size: 29px;
+  line-height: 35px;
 }
 
 
 
 .footer {
   width: 100%;
-  background: linear-gradient(90deg, rgba(0, 180, 238, 1) 0%, rgba(51,102,153, 1) 100%);
+/*  background: linear-gradient(90deg, rgba(0, 180, 238, 1) 0%, rgba(51,102,153, 1) 100%);*/
+  background: linear-gradient(90deg, #00aeef 0%, #005e9d 100%);  
   padding: 50px 0;
   flex-shrink: 0;
 }
@@ -570,6 +572,10 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   text-align: right;
 }
 
+.f-info__element {
+  font-family: 'Museo Sans Cyrl 100';
+  font-size: 1.2em;
+}
 
 .f-wrap {
   font-size: 2em;
@@ -846,17 +852,19 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   padding: 0 5em;
 }
 .short-content__title {
-  font-size: 40px;
+  font-size: 48px;
   line-height: 45px;
   display: block;
   width: 100%;
+  font-family: 'Museo Sans Cyrl 300';
+  text-transform: uppercase;
 }
 
 .short-content__info {
   width: 100%;
   display: block;
   margin: 1.5em 0;
-  font-size: 35px;
+  font-size: 40px;
   line-height: 35px;
 }
 
@@ -914,12 +922,18 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 }
 
 
+.tours-logo {
+  display: block;
+  width: 100%;
+  padding: 5% 10% 0 5%;
+}
 .post-logo {
   display: block;
   width: 100%;
   padding: 5% 10% 0;
 }
-.post-logo img {
+.post-logo img, 
+.tours-logo img {
    max-width: 30%;
 }
 
@@ -936,17 +950,21 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   margin-bottom: 5em;
 }
 
-..posts__block:last-child {
+/*.posts__block:last-child {
   margin-bottom: 0;
-}
+}*/
 
 
 .b-posts__image {
   flex: 3;
+  height: 360px;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .posts__image {
   width: 100%;
+  height: 360px;
 }
 
 .b-posts__content {
@@ -961,22 +979,27 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   color: #000 !important;
 }
 .b-posts__title {
-  font-size: 35px;
-  line-height: 40px;
+  font-size: 40px;
+  line-height: 48px;
   display: block;
   width: 100%;
   text-transform: uppercase;
   font-weight: bold;
+  /*padding-right: 40%;*/
 }
 .b-posts__info {
   display: block;
   width: 100%;
-  font-size: 25px;
+  font-size: 30px;
   line-height: 35px;
-  margin: 2em 0 0 0;
+  margin: 1.8em 0 0 0;
   text-transform: uppercase;
 }
 
+.b-posts__info span {
+  font-family: 'Museo Sans Cyrl 100';
+  font-size: 35px;
+}
 
 .b-posts__info .info-time:before {
   background: url('../images/icons/img-1_1.svg') no-repeat center left;

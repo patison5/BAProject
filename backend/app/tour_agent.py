@@ -46,7 +46,7 @@ class TourAgentController:
         },
         {
             "id": '0',
-            "title": "Комитет общественных связей и молодежной политики города Москвы", 
+            "title": "Новый год на кубе за 6000 рублей", 
             "text": "doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
             "note": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit, enim.",
             "img": "static/images/woman.png",
@@ -80,7 +80,7 @@ class TourAgentController:
         },
         {
             "id": '0',
-            "title": "Комитет общественных связей и молодежной политики города Москвы", 
+            "title": "Новый год на кубе за 6000 рублей", 
             "text": "doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
             "note": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit, enim.",
             "img": "static/images/woman.png",
@@ -114,7 +114,7 @@ class TourAgentController:
         },
         {
             "id": '0',
-            "title": "Комитет общественных связей и молодежной политики города Москвы", 
+            "title": "Новый год на кубе за 6000 рублей", 
             "text": "doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
             "note": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit, enim.",
             "img": "static/images/woman.png",
