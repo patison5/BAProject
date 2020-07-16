@@ -7,6 +7,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 from initdb import init_db
 from tour_agent import TourAgentController
 from banks import BanksController
+from pathlib import Path
 
 
 env = Environment(
@@ -14,7 +15,7 @@ env = Environment(
     autoescape=select_autoescape(['html', 'xml'])
 )
 
-UPLOAD_FOLDER = './static/uploads'
+UPLOAD_FOLDER = './static/uploads/'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
@@ -41,17 +42,11 @@ def upload_file_on_server(file):
         ext = filename.rsplit('.', 1)[1].lower()
         id = images.insert_image('test description', ext, app.config['UPLOAD_FOLDER'])
         filename = str(id) + '.' + ext
-        print("FILENAME IS : ")
-        print(str(id) + '.' + ext)
 
-        filename2 = str(id) + '.' + ext
+        Path(UPLOAD_FOLDER).mkdir(parents=True, exist_ok=True)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/' + filename2))
-        path = str(os.path.join(app.config['UPLOAD_FOLDER'] + '/' + filename2))
-
-        # file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(id) + '.' + ext))
-
-        return path
+        return str(id)
 
 
 if __name__ == '__main__':
@@ -346,6 +341,15 @@ if __name__ == '__main__':
         if request.method == 'PUT':
             data = request.form
             data = data.to_dict()
+
+            data["image"] = ""
+            files = request.files.to_dict()
+            if 'logo' in request.files:
+                logo = files['logo']
+                filename = secure_filename(logo.filename)
+                logo_id = upload_file_on_server(logo)
+                data["image"] = logo_id
+
             return posters.update_afisha(data)
 
 
@@ -363,22 +367,17 @@ if __name__ == '__main__':
         if request.method == 'POST':
             data = request.form
             data = data.to_dict()
-
-            # print(json.dumps(data, sort_keys=True, indent=4))
-
-
             files = request.files.to_dict()
 
-            print(files)
+            data["image"] = 0
             if 'logo' in request.files:
                 logo = files['logo']
                 filename = secure_filename(logo.filename)
-                logo_link = upload_file_on_server(logo)
-                return json.dumps(filename)
-                # print(logo)
-                # print(logo.filename)
-                # return json.dumps(logo.filename)
-                data["logo"] = logo_id
+                logo_id = upload_file_on_server(logo)
+                data["image"] = logo_id
+
+            print("DATA FUCKING IMAGE")
+            print(data["image"])
 
             return posters.create_new_poster(data)
 

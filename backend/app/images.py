@@ -126,7 +126,11 @@ class ImagesController:
         cdb.execute('''INSERT INTO images (src, desc) VALUES (?, ?)''', ('', desc))
         cdb.execute('''SELECT last_insert_rowid()''')
         id = cdb.fetchall()[0][0]
-        cdb.execute("""UPDATE images SET src = '""" + path + str(id) + """.""" + ext + """'""")
+        cdb.execute("""
+            UPDATE images 
+            SET src = '""" + path + str(id) + """.""" + ext + """'
+            WHERE id = ?
+        """, (id,))
         db.commit()
         return id
 

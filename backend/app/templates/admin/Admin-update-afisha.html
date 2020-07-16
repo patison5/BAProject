@@ -174,7 +174,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="row">
 
                           <div class="col-md-12 text-center">
-                            <img src="" alt="" class="img-fluid logo_image" width="30%" style="margin-bottom: 30px;">
+                            <img src="http://127.0.0.1:5000/{{data.img}}" alt="" class="img-fluid logo_image" width="30%" style="margin-bottom: 30px;">
 
                            <!-- <span class="delete-image" id="delete_image-js">x</span>  -->
                           </div>
@@ -182,7 +182,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         <div class="input-group">
                           <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="logo_file">
+                            <input type="file" class="custom-file-input" value="http://127.0.0.1:5000/{{data.img}}" id="logo_file">
                             <label class="custom-file-label" for="logo_file">Выберите файл</label>
                           </div>
                           <div class="input-group-append">
@@ -319,6 +319,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       var data_date      = document.getElementById('data_date');
       var data_timetable  = document.getElementById('data_timetable');
       var data_address    = document.getElementById('data_address');;
+      var logo_file = document.getElementById('logo_file');
+
 
       var areaText = $('.textarea').summernote('code');
       // cleanText = areaText.replace(/<\/?[^>]+(>|$)/g, "");
@@ -328,7 +330,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       formData.append("address",    data_address.value);
       formData.append("text",       areaText)      
       formData.append("date",       data_date.value)      
-      formData.append("id",         config.id)      
+      formData.append("id",         config.id)  
+      formData.append("logo",       logo_file.files[0])         
 
 
       var xhttp;

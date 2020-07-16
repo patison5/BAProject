@@ -44,8 +44,8 @@ class PostersController:
             date TEXT,
             time TEXT,
             text TEXT,
-            image INTEGER,
-            FOREIGN KEY (image) REFERENCES images (id)
+            image INTEGER DEFAULT NULL
+            -- FOREIGN KEY (image) REFERENCES images (id)
         )
         ''')
         self.conn.commit()
@@ -58,12 +58,28 @@ class PostersController:
         cdb.execute('''
             SELECT *
             FROM posters
-            INNER JOIN images
+            LEFT JOIN images
             ON posters.image = images.id
         ''')
 
 
         afisha = cdb.fetchall();
+        print("ALL FUCKING ELEMENTS FROM FUCKING POSTERS")
+        print(afisha)
+
+        # cdb.execute('''
+        #     SELECT *
+        #     FROM posters
+        #     LEFT JOIN images
+        #     ON posters.image = images.id
+        # ''')
+
+
+        # afisha2 = cdb.fetchall();
+        # print("ONE MORE")
+        # print(afisha2)
+
+
         afishaData = []
 
         for element in afisha:
@@ -87,7 +103,7 @@ class PostersController:
         cdb.execute('''
             SELECT *
             FROM posters
-            INNER JOIN images
+            LEFT JOIN images
             ON posters.image = images.id
             WHERE posters.id = ?
         ''', (str(id)))
@@ -115,8 +131,7 @@ class PostersController:
         cdb = db.cursor()
 
         sql = ''' INSERT INTO posters(title, text, date, time, address, image)
-              VALUES(?,?,?,?,?,?) '''
-
+                  VALUES(?,?,?,?,?,?) '''
 
         cdb.execute(sql, (
             data["title"], 
@@ -124,36 +139,33 @@ class PostersController:
             data["date"], 
             data["timetable"], 
             data["address"],
-            "1"
+            data["image"]
         ))
-        db.commit()
-
         db.commit()
 
         return json.dumps({"status": "ok"})
 
 
     def update_afisha (self, data):
-        # print(data)
-
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
 
         cdb.execute("""
         UPDATE posters 
         SET 
-
             title = ?,
             text = ?,
             date = ?,
             time = ?,
-            address = ?
+            address = ?,
+            image = ?
         WHERE id = ? """, (
             data["title"], 
             data['text'],
             data["date"], 
             data["timetable"], 
             data["address"],
+            data["image"],
             data["id"]
         ))
 

@@ -265,8 +265,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script>
 
-
-
     function convertToArray (config) {
        var arr = [];
        for (var i = 0; i < config.length; i++) {
@@ -312,7 +310,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       // cleanText = areaText.replace(/<\/?[^>]+(>|$)/g, "");
 
       var logo_file = document.getElementById('logo_file');
-      console.log(logo_file.files[0])
 
       formData.append("title",      data_title.value);
       formData.append("timetable",  data_timetable.value);
@@ -320,8 +317,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
       formData.append("text",       areaText)      
       formData.append("date",       data_date.value)      
       formData.append("id",         config.id)      
-      formData.append("logo",       logo_file.files[0])      
-
+      
+      if (logo_file.files[0]) {
+        formData.append("logo", logo_file.files[0])   
+      } 
 
       var xhttp;
       xhttp = new XMLHttpRequest();
