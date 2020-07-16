@@ -120,7 +120,15 @@ class ImagesController:
         # в data придет информация которую нужно обновить. минимум 1 какое-то поле, максимум все поля
         return True
 
-
+    def insert_image(self, desc, ext, path):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+        cdb.execute('''INSERT INTO images (src, desc) VALUES (?, ?)''', ('', desc))
+        cdb.execute('''SELECT last_insert_rowid()''')
+        id = cdb.fetchall()[0][0]
+        cdb.execute("""UPDATE images SET src = '""" + path + str(id) + """.""" + ext + """'""")
+        db.commit()
+        return id
 
 
     def init_data(self):

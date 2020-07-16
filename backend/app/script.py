@@ -58,8 +58,10 @@ if __name__ == '__main__':
                 return redirect(request.url)
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
+                ext = filename.rsplit('.', 1)[1].lower()
+                id = images.insert_image('test description', ext, app.config['UPLOAD_FOLDER'])
+                filename = str(id) + '.' + ext
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                print('all right')
                 return redirect(url_for('uploaded_file',
                                         filename=filename))
         return render_template('upload.html')
