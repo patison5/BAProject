@@ -171,14 +171,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="card-body">
                       <div class="form-group">
                         <label for="logo_file">Фото</label>
-                        <div class="row">
+                        
+                          
+                        {% if data.img %}
+                        {% endif %}
+                          <div class="row"> 
+                            <div class="col-md-12 text-center">
+                              <img src="http://127.0.0.1:5000/{{data.img}}" data-file="{{data.img}}" alt="" class="img-fluid logo_image" width="30%"  id="image_viewer" style="margin-bottom: 30px;">
 
-                          <div class="col-md-12 text-center">
-                            <img src="http://127.0.0.1:5000/{{data.img}}" alt="" class="img-fluid logo_image" width="30%" style="margin-bottom: 30px;">
-
-                           <!-- <span class="delete-image" id="delete_image-js">x</span>  -->
+                             <!-- <span class="delete-image" id="delete_image-js">x</span>  -->
+                            </div>
                           </div>
-                        </div>
+                        
 
                         <div class="input-group">
                           <div class="custom-file">
@@ -311,16 +315,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       var datepik = $('#reservationdate').data('DateTimePicker')
 
-      console.log(datepik)
-
       var formData = new FormData();
 
       var data_title      = document.getElementById('data_title');
-      var data_date      = document.getElementById('data_date');
+      var data_date       = document.getElementById('data_date');
       var data_timetable  = document.getElementById('data_timetable');
       var data_address    = document.getElementById('data_address');;
-      var logo_file = document.getElementById('logo_file');
-
+      var logo_file       = document.getElementById('logo_file');
+      var image_viewer    = document.getElementById('image_viewer');
 
       var areaText = $('.textarea').summernote('code');
       // cleanText = areaText.replace(/<\/?[^>]+(>|$)/g, "");

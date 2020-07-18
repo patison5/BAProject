@@ -17,7 +17,7 @@ class OrganizationsController:
         {
             "id": '0',
             "title": "Комитет общественных связей и молодежной политики города Москвы", 
-            "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
+            "logo": "",
             "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
             "right_part": {
                 "image": "http://127.0.0.1:5000/static/images/woman.png",
@@ -117,7 +117,7 @@ class OrganizationsController:
         )
         VALUES (?,?,?,?,?,?,?,?,?)''', (
             "Комитет общественных связей и молодежной политики города Москвы", 
-            1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
+            0, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
             "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
             json.dumps([
                 "121099, Г. Москва"
@@ -210,7 +210,7 @@ class OrganizationsController:
         cdb.execute('''
             SELECT *
             FROM organizations
-            INNER JOIN images
+            LEFT JOIN images
             ON organizations.image = images.id
             WHERE organizations.id = ?
         ''', (str(id)))
@@ -309,6 +309,20 @@ class OrganizationsController:
         db.commit()
 
         return self.get_single_organization(data["id"])
+            
+
+
+    def update_organization_logo(self, id, logo):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE organizations 
+        SET 
+            image = ?
+        WHERE id = ? """, (logo, id))
+
+        db.commit()
 
 
     def delete_organization (self, id):

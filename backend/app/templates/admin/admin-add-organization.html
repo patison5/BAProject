@@ -380,6 +380,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       var areaText = $('.textarea').summernote('code');
       cleanText = areaText.replace(/<\/?[^>]+(>|$)/g, "");
 
+      var logo_file = document.getElementById('logo_file');
+
+      if (logo_file.files[0]) {
+        formData.append("logo", logo_file.files[0])   
+      } 
+
+
       formData.append("title",      data_title.value);
       formData.append("timetable",  data_timetable.value);
       formData.append("email",      data_email.value);
@@ -387,6 +394,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
       formData.append("address",    JSON.stringify(data_address));
       formData.append("phones",     JSON.stringify(data_phones));
       formData.append("text",       cleanText)      
+
+
+
 
 
       var xhttp;

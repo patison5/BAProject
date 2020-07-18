@@ -275,6 +275,16 @@ if __name__ == '__main__':
         if request.method == 'PUT':
             data = request.form
             data = data.to_dict()
+
+            files = request.files.to_dict()
+            data["image"] = 0
+            if 'logo' in request.files:
+                logo = files['logo']
+                filename = secure_filename(logo.filename)
+                logo_id = upload_file_on_server(logo)
+                organizations.update_organization_logo(data["id"], logo_id)
+                # data["image"] = logo_id
+
             return organizations.update_organization(data)
 
     
@@ -367,8 +377,8 @@ if __name__ == '__main__':
         if request.method == 'POST':
             data = request.form
             data = data.to_dict()
+            
             files = request.files.to_dict()
-
             data["image"] = 0
             if 'logo' in request.files:
                 logo = files['logo']
