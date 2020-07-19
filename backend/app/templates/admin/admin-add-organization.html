@@ -344,6 +344,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     var config = {}
     config.address = []
     config.phones =  []
+    config.page_type = {{ page_type | tojson }}
 
     var addressChips = $('.chips-address').chips({
       data: config.address,
@@ -353,6 +354,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
       data: config.phones,
     });
 
+
+
+    console.log(config)
 
     function getTags (arr) {
       var res = []
@@ -394,6 +398,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       formData.append("address",    JSON.stringify(data_address));
       formData.append("phones",     JSON.stringify(data_phones));
       formData.append("text",       cleanText)      
+      formData.append("page_type",  config.page_type)      
 
 
 

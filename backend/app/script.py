@@ -251,7 +251,8 @@ if __name__ == '__main__':
             template = env.get_template('admin/Admin-add-organization.html')
             return template.render(
                 title1="Организация",
-                title2="Организации"
+                title2="Организации",
+                page_type="0",
             )
 
         if request.method == 'POST':
@@ -264,8 +265,8 @@ if __name__ == '__main__':
     def admin_organizations_update_watch(id):
         template = env.get_template('admin/admin-update-organization.html')
         return template.render(
-            title1="Организация",
-            title2="Организации",
+            title1="",
+            title2="",
             data=organizations.get_single_organization(id)
         )
 
@@ -276,19 +277,7 @@ if __name__ == '__main__':
             data = request.form
             data = data.to_dict()
 
-            # files = request.files.to_dict()
-            # data["image"] = 0
-            # if 'logo' in request.files:
-            #     logo = files['logo']
-            #     filename = secure_filename(logo.filename)
-            #     logo_id = upload_file_on_server(logo)
-            #     organizations.update_organization_logo(data["id"], logo_id)
-                # data["image"] = logo_id
-
-
             files = request.files.to_dict()
-            print(files)
-            print(request.files)
 
             r_data = {}
 
@@ -333,7 +322,7 @@ if __name__ == '__main__':
         return template.render(
             title1="Сервис Организации",
             title2="Сервиса Организации",
-            data=organizations.get_single_organization(id)
+            data=organizations.get_single_organization(id),
         )
 
     @app.route('/admin/organizations/update-service/<int:id>', methods=['GET'])
@@ -481,8 +470,8 @@ if __name__ == '__main__':
     @app.route('/admin/cafe', methods=['GET', 'PUT'])
     def admin_cafe():
         if request.method == 'GET':
-            all_cafe = misc.get_misc_info('cafe')
-            template = env.get_template('admin/Admin-update-cafe.html')
+            all_cafe = organizations.get_all_organizations(1)
+            template = env.get_template('admin/admin-watch-organization.html')
             return template.render(
                 data=all_cafe,
                 title1="кафе",
@@ -492,21 +481,15 @@ if __name__ == '__main__':
         if request.method == 'PUT':
             k = request.form
             k = k.to_dict()
-
-            link = k['link']
-            timetable = k['timetable']
-            title = k['title']
-
             return json.dumps(k)
 
 
     @app.route('/admin/pharmacy', methods=['GET', 'PUT'])
     def admin_pharmacy():
         if request.method == 'GET':
-            all_pharmacy = misc.get_misc_info('pharmacy')
-            template = env.get_template('admin/Admin-update-pharmacy.html')
+            template = env.get_template('admin/admin-update-organization.html')
             return template.render(
-                data=all_pharmacy,
+                data = organizations.get_single_organization_by_type(6),
                 title1="Аптечный пункт",
                 title2="Аптечного пункта"
             )
@@ -514,7 +497,6 @@ if __name__ == '__main__':
         if request.method == 'PUT':
             k = request.form
             k = k.to_dict()
-
             return misc.update_misc_info("pharmacy", k)
 
 
@@ -535,20 +517,19 @@ if __name__ == '__main__':
     @app.route('/admin/photo', methods=['GET', 'PUT'])
     def admin_photo():
         if request.method == 'GET':
-            all_photo = misc.get_misc_info('photo')
-            template = env.get_template('admin/Admin-update-photo.html')
+            template = env.get_template('admin/admin-update-organization.html')
             return template.render(
-                data=all_photo,
-                title1="Фото и полиграфия",
-                title2="Фото и полиграфии"
+                data = organizations.get_single_organization_by_type(4),
+                title1 = "Фото и полиграфия",
+                title2 = "Фото и полиграфии"
             )
 
 
     @app.route('/admin/minimarket', methods=['GET', 'PUT'])
     def admin_minimarket():
         if request.method == 'GET':
-            all_minimarket = misc.get_misc_info('minimarket')
-            template = env.get_template('admin/Admin-update-minimarket.html')
+            all_minimarket = organizations.get_single_organization_by_type(5)
+            template = env.get_template('admin/admin-update-organization.html')
             return template.render(
                 data=all_minimarket,
                 title1="Минимаркет",
@@ -556,15 +537,25 @@ if __name__ == '__main__':
             )
 
 
-    @app.route('/admin/services', methods=['GET', 'PUT'])
+    @app.route('/admin/services', methods=['GET'])
     def admin_services():
         if request.method == 'GET':
-            all_services = misc.get_misc_info('pharmacy')
-            template = env.get_template('admin/Admin-watch-services.html')
+            template = env.get_template('admin/admin-watch-organization.html')
             return template.render(
-                data=all_services,
+                data = organizations.get_all_organizations(2),
                 title1="Сервис",
                 title2="Сервиса"
+            )
+
+
+    @app.route('/admin/services/add', methods=['GET', 'PUT'])
+    def admin_services_add():
+        if request.method == 'GET':
+            template = env.get_template('admin/admin-add-organization.html')
+            return template.render(
+                title1="Сервис",
+                title2="Сервиса",
+                page_type="2",
             )
 
 

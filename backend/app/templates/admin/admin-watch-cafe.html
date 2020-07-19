@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <title>AdminLTE 3</title>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="../static/admin/plugins/fontawesome-free/css/all.min.css">
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../static/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../static/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../static/admin/dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  {% include "admin/layouts/navbar.html" %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+      <img src="../static/admin/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">Админ панель</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+      <!-- Sidebar Menu -->
+        {% include "admin/layouts/navbar_menu.html" %}
+      <!-- /.sidebar-menu -->
+
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">{{ title1 }}</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Главная</a></li>
+              <li class="breadcrumb-item active">{{ title2 }}</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+  
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Таблица {{ title2 }}</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Название</th>
+                    <th>тест</th>
+                    <th style="width: 15%">Управление</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  
+                  {% for element in data %}
+                    <tr>
+                      <td>{{element.title}}</td>
+                      <td>{{element.text}}</td>
+                      <td class="project-actions text-right">
+                          <a class="btn btn-info btn-sm" href="/admin/organizations/update/{{ element.id }}">
+                              <i class="fas fa-pencil-alt">
+                              </i>
+                              Редактировать
+                          </a>
+                          <a class="btn btn-danger btn-sm" href="/admin/organizations/delete/{{ element.id }}">
+                              <i class="fas fa-trash">
+                              </i>
+                              Удалить
+                          </a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
+
+  
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Title</h5>
+      <p>Sidebar content</p>
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="../static/admin/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../static/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- DataTables -->
+<script src="../static/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../static/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../static/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../static/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
+
+<!-- AdminLTE App -->
+<script src="../static/admin/dist/js/adminlte.min.js"></script>
+
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+    // $('#example2').DataTable({
+    //   "paging": true,
+    //   "lengthChange": false,
+    //   "searching": false,
+    //   "ordering": true,
+    //   "info": true,
+    //   "autoWidth": false,
+    //   "responsive": true,
+    // });
+  });
+</script>
+
+</body>
+</html>

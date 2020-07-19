@@ -69,16 +69,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">{{ title1 }}</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Редактирование {{ title1 }}</h1>
+          </div>
+          <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Главная</a></li>
               <li class="breadcrumb-item active">{{ title1 }}</li>
             </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+          </div> -->
+        </div>
+      </div>
     </div>
     <!-- /.content-header -->
 
@@ -237,11 +237,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                       <div class="form-group">
                         <label for="data_title">Заголовок фото</label>
-                        <input type="text" class="form-control" id="data_img_title" value="">
+                        <input type="text" class="form-control" id="data_img_title" value="{{data.img_title}}">
                       </div>
                        <div class="form-group">
                         <label for="data_title">Описание для фото</label>
-                        <input type="text" class="form-control" id="data_img_desc" value="{{data.image_desc}}">
+                        <input type="text" class="form-control" id="data_img_desc" value="{{data.img_desc}}">
                       </div>
 
                       <!-- //Main Image -->

@@ -54,14 +54,6 @@ class OrganizationsController:
         self.cursor.execute('''
         CREATE TABLE organizations (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            type INTEGER DEFAULT 0,
-            -- orgs = 0
-            -- restaraunts = 1
-            -- servs = 2
-            -- banks = 3
-            -- polygraphies = 4
-            -- markets = 5
-            -- pharms = 6
             title TEXT NOT NULL,
             image INTEGER,
             text TEXT,
@@ -72,6 +64,17 @@ class OrganizationsController:
             timetable TEXT,
             logo INTEGER,
             barcode INTEGER,
+            image_title TEXT,
+            image_desc TEXT,
+            type INTEGER DEFAULT 0,
+            -- orgs = 0
+            -- restaraunts = 1
+            -- servs = 2
+            -- banks = 3
+            -- polygraphies = 4
+            -- markets = 5
+            -- pharms = 6
+
             FOREIGN KEY (image)   REFERENCES images (id)
             FOREIGN KEY (logo)    REFERENCES images (id)
             FOREIGN KEY (barcode) REFERENCES images (id)
@@ -81,6 +84,7 @@ class OrganizationsController:
 
 
     def init_data(self):
+        # организации
         self.cursor.execute('''
         INSERT INTO organizations (
             title,
@@ -90,9 +94,10 @@ class OrganizationsController:
             phones,
             email,
             link,
-            timetable
+            timetable,
+            type
         )
-        VALUES (?,?,?,?,?,?,?,?)''', (
+        VALUES (?,?,?,?,?,?,?,?,?)''', (
             "Комитет общественных связей и молодежной политики города Москвы", 
             1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
             "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
@@ -108,7 +113,8 @@ class OrganizationsController:
             ]),
             "kow@mos.ru",
             "https://www.mos.ru/kos",
-            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной")
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            0)
         )
         self.conn.commit()
 
@@ -121,9 +127,10 @@ class OrganizationsController:
             phones,
             email,
             link,
-            timetable
+            timetable,
+            type
         )
-        VALUES (?,?,?,?,?,?,?,?)''', (
+        VALUES (?,?,?,?,?,?,?,?,?)''', (
             "Комитет общественных связей и молодежной политики города Москвы", 
             0, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
             "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
@@ -135,10 +142,174 @@ class OrganizationsController:
             ]),
             "kow@mos.ru",
             "https://www.mos.ru/kos",
-            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной")
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            0)
         )
         self.conn.commit()
 
+        # кафе
+        self.cursor.execute('''
+        INSERT INTO organizations (
+            title,
+            logo,
+            text,
+            address,
+            phones,
+            email,
+            link,
+            timetable,
+            type
+        )
+        VALUES (?,?,?,?,?,?,?,?,?)''', (
+            "Столовая комбината питания", 
+            1,
+            "Минимаркет Green - это новая концепция организаций правильного питания. Мы предлагаем баланс между полноценным питанием, разнообразным меню, множеством форматов готовой еды и недостатком времени, предлагая здоровые пищевые привычки, удобство выбора, свежесть и качество.",
+            json.dumps([
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+                "19 этаж, кабинет 1928"
+            ]),
+            json.dumps([
+                "+7 (495) 633-60-02",
+                "+7 (495) 633-60-02 - Офис",
+                "+7 (495) 633-60-02 - Пресс-служба"
+            ]),
+            "kow@mos.ru",
+            "https://www.mos.ru/kos",
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            1)
+        )
+        self.conn.commit()
+
+        # Аптечный пункт
+        self.cursor.execute('''
+        INSERT INTO organizations (
+            title,
+            logo,
+            text,
+            address,
+            phones,
+            email,
+            link,
+            timetable,
+            type
+        )
+        VALUES (?,?,?,?,?,?,?,?,?)''', (
+            'Аптечный пункт гуп "медицинский центр" управления делами мэра и правительства Москвы', 
+            1,
+            "Мы позаботились о том, чтобы Вам было удобно. Воспользовавшись услугами нашей апткеи, Вы получите доступ к широкому ассортименту лекраственных стредств, а удобое расположение в здании клиники значительно сэкономит Ваше время и силы.",
+            json.dumps([
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+                "19 этаж, кабинет 1928"
+            ]),
+            json.dumps([
+                "+7 (495) 633-60-02",
+                "+7 (495) 633-60-02 - Офис",
+                "+7 (495) 633-60-02 - Пресс-служба"
+            ]),
+            "kow@mos.ru",
+            "https://www.mos.ru/kos",
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            6)
+        )
+        self.conn.commit()
+
+        # Минимаркет
+        self.cursor.execute('''
+        INSERT INTO organizations (
+            title,
+            logo,
+            text,
+            address,
+            phones,
+            email,
+            link,
+            timetable,
+            type
+        )
+        VALUES (?,?,?,?,?,?,?,?,?)''', (
+            'Минимаркет GREEN', 
+            1,
+            "Минимаркет Green - это новая концепция организаций правильного питания. Мы предлагаем баланс между полноценным питанием, разнообразным меню, множеством форматов готовой еды и недостатком времени, предлагая здоровые пищевые привычки, удобство выбора, свежесть и качество.",
+            json.dumps([
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+                "19 этаж, кабинет 1928"
+            ]),
+            json.dumps([
+                "+7 (495) 633-60-02",
+            ]),
+            "kow@mos.ru",
+            "https://www.mos.ru/kos",
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            5)
+        )
+        self.conn.commit()
+
+        # Фото и полиграфия
+        self.cursor.execute('''
+        INSERT INTO organizations (
+            title,
+            logo,
+            text,
+            address,
+            phones,
+            email,
+            link,
+            timetable,
+            type
+        )
+        VALUES (?,?,?,?,?,?,?,?,?)''', (
+            'Студия дизайна и полиграфии', 
+            1,
+            "Студия дизайна и полиграфии оказывает широкий спектр услуг производства и печати: оперативная печать фото на документы, копирования/канирование, разработка и производство полиграфической продукции, разработка дизайна и фирменного стиля, а также верстка, брошюровка, печать визиток и многое другое",
+            json.dumps([
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+                "19 этаж, кабинет 1928"
+            ]),
+            json.dumps([
+                "+7 (495) 633-60-02",
+            ]),
+            "kow@mos.ru",
+            "https://www.mos.ru/kos",
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            4)
+        )
+        self.conn.commit()
+
+        # Сервисы
+        self.cursor.execute('''
+        INSERT INTO organizations (
+            title,
+            logo,
+            text,
+            address,
+            phones,
+            email,
+            link,
+            timetable,
+            type
+        )
+        VALUES (?,?,?,?,?,?,?,?,?)''', (
+            'Студия дизайна и полиграфии', 
+            1,
+            "Студия дизайна и полиграфии оказывает широкий спектр услуг производства и печати: оперативная печать фото на документы, копирования/канирование, разработка и производство полиграфической продукции, разработка дизайна и фирменного стиля, а также верстка, брошюровка, печать визиток и многое другое",
+            json.dumps([
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+                "19 этаж, кабинет 1928"
+            ]),
+            json.dumps([
+                "+7 (495) 633-60-02",
+            ]),
+            "kow@mos.ru",
+            "https://www.mos.ru/kos",
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            2)
+        )
+        self.conn.commit()
 
     def letter_index_in_data(self, data, letter):
         for i in range(len(data)):
@@ -152,7 +323,7 @@ class OrganizationsController:
         cdb = db.cursor()
 
         cdb.execute('''
-            SELECT id, title FROM organizations
+            SELECT id, title FROM organizations WHERE type = '0'
         ''')
 
         data = cdb.fetchall();
@@ -188,14 +359,15 @@ class OrganizationsController:
         return json
 
 
-    def get_all_organizations (self): 
+    def get_all_organizations (self, type=0): 
 
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
 
         cdb.execute('''
             SELECT id, title, text FROM organizations
-        ''')
+            WHERE type = ?
+        ''', (type,))
 
         data = cdb.fetchall();
         json = []
@@ -218,8 +390,6 @@ class OrganizationsController:
         cdb.execute('''
             SELECT *
             FROM organizations
-            LEFT JOIN images
-            ON organizations.image = images.id
             WHERE organizations.id = ?
         ''', (str(id)))
 
@@ -282,6 +452,8 @@ class OrganizationsController:
             "email":        data[6],
             "link":         data[7],
             "timetable":    data[8],
+            "img_title":    data[11] if data[11] is not None else "",
+            "img_desc":     data[12] if data[12] is not None else "",
             "services":     servicesData
         }
 
@@ -297,10 +469,98 @@ class OrganizationsController:
         return single_organization
 
 
+    def get_single_organization_by_type (self, type=0):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        # ////////// Основной контент //////////
+        cdb.execute('''
+            SELECT *
+            FROM organizations
+            WHERE organizations.type = ?
+        ''', (str(type)))
+
+
+        data = cdb.fetchone();
+
+
+        # ////////// фотографии //////////
+        cdb.execute('''
+            SELECT src
+            FROM organizations
+            LEFT JOIN images
+            ON organizations.logo = images.id
+            WHERE organizations.type = ?
+        ''', (str(type)))
+        logo = cdb.fetchone();
+
+        cdb.execute('''
+            SELECT src, desc, images.title as title
+            FROM organizations
+            LEFT JOIN images
+            ON organizations.image = images.id
+            WHERE organizations.type = ?
+        ''', (str(type)))
+        image = cdb.fetchone();
+
+        cdb.execute('''
+            SELECT src
+            FROM organizations
+            LEFT JOIN images
+            ON organizations.barcode = images.id
+            WHERE organizations.type = ?
+        ''', (str(type)))
+        barcode = cdb.fetchone();
+
+
+        # ////////// Сервисы //////////
+        cdb.execute('''
+            SELECT id, title, image     
+            FROM services
+            WHERE organization_id = ?
+        ''', (str(data[0])))
+
+        services = cdb.fetchall();
+
+        servicesData = []
+
+        for service in services:
+            servicesData.append({
+                "id": service[0],
+                "title": service[1]
+            })
+
+        single_organization = {
+            "id":           data[0],
+            "title":        data[1],
+            "text":         data[3],
+            "address":      json.loads(data[4]),
+            "phones":       json.loads(data[5]),
+            "email":        data[6],
+            "link":         data[7],
+            "timetable":    data[8],
+            "img_title":    data[11] if data[11] is not None else "",
+            "img_desc":     data[12] if data[12] is not None else "",
+            "services":     servicesData
+        }
+
+        if logo[0] is not None:
+           single_organization["logo"] = logo[0]
+        if image[0] is not None:
+           single_organization["image"]       = image[0]
+           single_organization["image_desc"]  = image[1]
+           single_organization["image_title"] = image[2]
+        if barcode[0] is not None:
+           single_organization["barcode"] = barcode[0]
+
+        return single_organization
+
 
     def create_new_organization (self, data):
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
+
+        page_type = data["page_type"]
 
         cdb.execute('''
         INSERT INTO organizations (
@@ -310,16 +570,18 @@ class OrganizationsController:
             phones,
             email,
             link,
-            timetable
+            timetable,
+            type
         )
-        VALUES (?,?,?,?,?,?,?)''', (
+        VALUES (?,?,?,?,?,?,?,?)''', (
             data["title"], 
             data["text"],
             data["address"],
             data["phones"],
             data["email"],
             data["link"],
-            data["timetable"])
+            data["timetable"],
+            page_type)
         )
         db.commit()
 
@@ -340,7 +602,9 @@ class OrganizationsController:
             phones = ?, 
             email = ?, 
             link = ?, 
-            timetable = ?
+            timetable = ?,
+            image_desc = ?,
+            image_title = ?
         WHERE id = ? """, (
             data["title"], 
             data['text'],
@@ -349,6 +613,8 @@ class OrganizationsController:
             data["email"], 
             data["link"], 
             data["timetable"],
+            data["img_desc"], 
+            data["img_title"],
             data["id"]))
 
         db.commit()
