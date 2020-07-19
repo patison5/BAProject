@@ -108,17 +108,28 @@ class TravelsController:
 
     def drop_table(self):
         self.cursor.execute("""DROP TABLE IF EXISTS travels""")
+        self.cursor.execute("""DROP TABLE IF EXISTS trv_rubrics""")
         self.conn.commit()
 
     def create_table(self):
         self.cursor.execute('''
+        CREATE TABLE trv_rubrics (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            txt TEXT NOT NULL,
+            image INTEGER,
+            FOREIGN KEY (image) REFERENCES images (id)
+        )
+        ''')
+        self.cursor.execute('''
         CREATE TABLE travels (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            rub INTEGER NOT NULL DEFAULT 0,
             title TEXT NOT NULL,
             address TEXT NOT NULL,
             timetable TEXT NOT NULL,
             desc TEXT NOT NULL,
             image INTEGER,
+            FOREIGN KEY (rub) REFERENCES trv_rubrics (id),
             FOREIGN KEY (image) REFERENCES images (id)
         )
         ''')
