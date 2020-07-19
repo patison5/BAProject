@@ -583,9 +583,11 @@ class OrganizationsController:
             data["timetable"],
             page_type)
         )
+        cdb.execute('''SELECT last_insert_rowid()''')
+        id = cdb.fetchall()[0][0]
         db.commit()
 
-        return True
+        return id
 
 
     def update_organization (self, data):
