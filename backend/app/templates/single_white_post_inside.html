@@ -28,7 +28,7 @@
 			<div class="center">
 				<div class="content-white organization">
 					<div class="content-white__header">
-						<img class="white-header__img" src="{{ data.logo }}" width="160" height="160">
+						<img class="white-header__img" src="../{{ data.logo }}" width="160" height="160">
 						<h2 class="white-header__title">{{ data.title }}</h2>
 					</div>
 
@@ -103,7 +103,7 @@
 
 											{% if img.desc %}
 											<div class="block-content__desc">
-												<a href="/tour_single_info"><p class="content__desc">{{ img.desc }}</p></a>
+												<p class="content__desc">{{ img.desc }}</p>
 											</div>
 											{% endif %}
 										</div>
@@ -114,11 +114,11 @@
 						</div>
 
 
-						{% if data.right_part %}
+						{% if data.image %}
 							<div class="white-wrap__right">
-								<img class="wrap-right__img" src="{{ data.right_part.image }}" width="150">
-								<div class="wrap-write__title">{{ data.right_part.title }}</div>
-								<div class="wrap-write__desc">{{ data.right_part.desc }}</div>
+								<img class="wrap-right__img" src="../{{ data.image }}" width="150">
+								<div class="wrap-write__title">{{ data.title }}</div>
+								<div class="wrap-write__desc">{{ data.desc }}</div>
 							</div>
 						{% endif %}
 

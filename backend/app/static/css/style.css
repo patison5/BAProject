@@ -925,7 +925,7 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 .tours-logo {
   display: block;
   width: 100%;
-  padding: 5% 10% 0 5%;
+  padding: 5% 10% 0 10%;
 }
 .post-logo {
   display: block;
@@ -942,6 +942,9 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   padding: 5% 10% 20px 5%;
 }
 
+.posts-white  .swiper-slide{
+  padding: 5% 10% 20px 10%;
+}
 
 
 .posts__block {
@@ -997,7 +1000,7 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 }
 
 .b-posts__info span {
-  font-family: 'Museo Sans Cyrl 100';
+  font-family: 'Museo Sans Cyrl 200';
   font-size: 35px;
 }
 
@@ -1032,6 +1035,11 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   position: relative;
   top: -4px;
   font-family: 'Museo Sans Cyrl 300';
+}
+
+.b-posts__text {
+  top: 0;
+  margin-top: 60px;
 }
 
 .b-posts__watch-preview {
@@ -1177,3 +1185,26 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   display: block;
 }
 
+
+
+.banks {
+  padding: 10% 11% 0;
+}
+
+.banks .content-list__short {
+  padding-left: 0;
+}
+
+.banks .list-short__img-block {
+  flex: 3;
+}
+
+.banks .short-content__wrap {
+  flex: 14;
+}
+
+hr {
+  background: #fff;
+  height: 15px;
+  margin: 20px 0;
+}

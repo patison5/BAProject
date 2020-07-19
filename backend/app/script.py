@@ -86,7 +86,7 @@ if __name__ == '__main__':
     def index():
         template = env.get_template('page1.html')
         return template.render(
-            # title = 'Организации'
+            title = 'Организации',
             search='true'
         )
 
@@ -109,7 +109,7 @@ if __name__ == '__main__':
     @app.route('/organizations/<int:id>')
     def show_single_organizations(id):
         single_org = organizations.get_single_organization(id)
-        template = env.get_template('single_white_post.html')
+        template = env.get_template('single_white_post_inside.html')
         return template.render(
             title='Фото и полиграфия',
             menuElement="minimarket-inactive",
@@ -182,6 +182,19 @@ if __name__ == '__main__':
             menuElement="tour_agent-inactive",
             data=convert_to_slide_array(tours_list)
         )
+
+
+    @app.route('/tour_single_info')
+    def tour_single_info():
+        tours_list = tour_agent.get_all_tour_agent()
+        template = env.get_template('page9.html')
+        return template.render(
+            title='Туристические агенства',
+            menuElement="tour_agent-inactive",
+            data=convert_to_slide_array(tours_list)
+        )
+
+    
 
 
     @app.route('/tour_agent/<int:id>')
@@ -482,6 +495,23 @@ if __name__ == '__main__':
             k = request.form
             k = k.to_dict()
             return json.dumps(k)
+
+
+    @app.route('/admin/cafe/add', methods=['GET', 'POST'])
+    def admin_cafe_add():
+        if request.method == 'GET':
+            template = env.get_template('admin/Admin-add-organization.html')
+            return template.render(
+                title1="Кафе",
+                title2="Кафе",
+                page_type="1",
+            )
+
+        if request.method == 'POST':
+            data = request.form
+            data = data.to_dict()
+            return json.dumps(organizations.create_new_organization(data))
+
 
 
     @app.route('/admin/pharmacy', methods=['GET', 'PUT'])
