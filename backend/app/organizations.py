@@ -54,6 +54,14 @@ class OrganizationsController:
         self.cursor.execute('''
         CREATE TABLE organizations (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            type INTEGER DEFAULT 0,
+            -- orgs = 0
+            -- restaraunts = 1
+            -- servs = 2
+            -- banks = 3
+            -- polygraphies = 4
+            -- markets = 5
+            -- pharms = 6
             title TEXT NOT NULL,
             image INTEGER,
             text TEXT,
