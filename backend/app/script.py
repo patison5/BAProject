@@ -352,16 +352,43 @@ if __name__ == '__main__':
             data = request.form
             data = data.to_dict()
 
-            data["image"] = ""
             files = request.files.to_dict()
+            print(files)
+            print(request.files)
+
+            r_data = {}
+
             if 'logo' in request.files:
                 logo = files['logo']
                 filename = secure_filename(logo.filename)
                 logo_id = upload_file_on_server(logo)
-                data["image"] = logo_id
+                r_data["logo"] = posters.update_poster_logo(data["id"], logo_id)
 
-            return posters.update_afisha(data)
+            if 'image' in request.files:
+                logo = files['image']
+                filename = secure_filename(logo.filename)
+                logo_id = upload_file_on_server(logo)
+                r_data["image"] = posters.update_poster_main_image(data["id"], logo_id)
 
+            r_data["poster"] = posters.update_afisha(data)
+
+            return r_data
+
+    @app.route('/admin/afisha/clear-image', methods=['POST'])
+    def admin_afisha_clear_logo():
+        data = request.form
+        data = data.to_dict()
+
+        image_type = data["image_type"]
+
+        if (image_type == "logo"):
+            posters.update_poster_logo(data["id"], None)
+        else:
+            posters.update_poster_main_image(data["id"], None)
+
+        return json.dumps({
+            "message": "alles gut"
+        })
 
     @app.route('/admin/afisha/add', methods=['GET', 'POST'])
     def admin_afisha_add():
@@ -377,19 +404,18 @@ if __name__ == '__main__':
         if request.method == 'POST':
             data = request.form
             data = data.to_dict()
-            
+
+            # пока так...
+            poster_creation =  posters.create_new_poster(data)
+
             files = request.files.to_dict()
-            data["image"] = 0
             if 'logo' in request.files:
                 logo = files['logo']
                 filename = secure_filename(logo.filename)
                 logo_id = upload_file_on_server(logo)
-                data["image"] = logo_id
+                # logo_id = posters.update_poster_logo(logo_id)
 
-            print("DATA FUCKING IMAGE")
-            print(data["image"])
-
-            return posters.create_new_poster(data)
+            return poster_creation
 
     @app.route('/admin/afisha/delete/<int:id>')
     def admin_afisha_update_delete(id):

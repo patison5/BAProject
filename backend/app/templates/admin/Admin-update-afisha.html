@@ -169,24 +169,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="card-body">
+
                       <div class="form-group">
-                        <label for="logo_file">Фото</label>
-                        
+                        <label for="logo_file">Лого</label>
                           
-                        {% if data.img %}
-                        {% endif %}
+                        {% if data.logo %}
                           <div class="row"> 
                             <div class="col-md-12 text-center">
-                              <img src="http://127.0.0.1:5000/{{data.img}}" data-file="{{data.img}}" alt="" class="img-fluid logo_image" width="30%"  id="image_viewer" style="margin-bottom: 30px;">
+                              <img src="http://127.0.0.1:5000/{{data.logo}}" data-file="{{data.logo}}" alt="" class="img-fluid logo_image" width="30%"  id="image_viewer" style="margin-bottom: 30px;">
 
-                             <!-- <span class="delete-image" id="delete_image-js">x</span>  -->
+                             <span class="delete-image delete_image-js" data-type="logo">x</span> 
                             </div>
                           </div>
-                        
+                        {% endif %}
 
                         <div class="input-group">
                           <div class="custom-file">
-                            <input type="file" class="custom-file-input" value="http://127.0.0.1:5000/{{data.img}}" id="logo_file">
+                            <input type="file" class="custom-file-input" value="http://127.0.0.1:5000/{{data.logo}}" id="logo_file">
                             <label class="custom-file-label" for="logo_file">Выберите файл</label>
                           </div>
                           <div class="input-group-append">
@@ -194,6 +193,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           </div>
                         </div>
                       </div>
+
+
+
+                      <div class="form-group">
+                        <label for="logo_file">Основное фото</label>
+                          
+                        {% if data.img %}
+                          <div class="row"> 
+                            <div class="col-md-12 text-center">
+                              <img src="http://127.0.0.1:5000/{{data.img}}" data-file="{{data.img}}" alt="" class="img-fluid logo_image" width="30%"  id="image_viewer" style="margin-bottom: 30px;">
+
+                             <span class="delete-image delete_image-js" data-type="main">x</span> 
+                            </div>
+                          </div>
+                        {% endif %}
+
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" value="http://127.0.0.1:5000/{{data.img}}" id="main_file">
+                            <label class="custom-file-label" for="main_file">Выберите файл</label>
+                          </div>
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="">Загрузить</span>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -322,6 +348,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       var data_timetable  = document.getElementById('data_timetable');
       var data_address    = document.getElementById('data_address');;
       var logo_file       = document.getElementById('logo_file');
+      var main_file       = document.getElementById('main_file');
       var image_viewer    = document.getElementById('image_viewer');
 
       var areaText = $('.textarea').summernote('code');
@@ -333,7 +360,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
       formData.append("text",       areaText)      
       formData.append("date",       data_date.value)      
       formData.append("id",         config.id)  
-      formData.append("logo",       logo_file.files[0])         
+      formData.append("logo",       logo_file.files[0])    
+      formData.append("image",      main_file.files[0])    
+
+      console.log(logo_file.files[0])     
 
 
       var xhttp;
@@ -371,6 +401,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
+    var  delete_image_btns = document.getElementsByClassName(' delete_image-js');
+
+    for (var i = 0; i < delete_image_btns.length; i++) {
+      var dBtn = delete_image_btns[i]
+
+      dBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+
+
+        console.log(this.dataset.type)
+
+        var fdata = new FormData();
+        fdata.append('id', 1)
+        fdata.append('image_type', this.dataset.type);
+
+
+        $.ajax({
+          url: '/admin/afisha/clear-image',
+          data: fdata,
+          type: "POST",
+          contentType: false,
+          processData: false,
+        }).done(function(data) {
+          console.log(data)
+
+          // var barcode_image = document.getElementsByClassName('barcode_image')[0];
+          // var logo_image    = document.getElementsByClassName('logo_image')[0];
+
+          // console.log(barcode_image);
+          // console.log(logo_image);
+
+        })
+
+
+      })
+
+    }
 
     // var save_images = document.getElementById('save_images-js');
 

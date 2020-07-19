@@ -44,8 +44,10 @@ class PostersController:
             date TEXT,
             time TEXT,
             text TEXT,
-            image INTEGER DEFAULT NULL
-            -- FOREIGN KEY (image) REFERENCES images (id)
+            image INTEGER DEFAULT NULL,
+            logo INTEGER DEFAULT NULL,
+            FOREIGN KEY (image) REFERENCES images (id),
+            FOREIGN KEY (logo) REFERENCES images (id)
         )
         ''')
         self.conn.commit()
@@ -64,21 +66,6 @@ class PostersController:
 
 
         afisha = cdb.fetchall();
-        print("ALL FUCKING ELEMENTS FROM FUCKING POSTERS")
-        print(afisha)
-
-        # cdb.execute('''
-        #     SELECT *
-        #     FROM posters
-        #     LEFT JOIN images
-        #     ON posters.image = images.id
-        # ''')
-
-
-        # afisha2 = cdb.fetchall();
-        # print("ONE MORE")
-        # print(afisha2)
-
 
         afishaData = []
 
@@ -111,6 +98,17 @@ class PostersController:
 
         afisha = cdb.fetchone();
 
+        cdb.execute('''
+            SELECT src
+            FROM posters
+            LEFT JOIN images
+            ON posters.logo = images.id
+            WHERE posters.id = ?
+        ''', (str(id)))
+
+
+        logo = cdb.fetchone();
+
         single_afisha = {
             "id":       afisha[0],
             "title":    afisha[1],
@@ -118,11 +116,17 @@ class PostersController:
             "date":     afisha[3],
             "time":     afisha[4],
             "address":  afisha[2],
-            "img":      afisha[8],
+            "img":      afisha[9],
         }
 
-        return single_afisha
+        print(logo)
 
+        if logo[0] is not None:
+           single_afisha["logo"] = logo[0]
+
+        print("AFISHA IMAGE " + str(afisha[6]))
+
+        return single_afisha
 
     def create_new_poster (self, data):
         print(data)
@@ -130,20 +134,20 @@ class PostersController:
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
 
-        sql = ''' INSERT INTO posters(title, text, date, time, address, image)
-                  VALUES(?,?,?,?,?,?) '''
+        sql = ''' INSERT INTO posters(title, text, date, time, address)
+                  VALUES(?,?,?,?,?) '''
 
         cdb.execute(sql, (
             data["title"], 
             data['text'],
             data["date"], 
             data["timetable"], 
-            data["address"],
-            data["image"]
+            data["address"]
         ))
         db.commit()
 
         return json.dumps({"status": "ok"})
+
 
 
     def update_afisha (self, data):
@@ -157,21 +161,68 @@ class PostersController:
             text = ?,
             date = ?,
             time = ?,
-            address = ?,
-            image = ?
+            address = ?
         WHERE id = ? """, (
             data["title"], 
             data['text'],
             data["date"], 
             data["timetable"], 
             data["address"],
-            data["image"],
             data["id"]
         ))
 
         db.commit()
+        cdb.close()
+        db.close()
+        
 
         return json.dumps({"status": "ok"})
+
+
+    def update_poster_logo (self, poster_id, image_id):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE posters 
+        SET 
+            logo = ?
+        WHERE id = ? """, (
+            image_id,
+            poster_id
+        ))
+
+        db.commit()
+        cdb.close()
+        db.close()
+
+        return json.dumps({
+            "poster_id" : poster_id,
+            "image_id" : image_id
+        })
+
+
+    def update_poster_main_image (self, poster_id, image_id):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE posters 
+        SET 
+            image = ?
+        WHERE id = ? """, (
+            image_id,
+            poster_id
+        ))
+
+        db.commit()
+        cdb.close()
+        db.close()
+
+        return json.dumps({
+            "poster_id" : poster_id,
+            "image_id" : image_id
+        })
 
 
     def delete_poster (self, id):
