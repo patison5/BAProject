@@ -181,22 +181,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="card-body">
+
+                      <!-- Logo -->
                       <div class="form-group">
                         <label for="logo_file">Лого</label>
-                        <div class="row">
+                          
+                        {% if data.logo %}
+                          <div class="row"> 
+                            <div class="col-md-12 text-center">
+                              <img src="http://127.0.0.1:5000/{{data.logo}}" data-file="{{data.logo}}" alt="" class="img-fluid logo_image image_viewer" width="30%"  id="image_viewer" style="margin-bottom: 30px;">
 
-                          {% if data.logo %}
-                          <div class="col-md-12 text-center">
-                            <img src="http://127.0.0.1:5000/{{ data.logo }}" alt="" class="img-fluid logo_image" width="30%" style="margin-bottom: 30px;">
-
-                           <span class="delete-image" id="delete_image-js">x</span> 
+                             <span class="delete-image delete_image-js" data-type="logo">x</span> 
+                            </div>
                           </div>
-                          {% endif %}
-                        </div>
+                        {% endif %}
 
                         <div class="input-group">
                           <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="logo_file">
+                            <input type="file" class="custom-file-input" value="http://127.0.0.1:5000/{{data.logo}}" id="logo_file">
                             <label class="custom-file-label" for="logo_file">Выберите файл</label>
                           </div>
                           <div class="input-group-append">
@@ -205,23 +207,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                       </div>
 
-                      <div class="form-group">
-                        <label for="logo_file">Фото сбоку</label>
-                        <div class="row">
-                          
-                          {% if data.right_image %}
-                          <div class="col-md-12 text-center">
-                            <img src="http://127.0.0.1:5000/{{ data.right_image }}" alt="" class="img-fluid logo_image" width="30%" style="margin-bottom: 30px;">
+                       <!-- //Logo -->
 
-                           <span class="delete-image" id="delete_image-js">x</span> 
+
+                      <!-- Main Image -->
+                      <div class="form-group">
+                        <label for="logo_file">Основное фото</label>
+                          
+                        {% if data.image %}
+                          <div class="row"> 
+                            <div class="col-md-12 text-center">
+                              <img src="http://127.0.0.1:5000/{{data.image}}" data-file="{{data.image}}" alt="" class="img-fluid main_image image_viewer" width="30%"  id="image_viewer" style="margin-bottom: 30px;">
+
+                             <span class="delete-image delete_image-js" data-type="main">x</span> 
+                            </div>
                           </div>
-                          {% endif %}
-                        </div>
+                        {% endif %}
 
                         <div class="input-group">
                           <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="logo_file">
-                            <label class="custom-file-label" for="logo_file">Выберите файл</label>
+                            <input type="file" class="custom-file-input" value="http://127.0.0.1:5000/{{data.img}}" id="main_file">
+                            <label class="custom-file-label" for="main_file">Выберите файл</label>
                           </div>
                           <div class="input-group-append">
                             <span class="input-group-text" id="">Загрузить</span>
@@ -235,29 +241,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </div>
                        <div class="form-group">
                         <label for="data_title">Описание для фото</label>
-                        <input type="text" class="form-control" id="data_img_desc" value="">
+                        <input type="text" class="form-control" id="data_img_desc" value="{{data.image_desc}}">
                       </div>
 
+                      <!-- //Main Image -->
 
+
+
+                      <!-- barcode -->
                       <div class="form-group">
-                        <label for="barcode_file">QR-код</label>
-                        <div class="row">
+                        <label for="logo_file">QR-Код</label>
+                          
+                        {% if data.barcode %}
+                          <div class="row"> 
+                            <div class="col-md-12 text-center">
+                              <img src="http://127.0.0.1:5000/{{data.barcode}}" data-file="{{data.barcode}}" alt="" class="img-fluid main_image image_viewer" width="30%"  id="image_viewer" style="margin-bottom: 30px;">
 
-                          <div class="col-md-12 text-center">
-                            <img src="" alt="" class="img-fluid barcode_image" width="30%" style="margin-bottom: 30px;">
+                             <span class="delete-image delete_image-js" data-type="main">x</span> 
+                            </div>
                           </div>
-                        </div>
+                        {% endif %}
 
                         <div class="input-group">
                           <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="barcode_file">
+                            <input type="file" class="custom-file-input" value="http://127.0.0.1:5000/{{data.barcode}}" id="barcode_file">
                             <label class="custom-file-label" for="barcode_file">Выберите файл</label>
                           </div>
                           <div class="input-group-append">
                             <span class="input-group-text" id="">Загрузить</span>
                           </div>
                         </div>
-                      </div>
+                      </div> <!-- //barcode -->
+
+
+
                       <div class="form-group">
                         <table class="table">
                           <thead>
@@ -428,6 +445,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       var data_address    = getTags(M.Chips.getInstance(addressChips).chipsData);
       var data_phones     = getTags(M.Chips.getInstance(phonesChips).chipsData);
 
+      var logo_file       = document.getElementById('logo_file');
+      var main_file       = document.getElementById('main_file');
+      var barcode_file    = document.getElementById('barcode_file');
+
+      var data_img_title  = document.getElementById('data_img_title');
+      var data_img_desc   = document.getElementById('data_img_desc');
+
       var areaText = $('.textarea').summernote('code');
       // cleanText = areaText.replace(/<\/?[^>]+(>|$)/g, "");
 
@@ -444,8 +468,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       formData.append("address",    JSON.stringify(data_address));
       formData.append("phones",     JSON.stringify(data_phones));
       formData.append("text",       areaText)      
-      formData.append("id",         config.id)      
+      formData.append("id",         config.id)    
+      formData.append("logo",       logo_file.files[0])    
+      formData.append("image",      main_file.files[0])  
+      formData.append("barcode",    barcode_file.files[0])    
 
+      formData.append("img_title",  data_img_title.value);
+      formData.append("img_desc" ,  data_img_desc.value);
 
       var xhttp;
       xhttp = new XMLHttpRequest();

@@ -33,14 +33,14 @@ def convert_to_slide_array(array):
         li2.append(array[i:i + 4])
     return li2
 
-def upload_file_on_server(file):
+def upload_file_on_server(file, desc="", title=""):
     if file.filename == '':
         flash('No selected file')
         return "no selected file"
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         ext = filename.rsplit('.', 1)[1].lower()
-        id = images.insert_image('test description', ext, app.config['UPLOAD_FOLDER'])
+        id = images.insert_image(title, desc, ext, app.config['UPLOAD_FOLDER'])
         filename = str(id) + '.' + ext
 
         Path(UPLOAD_FOLDER).mkdir(parents=True, exist_ok=True)
@@ -276,16 +276,43 @@ if __name__ == '__main__':
             data = request.form
             data = data.to_dict()
 
+            # files = request.files.to_dict()
+            # data["image"] = 0
+            # if 'logo' in request.files:
+            #     logo = files['logo']
+            #     filename = secure_filename(logo.filename)
+            #     logo_id = upload_file_on_server(logo)
+            #     organizations.update_organization_logo(data["id"], logo_id)
+                # data["image"] = logo_id
+
+
             files = request.files.to_dict()
-            data["image"] = 0
+            print(files)
+            print(request.files)
+
+            r_data = {}
+
             if 'logo' in request.files:
                 logo = files['logo']
                 filename = secure_filename(logo.filename)
-                logo_id = upload_file_on_server(logo)
-                organizations.update_organization_logo(data["id"], logo_id)
-                # data["image"] = logo_id
+                up_img_id = upload_file_on_server(logo)
+                r_data["logo"] = organizations.update_organization_logo(data["id"], up_img_id)
 
-            return organizations.update_organization(data)
+            if 'image' in request.files:
+                logo = files['image']
+                filename = secure_filename(logo.filename)
+                up_img_id = upload_file_on_server(logo, data["img_desc"], data["img_title"])
+                r_data["image"] = organizations.update_organization_main_image(data["id"], up_img_id)
+
+            if 'barcode' in request.files:
+                logo = files['barcode']
+                filename = secure_filename(logo.filename)
+                up_img_id = upload_file_on_server(logo)
+                r_data["barcode"] = organizations.update_organization_barcode(data["id"], up_img_id)
+
+            r_data["poster"] = organizations.update_organization(data)
+
+            return r_data
 
     
     @app.route('/admin/organizations/delete/<int:id>')

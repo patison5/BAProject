@@ -61,9 +61,12 @@ class OrganizationsController:
             phones TEXT,
             email TEXT,
             link TEXT,
-            barcode TEXT,
             timetable TEXT,
-            FOREIGN KEY (image) REFERENCES images (id)
+            logo INTEGER,
+            barcode INTEGER,
+            FOREIGN KEY (image)   REFERENCES images (id)
+            FOREIGN KEY (logo)    REFERENCES images (id)
+            FOREIGN KEY (barcode) REFERENCES images (id)
         )
         ''')
         self.conn.commit()
@@ -73,16 +76,15 @@ class OrganizationsController:
         self.cursor.execute('''
         INSERT INTO organizations (
             title,
-            image,
+            logo,
             text,
             address,
             phones,
             email,
             link,
-            barcode,
             timetable
         )
-        VALUES (?,?,?,?,?,?,?,?,?)''', (
+        VALUES (?,?,?,?,?,?,?,?)''', (
             "Комитет общественных связей и молодежной политики города Москвы", 
             1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
             "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
@@ -98,7 +100,6 @@ class OrganizationsController:
             ]),
             "kow@mos.ru",
             "https://www.mos.ru/kos",
-            "barcode",
             "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной")
         )
         self.conn.commit()
@@ -106,16 +107,15 @@ class OrganizationsController:
         self.cursor.execute('''
         INSERT INTO organizations (
             title,
-            image,
+            logo,
             text,
             address,
             phones,
             email,
             link,
-            barcode,
             timetable
         )
-        VALUES (?,?,?,?,?,?,?,?,?)''', (
+        VALUES (?,?,?,?,?,?,?,?)''', (
             "Комитет общественных связей и молодежной политики города Москвы", 
             0, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
             "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
@@ -127,7 +127,6 @@ class OrganizationsController:
             ]),
             "kow@mos.ru",
             "https://www.mos.ru/kos",
-            "barcode",
             "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной")
         )
         self.conn.commit()
@@ -207,6 +206,7 @@ class OrganizationsController:
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
 
+        # ////////// Основной контент //////////
         cdb.execute('''
             SELECT *
             FROM organizations
@@ -218,6 +218,37 @@ class OrganizationsController:
 
         data = cdb.fetchone();
 
+
+        # ////////// фотографии //////////
+        cdb.execute('''
+            SELECT src
+            FROM organizations
+            LEFT JOIN images
+            ON organizations.logo = images.id
+            WHERE organizations.id = ?
+        ''', (str(id)))
+        logo = cdb.fetchone();
+
+        cdb.execute('''
+            SELECT src, desc, images.title as title
+            FROM organizations
+            LEFT JOIN images
+            ON organizations.image = images.id
+            WHERE organizations.id = ?
+        ''', (str(id)))
+        image = cdb.fetchone();
+
+        cdb.execute('''
+            SELECT src
+            FROM organizations
+            LEFT JOIN images
+            ON organizations.barcode = images.id
+            WHERE organizations.id = ?
+        ''', (str(id)))
+        barcode = cdb.fetchone();
+
+
+        # ////////// Сервисы //////////
         cdb.execute('''
             SELECT id, title, image     
             FROM services
@@ -234,7 +265,7 @@ class OrganizationsController:
                 "title": service[1]
             })
 
-        return {
+        single_organization = {
             "id":           data[0],
             "title":        data[1],
             "text":         data[3],
@@ -242,11 +273,21 @@ class OrganizationsController:
             "phones":       json.loads(data[5]),
             "email":        data[6],
             "link":         data[7],
-            "barcode":      data[8],
-            "timetable":    data[9],
-            "logo":         data[11],
+            "timetable":    data[8],
             "services":     servicesData
         }
+
+        if logo[0] is not None:
+           single_organization["logo"] = logo[0]
+        if image[0] is not None:
+           single_organization["image"]       = image[0]
+           single_organization["image_desc"]  = image[1]
+           single_organization["image_title"] = image[2]
+        if barcode[0] is not None:
+           single_organization["barcode"] = barcode[0]
+
+        return single_organization
+
 
 
     def create_new_organization (self, data):
@@ -256,24 +297,20 @@ class OrganizationsController:
         cdb.execute('''
         INSERT INTO organizations (
             title,
-            image,
             text,
             address,
             phones,
             email,
             link,
-            barcode,
             timetable
         )
-        VALUES (?,?,?,?,?,?,?,?,?)''', (
+        VALUES (?,?,?,?,?,?,?)''', (
             data["title"], 
-            1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
             data["text"],
             data["address"],
             data["phones"],
             data["email"],
             data["link"],
-            data["title"],
             data["timetable"])
         )
         db.commit()
@@ -319,8 +356,32 @@ class OrganizationsController:
         cdb.execute("""
         UPDATE organizations 
         SET 
-            image = ?
+            logo = ?
         WHERE id = ? """, (logo, id))
+
+        db.commit()
+
+    def update_organization_main_image(self, id, image):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE organizations 
+        SET 
+            image = ?
+        WHERE id = ? """, (image, id))
+
+        db.commit()
+
+    def update_organization_barcode(self, id, barcode):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE organizations 
+        SET 
+            barcode = ?
+        WHERE id = ? """, (barcode, id))
 
         db.commit()
 

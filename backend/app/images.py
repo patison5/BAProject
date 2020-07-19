@@ -62,7 +62,8 @@ class ImagesController:
         self.cursor.execute('''CREATE TABLE images (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             src TEXT NOT NULL,
-            desc TEXT
+            desc TEXT,
+            title TEXT
         )''')
         self.conn.commit()
 
@@ -120,10 +121,10 @@ class ImagesController:
         # в data придет информация которую нужно обновить. минимум 1 какое-то поле, максимум все поля
         return True
 
-    def insert_image(self, desc, ext, path):
+    def insert_image(self, title, desc, ext, path):
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
-        cdb.execute('''INSERT INTO images (src, desc) VALUES (?, ?)''', ('', desc))
+        cdb.execute('''INSERT INTO images (src, desc, title) VALUES (?, ?, ?)''', ('', desc, title))
         cdb.execute('''SELECT last_insert_rowid()''')
         id = cdb.fetchall()[0][0]
         cdb.execute("""
@@ -140,11 +141,13 @@ class ImagesController:
         self.cursor.execute(''' 
             INSERT INTO images(
                 src,
-                desc
+                desc,
+                title
             )
-            VALUES(?,?) ''', (
-                "http://127.0.0.1:5000/static/images/icons/img-10.svg",
-                "desc",
+            VALUES(?,?,?) ''', (
+                "./static/images/icons/img-10.svg",
+                "description",
+                ""
             )
         )
         self.conn.commit()
