@@ -161,6 +161,16 @@ if __name__ == '__main__':
             data=cafe_info
         )
 
+    @app.route('/kafe/single')
+    def page_kafe_single():
+        cafe_info = misc.get_misc_info('cafe')
+        template = env.get_template('single_white_post.html')
+        return template.render(
+            title='Кафе',
+            menuElement="kafe-inactive",
+            data=cafe_info
+        )
+
 
     @app.route('/banks')
     def page_banks():
