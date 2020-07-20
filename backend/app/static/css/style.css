@@ -863,7 +863,7 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 .short-content__info {
   width: 100%;
   display: block;
-  margin: 1.5em 0;
+  margin-top: 1.5em;
   font-size: 40px;
   line-height: 35px;
 }
@@ -872,6 +872,7 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   font-size: 35px;
   line-height: 40px;
   display: block;
+  margin-top: 1.5em;
 }
 
 .info-stage,
@@ -1164,19 +1165,23 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 .services-list {
   display: grid;
   grid-template-columns: 1fr 1fr ;
-  grid-gap: 20em 10em;
+  grid-gap: 18em 5em;
 }
 
 .services__item {
-  font-size: 45px;
+  font-size: 60px;
+  line-height: 55px;
   display: flex;
   align-items: center;
   align-content: space-between;
 }
 
 
+.services__item span {
+  font-family: 'Museo Sans Cyrl 300';
+}
 .services-icon {
-  width: 250px;
+  width: 230px;
   display: block;
   margin-right: 40px;
 }
@@ -1201,10 +1206,19 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 
 .banks .short-content__wrap {
   flex: 14;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 hr {
   background: #fff;
   height: 15px;
   margin: 20px 0;
+}
+
+
+.services-list__wrap {
+  margin-top: 50px;
+  margin-left: 50px;
 }

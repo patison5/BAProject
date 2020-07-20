@@ -154,7 +154,7 @@ if __name__ == '__main__':
     @app.route('/kafe')
     def page_kafe():
         cafe_info = misc.get_misc_info('cafe')
-        template = env.get_template('single_white_post.html')
+        template = env.get_template('cafe-all.html')
         return template.render(
             title='Кафе',
             menuElement="kafe-inactive",
