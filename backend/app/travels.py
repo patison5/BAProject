@@ -11,96 +11,6 @@ database = "mydatabase.db"
 
 class TravelsController:
     
-    # Вся информация организаций
-
-    data_set = [
-        {
-            "id": '0',
-            "title": "Комитет общественных связей и молодежной политики города Москвы", 
-            "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
-            "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
-            "right_part": {
-                "image": "http://127.0.0.1:5000/static/images/woman.png",
-                "title": "Драгунова Екатерина Вячеслаовна",
-                "desc": "Председатель коммитета общественных сязей и молодежной политики города Москвы,"
-            },
-            "address": [
-                "121099, Г. Москва",
-                "ул. Новый Арбат, д.36",
-                "19 этаж, кабинет 1928"
-            ], 
-            "phones": [
-                "+7 (495) 633-60-02",
-                "+7 (495) 633-60-02 - Офис",
-                "+7 (495) 633-60-02 - Пресс-служба"
-            ],
-            "email": "kow@mos.ru",
-            "link": "https://www.mos.ru/kos",
-            "timetable": "ПН-ЧТ – 08:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной"
-        },
-        {
-            "id": '1',
-            "title": "Комитет общественных связей и молодежной политики города Москвы", 
-            "logo": "http://127.0.0.1:5000/static/images/icons/img-10.svg",
-            "text": "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
-            "right_part": {
-                "image": "http://127.0.0.1:5000/static/images/woman.png",
-                "title": "Драгунова Екатерина Вячеслаовна",
-                "desc": "Председатель коммитета общественных сязей и молодежной политики города Москвы,"
-            },
-            "address": [
-                "121099, Г. Москва",
-                "ул. Новый Арбат, д.36",
-                "19 этаж, кабинет 1928"
-            ], 
-            "phones": [
-                "+7 (495) 633-60-02",
-                "+7 (495) 633-60-02 - Офис",
-                "+7 (495) 633-60-02 - Пресс-служба"
-            ],
-            "email": "kow@mos.ru",
-            "link": "https://www.mos.ru/kos",
-            "timetable": "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной"
-
-        },
-    ]
-
-    # пример того, как должны возвращаться заголовки (в link помещается id этой организации)
-    organizations_titles = [
-        {
-            "variable": "A",
-            "elements": [
-                {
-                    "text": 'Адвокат Березин МОСКОВСКАЯ КОЛЛЕГИЯ АДВОКАТОВ "ПРАВОВОЙ ЦЕНТР "АРБАТ"',
-                    "link": "1"
-                },
-                {
-                    "text": 'Адвокат Березин МОСКОВСКАЯ КОЛЛЕГИЯ АДВОКАТОВ "ПРАВОВОЙ ЦЕНТР "АРБАТ"',
-                    "link": "3"
-                }
-            ]
-        },
-        {
-            "variable": "B",
-            "elements": [
-                {
-                    "text": 'Адвокат Березин МОСКОВСКАЯ КОЛЛЕГИЯ АДВОКАТОВ "ПРАВОВОЙ ЦЕНТР "АРБАТ"',
-                    "link": "2"
-                },
-                {
-                    "text": 'Адвокат Березин МОСКОВСКАЯ КОЛЛЕГИЯ АДВОКАТОВ "ПРАВОВОЙ ЦЕНТР "АРБАТ"',
-                    "link": "5"
-                },
-                {
-                    "text": 'Адвокат Березин МОСКОВСКАЯ КОЛЛЕГИЯ АДВОКАТОВ "ПРАВОВОЙ ЦЕНТР "АРБАТ"',
-                    "link": "8"
-                }
-            ]
-        },
-    ]
-
-    
-
     def __init__ (self):
         self.conn = sqlite3.connect(database, timeout=10)
         self.cursor = self.conn.cursor()
@@ -135,6 +45,21 @@ class TravelsController:
         )
         ''')
         self.conn.commit()
+
+        self.cursor.execute('''
+        INSERT INTO trv_rubrics (
+           txt,
+           image
+        )
+        VALUES (?,?)''', (
+            "Рубрика 1",
+            1)
+        )
+        self.conn.commit()
+
+
+
+
 
     def get_all_rubrics(self):
         db = sqlite3.connect(database, timeout=10)
@@ -177,6 +102,49 @@ class TravelsController:
             })
 
         return json
+
+
+
+
+    def get_single_rubric(self, id):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+            SELECT *
+            FROM trv_rubrics
+            WHERE trv_rubrics.id = ?
+        ''', (str(id)))
+
+
+        afisha = cdb.fetchone();
+
+        cdb.execute('''
+            SELECT src
+            FROM trv_rubrics
+            LEFT JOIN images
+            ON trv_rubrics.image = images.id
+            WHERE trv_rubrics.id = ?
+        ''', (str(id)))
+
+
+        logo = cdb.fetchone();
+        
+        single_rubric = {
+            "id":       afisha[0],
+            "title":     afisha[1], 
+        }
+
+
+        if logo[0] is not None:
+           single_rubric["image"] = logo[0]
+
+        return single_rubric
+
+
+
+
+
 
     def get_travel(self, id):
         db = sqlite3.connect(database, timeout=10)

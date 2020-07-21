@@ -84,6 +84,7 @@ class OrganizationsController:
             -- polygraphies = 4
             -- markets = 5
             -- pharms = 6
+            -- tourizm = 7
 
             FOREIGN KEY (image)   REFERENCES images (id)
             FOREIGN KEY (logo)    REFERENCES images (id)
@@ -357,7 +358,7 @@ class OrganizationsController:
             type
         )
         VALUES (?,?,?,?,?,?,?,?,?)''', (
-            'Студия дизайна и полиграфии', 
+            'Туристическое агенство Трэвел База', 
             1,
             "Студия дизайна и полиграфии оказывает широкий спектр услуг производства и печати: оперативная печать фото на документы, копирования/канирование, разработка и производство полиграфической продукции, разработка дизайна и фирменного стиля, а также верстка, брошюровка, печать визиток и многое другое",
             json.dumps([
@@ -366,6 +367,7 @@ class OrganizationsController:
                 "19 этаж, кабинет 1928"
             ]),
             json.dumps([
+                "+7 (495) 633-60-02",
                 "+7 (495) 633-60-02",
             ]),
             "kow@mos.ru",
