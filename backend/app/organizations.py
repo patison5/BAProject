@@ -634,8 +634,10 @@ class OrganizationsController:
         SET 
             logo = ?
         WHERE id = ? """, (logo, id))
-
+        cdb.execute("""SELECT src FROM images WHERE id = ?""", (id,))
+        src = cdb.fetchall()[0][0]
         db.commit()
+        return src
 
     def update_organization_main_image(self, id, image):
         db = sqlite3.connect(database, timeout=10)
@@ -646,8 +648,10 @@ class OrganizationsController:
         SET 
             image = ?
         WHERE id = ? """, (image, id))
-
+        cdb.execute("""SELECT src FROM images WHERE id = ?""", (id,))
+        src = cdb.fetchall()[0][0]
         db.commit()
+        return src
 
     def update_organization_barcode(self, id, barcode):
         db = sqlite3.connect(database, timeout=10)
@@ -658,8 +662,10 @@ class OrganizationsController:
         SET 
             barcode = ?
         WHERE id = ? """, (barcode, id))
-
+        cdb.execute("""SELECT src FROM images WHERE id = ?""", (id,))
+        src = cdb.fetchall()[0][0]
         db.commit()
+        return src
 
 
     def delete_organization (self, id):
