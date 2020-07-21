@@ -123,18 +123,90 @@ class TravelsController:
         self.cursor.execute('''
         CREATE TABLE travels (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            rub INTEGER NOT NULL DEFAULT 0,
+            rub_id INTEGER NOT NULL DEFAULT 0,
             title TEXT NOT NULL,
             address TEXT NOT NULL,
             timetable TEXT NOT NULL,
             desc TEXT NOT NULL,
             image INTEGER,
-            FOREIGN KEY (rub) REFERENCES trv_rubrics (id),
+            data TEXT,
+            FOREIGN KEY (rub_id) REFERENCES trv_rubrics (id),
             FOREIGN KEY (image) REFERENCES images (id)
         )
         ''')
         self.conn.commit()
 
+    def get_all_rubrics(self):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+        cdb.execute('''
+            SELECT trv_rubrics.id, trv_rubrics.txt, images.src FROM trv_rubrics
+            INNER JOIN images ON trv_rubrics.image = images.id
+        ''')
+        data = cdb.fetchall();
+        json = []
+
+        for item in data:
+            json.append({
+                "id":           item[0],
+                "title":        item[1],
+                "image_src":    item[2]
+            })
+
+        return json
+
+    def get_all_travels_by_rubric(self, rub_id):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+        cdb.execute('''
+            SELECT id, title, timetable, desc, images.src, data FROM travels
+            INNER JOIN images ON travels.image = images.id
+            WHERE rub_id = ?
+        ''', (rub_id,))
+        data = cdb.fetchall();
+        json = []
+
+        for item in data:
+            json.append({
+                "id":              item[0],
+                "title":           item[1],
+                "timetable":       item[2],
+                "desc":            item[3],
+                "image_src":       item[4],
+                "additional_data": item[5],
+            })
+
+        return json
+
+    def get_travel(self, id):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+        cdb.execute('''
+            SELECT id, title, timetable, desc, images.src, data FROM travels
+            INNER JOIN images ON travels.image = images.id
+            WHERE id = ?
+        ''', (id,))
+        data = cdb.fetchall();
+        json = []
+
+        for item in data:
+            json.append({
+                "id":              item[0],
+                "title":           item[1],
+                "timetable":       item[2],
+                "desc":            item[3],
+                "image_src":       item[4],
+                "additional_data": item[5],
+            })
+
+        cdb.execute('''
+            SELECT images.src FROM trv_images
+            INNER JOIN images ON trv_images.image_id = images.id
+            WHERE travel_id = ?
+        ''', (id,))
+        pics = cdb.fetchall();
+
+        return (json, pics)
 
     def get_organization_titles (self):
         # arr = []

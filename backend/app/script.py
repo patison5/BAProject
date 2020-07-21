@@ -50,7 +50,7 @@ def upload_file_on_server(file, desc="", title=""):
 
 
 if __name__ == '__main__':
-    images, organizations, services, posters, travels, trvnotes, misc = init_db()
+    images, organizations, services, posters, travels, misc = init_db()
 
 
     @app.route('/upload', methods=['GET','POST'])
