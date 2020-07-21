@@ -465,9 +465,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         e.preventDefault();
 
         console.log(this.dataset.type)
+        console.log(this.dataset)
+        console.log(config.id)
 
         var fdata = new FormData();
-        fdata.append('id', 1)
+        fdata.append('id', config.id)
         fdata.append('image_type', this.dataset.type);
 
         $.ajax({
@@ -478,12 +480,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
           processData: false,
         }).done(function(data) {
           console.log(data)
-          // var barcode_image = document.getElementsByClassName('barcode_image')[0];
-          // var logo_image    = document.getElementsByClassName('logo_image')[0];
-
-          // console.log(barcode_image);
-          // console.log(logo_image);
-
           document.location.reload(true);
         })
       })

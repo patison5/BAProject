@@ -514,12 +514,11 @@ if __name__ == '__main__':
 
     @app.route('/admin/banks')
     def admin_banks():
-        all_banks = banks.get_banks()
         template = env.get_template('admin/admin-watch-banks.html')
         return template.render(
-            data=all_banks,
             title1="Банк",
-            title2="Банки"
+            title2="Банки",
+            data = organizations.get_all_organizations(3)
         )
 
 
@@ -528,7 +527,7 @@ if __name__ == '__main__':
         template = env.get_template('admin/admin-add-banks.html')
         return template.render(
             title1="Банк",
-            title2="Банки"
+            title2="Банки",
         )
 
 
@@ -536,15 +535,16 @@ if __name__ == '__main__':
     def admin_banks_update(id):
         template = env.get_template('admin/admin-update-banks.html')
         return template.render(
-            title1="Банк",
-            title2="Банки"
+            title1="Банка",
+            title2="Банки",
+            data = organizations.get_single_organization(id)
         )
 
 
     @app.route('/admin/cafe', methods=['GET', 'PUT'])
     def admin_cafe():
         if request.method == 'GET':
-            all_cafe = organizations.get_all_organizations(1)
+            all_cafe = organizations.get_all_organizations(1) #type = 1 -> кафе
             template = env.get_template('admin/admin-watch-organization.html')
             return template.render(
                 data=all_cafe,

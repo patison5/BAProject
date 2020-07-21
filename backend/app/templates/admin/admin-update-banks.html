@@ -69,16 +69,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">{{ title1 }}</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Редактирование {{ title1 }}</h1>
+          </div>
+          <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Главная</a></li>
               <li class="breadcrumb-item active">{{ title1 }}</li>
             </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+          </div> -->
+        </div>
+      </div>
     </div>
     <!-- /.content-header -->
 
@@ -103,18 +103,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="card-body">
                       <div class="form-group">
                         <label for="data_title">Заголовок</label>
-                        <input type="text" class="form-control" id="data_title" value="">
+                        <input type="text" class="form-control" id="data_title" value="{{ data.title }}">
                       </div>
 
                       <div class="form-group">
-                        <label for="data_timetable">График дня</label>
-                        <input type="text" class="form-control" id="data_timetable" value="">
+                        <label for="data_timetable">Время</label>
+                        <input type="text" class="form-control" id="data_timetable" value="{{ data.timetable }}">
                       </div>
 
                       <div class="form-group">
-                        <label for="exampleInputPassword1">Местоположение</label>                    
-                        <div class="chips chips-address" id="data_address"></div>
+                        <label for="data_timetable">Местоположение</label>
+                        <input type="text" class="form-control" id="data_address" value="{{ data.address[0] }}">
                       </div>
+
                     </div>
                   </div>
 
@@ -123,9 +124,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-lg-12">
                     <div class="card-body">
                       <div class="form-group">
-                        <label for="mainLogo">Краткий текст записи</label>
+                        <label for="mainLogo">Текст записи</label>
                           <div class="card card-outline card-info">
-                              <textarea class="textarea" placeholder="Place some text here" id="textarea1"></textarea>
+                              <textarea class="textarea" placeholder="Place some text here" id="textarea1">{{ data.text }}</textarea>
                           </div>
                       </div>
                     </div>
@@ -157,20 +158,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="card-body">
+
+                      <!-- Logo -->
                       <div class="form-group">
                         <label for="logo_file">Лого</label>
-                        <div class="row">
+                          
+                        {% if data.logo %}
+                          <div class="row"> 
+                            <div class="col-md-12 text-center">
+                              <img src="http://127.0.0.1:5000/{{data.logo}}" data-file="{{data.logo}}" alt="" class="img-fluid logo_image image_viewer" width="30%"  id="image_viewer" style="margin-bottom: 30px;">
 
-                          <div class="col-md-12 text-center">
-                            <img src="" alt="" class="img-fluid logo_image" width="30%" style="margin-bottom: 30px;">
-
-                           <!-- <span class="delete-image" id="delete_image-js">x</span>  -->
+                             <span class="delete-image delete_image-js" data-type="logo">x</span> 
+                            </div>
                           </div>
-                        </div>
+                        {% endif %}
 
                         <div class="input-group">
                           <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="logo_file">
+                            <input type="file" class="custom-file-input" value="http://127.0.0.1:5000/{{data.logo}}" id="logo_file">
                             <label class="custom-file-label" for="logo_file">Выберите файл</label>
                           </div>
                           <div class="input-group-append">
@@ -178,6 +183,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           </div>
                         </div>
                       </div>
+
+                       <!-- //Logo -->
+                    
                     </div>
                   </div>
                 </div>
@@ -266,8 +274,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     }
 
     var config = {}
-    config.address = []
-    config.phones =  []
+    config.id = {{ data.id  | tojson }}
 
     var addressChips = $('.chips-address').chips({
       data: config.address,
@@ -277,6 +284,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       data: config.phones,
     });
 
+
+    console.log(config)
 
     function getTags (arr) {
       var res = []
@@ -301,8 +310,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
       var data_address    = getTags(M.Chips.getInstance(addressChips).chipsData);
       var data_phones     = getTags(M.Chips.getInstance(phonesChips).chipsData);
 
+      var logo_file       = document.getElementById('logo_file');
+      var main_file       = document.getElementById('main_file');
+      var barcode_file    = document.getElementById('barcode_file');
+
+      var data_img_title  = document.getElementById('data_img_title');
+      var data_img_desc   = document.getElementById('data_img_desc');
+
       var areaText = $('.textarea').summernote('code');
       // cleanText = areaText.replace(/<\/?[^>]+(>|$)/g, "");
+
+      var logo_file = document.getElementById('logo_file');
+
+      if (logo_file.files[0]) {
+        formData.append("logo", logo_file.files[0])   
+      } 
 
       formData.append("title",      data_title.value);
       formData.append("timetable",  data_timetable.value);
@@ -311,12 +333,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
       formData.append("address",    JSON.stringify(data_address));
       formData.append("phones",     JSON.stringify(data_phones));
       formData.append("text",       areaText)      
+      formData.append("id",         config.id)    
+      formData.append("logo",       logo_file.files[0])    
+      formData.append("image",      main_file.files[0])  
+      formData.append("barcode",    barcode_file.files[0])    
 
+      formData.append("img_title",  data_img_title.value);
+      formData.append("img_desc" ,  data_img_desc.value);
 
       var xhttp;
       xhttp = new XMLHttpRequest();
       xhttp.withCredentials = false;
-      xhttp.open('PUT', '/admin/pharmacy');
+      xhttp.open('PUT', '/admin/organizations/update');
 
       xhttp.onload = function () {
         var json;
@@ -346,34 +374,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
     })
 
 
+    var delete_serv = document.getElementsByClassName('delete_serv-js');
+    for (var i = 0; i < delete_serv.length; i++) {
+      delete_serv[i].addEventListener('click', function (e) {
+        e.preventDefault();
 
+        var srv_id = this.dataset.srv_id;
+        var fdata = new FormData();
 
+        fdata.append('srv_id',  srv_id)
 
-    var save_images = document.getElementById('save_images-js');
+        $.ajax({
+          url: '/admin/organizations/delete-service/',
+          data: fdata,
+          type: "POST",
+          contentType: false,
+          processData: false,
+        }).done(function(data) {
+          console.log(data)
 
-    save_images.addEventListener('click', function (e) {
-      var logo_file = document.getElementById('logo_file');
-      var fdata = new FormData();
-
-      fdata.append('logo', logo_file.files[0])
-
-      $.ajax({
-        url: '/admin/pharmacy/update-image',
-        data: fdata,
-        type: "POST",
-        contentType: false,
-        processData: false,
-      }).done(function(data) {
-        console.log(data)
-
-        var barcode_image = document.getElementsByClassName('barcode_image')[0];
-        var logo_image    = document.getElementsByClassName('logo_image')[0];
-
-        console.log(barcode_image);
-        console.log(logo_image);
-
+          var srvRow = document.getElementById('srv_'+srv_id);
+          srvRow.parentNode.removeChild(srvRow);
+        })
       })
-    })
+    }
 
 
   </script>
