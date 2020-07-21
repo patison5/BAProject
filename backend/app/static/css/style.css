@@ -650,6 +650,12 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   border-radius: 30px;
 }
 
+
+.content-black {
+  padding: 5% 7%;
+  overflow: hidden;
+}
+
 .content-black {
   background: rgba(0,0,0,.8);
   color: #fff;
@@ -666,7 +672,10 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 
 .white-header__img {
   float: left;
-  max-height: 160px;
+  width: 100%;
+  height: 100%;
+  max-height: 200px;
+  max-width: 200px;
 }
 
 .white-header__title {
@@ -674,7 +683,7 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   float: left;
   font-size: 70px;
   line-height: 80px;
-  padding-left: 50px;
+  padding-left: 60px;
 }
 
 
@@ -761,8 +770,8 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   position: absolute;
   right: 0;
   top: 50px;
-  width: 350px;
-  height: 350px;
+  width: 300px;
+  height: 300px;
 }
 
 .list-barcode__img {
@@ -948,6 +957,13 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 }
 
 
+
+.travels .posts-white .swiper-slide {
+    padding: 5% 8% 20px;
+}
+
+
+
 .posts__block {
   display: flex;
   width: 100%;
@@ -961,14 +977,16 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 
 .b-posts__image {
   flex: 3;
-  height: 360px;
+  height: 400px;
+  width:  300px;
   background-size: contain;
   background-repeat: no-repeat;
 }
 
 .posts__image {
   width: 100%;
-  height: 360px;
+  width: 300px;
+  height: 400px;
 }
 
 .b-posts__content {
@@ -1082,12 +1100,15 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 .posts-signle__image {
   width: 100%;
   display: block;
+
+  /*width: 1680px;*/
+  height: 1500px;
 }
 
 .posts-signle__image img {
   width: 100%;
   height: auto;
-  max-height: 1400px;
+  height: 1500px;
 }
 
 .b-posts__more-title {
@@ -1116,7 +1137,7 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   grid-template-rows: auto;
-  grid-gap: 40px;
+  grid-gap: 35px;
   margin: 3em 0;
 }
 
