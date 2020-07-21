@@ -248,7 +248,7 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 }
 
 .center {
-  width: 90%;
+  width: 94%;
   max-width: 2300px;
   margin: 0 auto;
   display: block;
@@ -273,14 +273,14 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 
 /* синяя линейка поиска */
 .blue-line {
-  height: 140pt;
+  height: 125pt;
   /*background: rgb(0, 180, 238);*/
   /*background: #0096d8;*/
   background: linear-gradient(90deg, #00aeef 0%, #0090d0 100%);
   width: 100%;
   display: block;
   border-radius: 20px;
-  line-height: 140pt;
+  line-height: 130pt;
   padding: 0 3.5em;
   display: flex;
 }
@@ -350,7 +350,7 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 
 .big-line__left-btn img,
 .big-line__right-btn img {
-  width: 60%;
+  width: 50%;
   /*margin: 0 auto;*/
   display: block;
 }
@@ -503,7 +503,8 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   width: 100%;
   font-size: 36px;
   line-height: 45px;
-  font-family: 'Museo Sans Cyrl 500';
+  font-family: 'Museo Sans Cyrl 700';
+  font-weight: bold;
   text-transform: uppercase;
 }
 
@@ -541,7 +542,7 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 
 
 .top__menu .main-menu__text {
-  font-size: 29px;
+  font-size: 27px;
   line-height: 35px;
 }
 
@@ -627,7 +628,7 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   font-size: 30px;
   line-height: 45px;
   /*border: 3px solid #00b0e7;*/
-  border: 3px solid #0080c7;
+  border: 8px solid #0080c7;
   text-align: center;
   /*background: rgba(51,102,153, 0.45);*/
   background: #00214b;
@@ -708,6 +709,8 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   line-height: 50px;
   text-align: justify;
   margin-bottom: 50px;
+  font-weight: bold;
+  font-family: 'Museo Sans Cyrl 300';
 }
 
 
@@ -1019,8 +1022,8 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 }
 
 .b-posts__info span {
-  font-family: 'Museo Sans Cyrl 200';
-  font-size: 35px;
+  font-family: 'Museo Sans Cyrl 300';
+  font-size: 37px;
 }
 
 .b-posts__info .info-time:before {
@@ -1090,11 +1093,11 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 }
 
 .posts-single__text {
-  font-size: 30px;
+  font-size: 36px;
   line-height: 45px;
   margin-bottom: 5em;
   margin-top: 2em;
-  font-family: 'Museo Sans Cyrl 100';
+  font-family: 'Museo Sans Cyrl 300';
 }
 
 .posts-signle__image {
