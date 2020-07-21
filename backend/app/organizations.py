@@ -343,25 +343,38 @@ class OrganizationsController:
         self.conn.commit()
 
 
-        #  # Банки
-        # self.cursor.execute('''
-        # INSERT INTO organizations (
-        #     title,
-        #     logo,
-        #     text,
-        #     address,
-        #     timetable,
-        #     type
-        # )
-        # VALUES (?,?,?,?,?,?)''', (
-        #     'АЛЬФА-БАНК', 
-        #     1,
-        #     "Прием и выдача наличных, оплата квитанций",
-        #     "1,5,12,19 Этажи",
-        #     "Круглосуточно",
-        #     3)
-        # )
-        # self.conn.commit()
+        # Туристическое агенствО - основная страница
+        self.cursor.execute('''
+        INSERT INTO organizations (
+            title,
+            logo,
+            text,
+            address,
+            phones,
+            email,
+            link,
+            timetable,
+            type
+        )
+        VALUES (?,?,?,?,?,?,?,?,?)''', (
+            'Студия дизайна и полиграфии', 
+            1,
+            "Студия дизайна и полиграфии оказывает широкий спектр услуг производства и печати: оперативная печать фото на документы, копирования/канирование, разработка и производство полиграфической продукции, разработка дизайна и фирменного стиля, а также верстка, брошюровка, печать визиток и многое другое",
+            json.dumps([
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+                "19 этаж, кабинет 1928"
+            ]),
+            json.dumps([
+                "+7 (495) 633-60-02",
+            ]),
+            "kow@mos.ru",
+            "https://www.mos.ru/kos",
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            7)
+        )
+        self.conn.commit()
+
 
     def letter_index_in_data(self, data, letter):
         for i in range(len(data)):
