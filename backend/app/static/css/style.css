@@ -268,12 +268,8 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   height: 100%;
   width: 2040px;
   margin: 0 auto;
-  display: block;
+  display: block; 
 }
-
-
-
-
 
 /* синяя линейка поиска */
 .blue-line {
