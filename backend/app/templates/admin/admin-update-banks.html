@@ -113,7 +113,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                       <div class="form-group">
                         <label for="data_timetable">Местоположение</label>
-                        <input type="text" class="form-control" id="data_address" value="{{ data.address[0] }}">
+                        <input type="text" class="form-control" id="data_address" value="{{ data.address}}">
                       </div>
 
                     </div>
@@ -276,15 +276,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     var config = {}
     config.id = {{ data.id  | tojson }}
 
-    var addressChips = $('.chips-address').chips({
-      data: config.address,
-    });
-
-    var phonesChips = $('.chips-phones').chips({
-      data: config.phones,
-    });
-
-
     console.log(config)
 
     function getTags (arr) {
@@ -305,22 +296,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       var data_title      = document.getElementById('data_title');
       var data_timetable  = document.getElementById('data_timetable');
-      var data_email      = document.getElementById('data_email');
-      var data_link       = document.getElementById('data_link');
-      var data_address    = getTags(M.Chips.getInstance(addressChips).chipsData);
-      var data_phones     = getTags(M.Chips.getInstance(phonesChips).chipsData);
+      var data_address    = document.getElementById('data_address');
 
       var logo_file       = document.getElementById('logo_file');
-      var main_file       = document.getElementById('main_file');
-      var barcode_file    = document.getElementById('barcode_file');
-
-      var data_img_title  = document.getElementById('data_img_title');
-      var data_img_desc   = document.getElementById('data_img_desc');
 
       var areaText = $('.textarea').summernote('code');
       // cleanText = areaText.replace(/<\/?[^>]+(>|$)/g, "");
-
-      var logo_file = document.getElementById('logo_file');
 
       if (logo_file.files[0]) {
         formData.append("logo", logo_file.files[0])   
@@ -328,23 +309,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       formData.append("title",      data_title.value);
       formData.append("timetable",  data_timetable.value);
-      formData.append("email",      data_email.value);
-      formData.append("link" ,      data_link.value);
-      formData.append("address",    JSON.stringify(data_address));
-      formData.append("phones",     JSON.stringify(data_phones));
+      formData.append("address",    data_address.value);
+      formData.append("phones",     JSON.stringify([]));
       formData.append("text",       areaText)      
       formData.append("id",         config.id)    
       formData.append("logo",       logo_file.files[0])    
-      formData.append("image",      main_file.files[0])  
-      formData.append("barcode",    barcode_file.files[0])    
-
-      formData.append("img_title",  data_img_title.value);
-      formData.append("img_desc" ,  data_img_desc.value);
 
       var xhttp;
       xhttp = new XMLHttpRequest();
       xhttp.withCredentials = false;
-      xhttp.open('PUT', '/admin/organizations/update');
+      xhttp.open('PUT', '/admin/banks/update');
 
       xhttp.onload = function () {
         var json;
@@ -364,12 +338,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         alert("Данные обновлены!")
       }
 
-      // // Display the values
-      // for (var value of formData.values()) {
-      //    console.log(value); 
-      // }
-
-      console.log(JSON.stringify(data_address))
+    
       xhttp.send(formData)
     })
 

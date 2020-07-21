@@ -9,6 +9,16 @@ import sqlite3
 
 database = "mydatabase.db"
 
+def is_json(myjson):
+    if myjson is None:
+        return False
+
+    try:
+        json_object = json.loads(myjson)
+    except ValueError as e:
+        return False
+    return True
+
 class OrganizationsController:
     
     # Вся информация организаций
@@ -319,26 +329,14 @@ class OrganizationsController:
             logo,
             text,
             address,
-            phones,
-            email,
-            link,
             timetable,
             type
         )
-        VALUES (?,?,?,?,?,?,?,?,?)''', (
-            'Студия дизайна и полиграфии', 
+        VALUES (?,?,?,?,?,?)''', (
+            'АЛЬФА-БАНК', 
             1,
-            "Студия дизайна и полиграфии оказывает широкий спектр услуг производства и печати: оперативная печать фото на документы, копирования/канирование, разработка и производство полиграфической продукции, разработка дизайна и фирменного стиля, а также верстка, брошюровка, печать визиток и многое другое",
-            json.dumps([
-                "121099, Г. Москва",
-                "ул. Новый Арбат, д.36",
-                "19 этаж, кабинет 1928"
-            ]),
-            json.dumps([
-                "+7 (495) 633-60-02",
-            ]),
-            "kow@mos.ru",
-            "https://www.mos.ru/kos",
+            "Прием и выдача наличных, оплата квитанций",
+            "1,5,12,19 Этажи",
             "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
             3)
         )
@@ -497,12 +495,18 @@ class OrganizationsController:
                 "title": service[1]
             })
 
+        k = data[5]
+        if (is_json(k)):
+            k = json.loads(k)
+            print("fuck shit")
+        print(k)
+
         single_organization = {
             "id":           data[0],
             "title":        data[1],
             "text":         data[3],
-            "address":      json.loads(data[4]),
-            "phones":       json.loads(data[5]),
+            "address":      json.loads(data[4]) if is_json(data[4]) else data[4],
+            "phones":       json.loads(data[5]) if is_json(data[5]) else data[5],
             "email":        data[6],
             "link":         data[7],
             "timetable":    data[8],
@@ -691,6 +695,9 @@ class OrganizationsController:
         cdb.execute("""SELECT src FROM images WHERE id = ?""", (id,))
         src = cdb.fetchall()[0][0]
         db.commit()
+        cdb.close()
+        db.close()
+        
         return src
 
     def update_organization_main_image(self, id, image):
@@ -733,3 +740,29 @@ class OrganizationsController:
         db.commit()
 
         return "organizations deleted"
+
+
+
+
+    def update_organization_bank (self, data):
+
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE organizations 
+        SET 
+            title = ?,
+            text = ?,
+            address = ?, 
+            timetable = ?
+        WHERE id = ? """, (
+            data["title"], 
+            data['text'],
+            data["address"], 
+            data["timetable"],
+            data["id"]))
+
+        db.commit()
+
+        return self.get_single_organization(data["id"])

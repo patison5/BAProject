@@ -540,6 +540,30 @@ if __name__ == '__main__':
             data = organizations.get_single_organization(id)
         )
 
+    @app.route('/admin/banks/update', methods=['PUT'])
+    def admin_organizations_banks_update():
+        if request.method == 'PUT':
+            data = request.form
+            data = data.to_dict()
+
+            files = request.files.to_dict()
+
+            r_data = {}
+
+            if 'logo' in request.files:
+                logo = files['logo']
+                filename = secure_filename(logo.filename)
+                up_img_id = upload_file_on_server(logo)
+
+                print("some data:")
+                print(data["id"])
+                print(up_img_id)
+                print(logo)
+                r_data["logo"] = organizations.update_organization_logo(data["id"], up_img_id)
+
+            r_data["poster"] = organizations.update_organization_bank(data)
+
+            return r_data
 
     @app.route('/admin/cafe', methods=['GET', 'PUT'])
     def admin_cafe():
