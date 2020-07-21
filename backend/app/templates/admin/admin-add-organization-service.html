@@ -87,7 +87,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row">
   
-          <div class="col-lg-8">
+          <div class="col-lg-12">
              <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
@@ -172,93 +172,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
           </div>
 
-            <div class="col-lg-4">
-              <div class="card card-primary">
-                <div class="card-header">
-                  <div class="card-title">Приложения</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="card-body">
-                      <div class="form-group">
-                        <label for="logo_file">Лого</label>
-                        <div class="row">
-
-                          <div class="col-md-12 text-center">
-                            <img src="" alt="" class="img-fluid logo_image" width="30%" style="margin-bottom: 30px;">
-
-                           <!-- <span class="delete-image" id="delete_image-js">x</span>  -->
-                          </div>
-                        </div>
-
-                        <div class="input-group">
-                          <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="logo_file">
-                            <label class="custom-file-label" for="logo_file">Выберите файл</label>
-                          </div>
-                          <div class="input-group-append">
-                            <span class="input-group-text" id="">Загрузить</span>
-                          </div>
-                        </div>
-                      </div>
-                      <hr>
-
-                      <div class="form-group">
-                        <label for="barcode_image">QR-код</label>
-                        <div class="row">
-
-                          <div class="col-md-12 text-center">
-                            <img src="" alt="" class="img-fluid barcode_image" width="30%" style="margin-bottom: 30px;">
-                          </div>
-                        </div>
-
-                        <div class="input-group">
-                          <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="barcode_file">
-                            <label class="custom-file-label" for="barcode_file">Выберите файл</label>
-                          </div>
-                          <div class="input-group-append">
-                            <span class="input-group-text" id="">Загрузить</span>
-                          </div>
-                        </div>
-                      </div>
-                      <hr>
-
-                       <div class="form-group">
-                        <label for="barcode_file">Фото</label>
-                        <div class="row">
-
-                          <div class="col-md-12 text-center">
-                            <img src="" alt="" class="img-fluid barcode_image" width="30%" style="margin-bottom: 30px;">
-                          </div>
-                        </div>
-
-                        <div class="input-group">
-                          <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="barcode_file">
-                            <label class="custom-file-label" for="barcode_file">Выберите файл</label>
-                          </div>
-                          <div class="input-group-append">
-                            <span class="input-group-text" id="">Загрузить</span>
-                          </div>
-                        </div>
-                      </div>
-
-                       <div class="form-group">
-                        <label for="data_title">Заголовок фото</label>
-                        <input type="text" class="form-control" id="data_title" value="">
-                      </div>
-                       <div class="form-group">
-                        <label for="data_title">Описание для фото</label>
-                        <input type="text" class="form-control" id="data_title" value="">
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </div>
+            
           </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -411,7 +325,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
         console.log(json)
-        alert("Данные обновлены!")
+
+        if (json.id != undefined) {
+          window.location.href = "/admin/organizations/update-service/" + json.id;
+        }
+
+        alert("Данные добавлены!")
       }
 
       // // Display the values
@@ -423,35 +342,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       xhttp.send(formData)
     })
 
-
-
-
-
-    var save_images = document.getElementById('save_images-js');
-
-    save_images.addEventListener('click', function (e) {
-      var logo_file = document.getElementById('logo_file');
-      var fdata = new FormData();
-
-      fdata.append('logo', logo_file.files[0])
-
-      $.ajax({
-        url: '/admin/pharmacy/update-image',
-        data: fdata,
-        type: "POST",
-        contentType: false,
-        processData: false,
-      }).done(function(data) {
-        console.log(data)
-
-        var barcode_image = document.getElementsByClassName('barcode_image')[0];
-        var logo_image    = document.getElementsByClassName('logo_image')[0];
-
-        console.log(barcode_image);
-        console.log(logo_image);
-
-      })
-    })
 
 
   </script>

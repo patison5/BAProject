@@ -363,7 +363,58 @@ if __name__ == '__main__':
         if request.method == 'PUT':
             data = request.form
             data = data.to_dict()
-            return services.update_services_info(data)
+
+            files = request.files.to_dict()
+
+            r_data = {}
+
+            if 'logo' in request.files:
+                logo = files['logo']
+                filename = secure_filename(logo.filename)
+                up_img_id = upload_file_on_server(logo)
+                r_data["logo"] = services.update_logo(data["id"], up_img_id)
+
+            if 'image' in request.files:
+                logo = files['image']
+                filename = secure_filename(logo.filename)
+                up_img_id = upload_file_on_server(logo, data["img_desc"], data["img_title"])
+                r_data["image"] = services.update_main_image(data["id"], up_img_id)
+
+            if 'barcode' in request.files:
+                logo = files['barcode']
+                filename = secure_filename(logo.filename)
+                up_img_id = upload_file_on_server(logo)
+                r_data["barcode"] = services.update_barcode(data["id"], up_img_id)
+
+            r_data["poster"] = services.update_services_info(data)
+
+            return r_data
+
+    @app.route('/admin/organizations/services/clear-image', methods=['POST'])
+    def admin_org_serv_clear_images():
+        data = request.form
+        data = data.to_dict()
+
+        image_type = data["image_type"]
+
+        if (image_type == "logo"):
+            services.update_logo(data["id"], None)
+        if (image_type == "main"):
+            services.update_main_image(data["id"], None)
+        if (image_type == "barcode"):
+            services.update_barcode(data["id"], None)
+
+        return json.dumps({
+            "message": "alles gut"
+        })
+
+
+    @app.route('/admin/organizations/delete-service/', methods=['POST'])
+    def admin_organizations_delete_service():
+        data = request.form
+        data = data.to_dict()
+        # return json.dumps(data)
+        return services.delete_service_by_id(data["srv_id"]);
 
     @app.route('/admin/afisha')
     def admin_afisha():

@@ -72,8 +72,11 @@ class ServicesController:
             phones TEXT,
             email TEXT,
             link TEXT,
-            barcode TEXT,
             timetable TEXT,
+            logo INTEGER,
+            barcode INTEGER,
+            image_title TEXT,
+            image_desc TEXT,
             FOREIGN KEY (organization_id) REFERENCES organizations (id),
             FOREIGN KEY (image) REFERENCES images (id)
         )
@@ -102,7 +105,9 @@ class ServicesController:
             phones = ?,
             email = ?,
             link = ?,
-            timetable = ?
+            timetable = ?,
+            image_desc = ?,
+            image_title = ?
         WHERE id = ? """, (
             data["title"], 
             data['text'],
@@ -111,6 +116,8 @@ class ServicesController:
             data["email"], 
             data["link"], 
             data["timetable"],
+            data["img_desc"], 
+            data["img_title"],
             data["id"]))
 
         db.commit()
@@ -130,10 +137,11 @@ class ServicesController:
             phones,
             email,
             link,
-            barcode,
-            timetable
+            timetable,
+            image_title,
+            image_desc
         )
-        VALUES (?,?,?,?,?,?,?,?,?,?)''', (
+        VALUES (?,?,?,?,?,?,?,?,?,?,?)''', (
             1,
             "Это какой-то 1 тестовый сервис у организации, хранящийся в бд", 
             1,
@@ -150,8 +158,9 @@ class ServicesController:
             ]),
             "kow@mos.ru",
             "https://www.mos.ru/kos",
-            "barcode",
-            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной")
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            "image_title",
+            "image_desc")
         )
         self.conn.commit()
 
@@ -165,10 +174,9 @@ class ServicesController:
             phones,
             email,
             link,
-            barcode,
             timetable
         )
-        VALUES (?,?,?,?,?,?,?,?,?,?)''', (
+        VALUES (?,?,?,?,?,?,?,?,?)''', (
             1,
             "Это какой-то 2 тестовый сервис у организации, хранящийся в бд", 
             1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
@@ -185,7 +193,6 @@ class ServicesController:
             ]),
             "kow@mos.ru",
             "https://www.mos.ru/kos",
-            "barcode",
             "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной")
         )
         self.conn.commit()
@@ -208,7 +215,6 @@ class ServicesController:
             phones,
             email,
             link,
-            barcode,
             timetable
         )
         VALUES (?,?,?,?,?,?,?,?,?,?)''', (
@@ -220,14 +226,14 @@ class ServicesController:
             data["phones"],
             data["email"],
             data["link"],
-            "barcode",
             data["timetable"]
         ))
 
+        cdb.execute('''SELECT last_insert_rowid()''')
+        id = cdb.fetchall()[0][0]
         db.commit()
 
-        return json.dumps({"status": "ok"})
-
+        return json.dumps({"id": id})
 
 
     def get_single_service(self, id):
@@ -237,14 +243,40 @@ class ServicesController:
         cdb.execute('''
             SELECT *
             FROM services
-            INNER JOIN images
-            ON services.image = images.id
             WHERE services.id = ?
         ''', (str(id)))
 
         data = cdb.fetchone();
 
-        return {
+        # ////////// фотографии //////////
+        cdb.execute('''
+            SELECT src
+            FROM services
+            LEFT JOIN images
+            ON services.logo = images.id
+            WHERE services.id = ?
+        ''', (str(id)))
+        logo = cdb.fetchone();
+
+        cdb.execute('''
+            SELECT src, desc, images.title as title
+            FROM services
+            LEFT JOIN images
+            ON services.image = images.id
+            WHERE services.id = ?
+        ''', (str(id)))
+        image = cdb.fetchone();
+
+        cdb.execute('''
+            SELECT src
+            FROM services
+            LEFT JOIN images
+            ON services.barcode = images.id
+            WHERE services.id = ?
+        ''', (str(id)))
+        barcode = cdb.fetchone();
+
+        single_service = {
             "id":           data[0],
             "title":        data[2],
             "text":         data[4],
@@ -252,7 +284,72 @@ class ServicesController:
             "phones":       json.loads(data[6]),
             "email":        data[7],
             "link":         data[8],
-            "barcode":      data[9],
-            "timetable":    data[10],
-            "logo":         data[12],
+            "timetable":    data[9],
+            "img_title":    data[12] if data[12] is not None else "",
+            "img_desc":     data[13] if data[13] is not None else "",
+
         }
+
+
+        if logo[0] is not None:
+           single_service["logo"] = logo[0]
+        if image[0] is not None:
+           single_service["image"]       = image[0]
+        if barcode[0] is not None:
+           single_service["barcode"] = barcode[0]
+
+        print(json.dumps(single_service, sort_keys=True, indent=4))
+
+        return single_service
+
+
+
+    def delete_service_by_id(delf, id):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+            DELETE FROM services WHERE id = ?
+        ''', (str(id)))
+
+        db.commit()
+
+        return json.dumps("Service deleted")
+
+
+
+    def update_logo(self, id, logo):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE services 
+        SET 
+            logo = ?
+        WHERE id = ? """, (logo, id))
+
+        db.commit()
+
+    def update_main_image(self, id, image):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE services 
+        SET 
+            image = ?
+        WHERE id = ? """, (image, id))
+
+        db.commit()
+
+    def update_barcode(self, id, barcode):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE services 
+        SET 
+            barcode = ?
+        WHERE id = ? """, (barcode, id))
+
+        db.commit()
