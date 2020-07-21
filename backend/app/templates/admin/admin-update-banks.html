@@ -343,31 +343,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
     })
 
 
-    var delete_serv = document.getElementsByClassName('delete_serv-js');
-    for (var i = 0; i < delete_serv.length; i++) {
-      delete_serv[i].addEventListener('click', function (e) {
+
+    var  delete_image_btns = document.getElementsByClassName(' delete_image-js');
+
+    for (var i = 0; i < delete_image_btns.length; i++) {
+      var dBtn = delete_image_btns[i]
+
+      dBtn.addEventListener('click', function (e) {
         e.preventDefault();
 
-        var srv_id = this.dataset.srv_id;
-        var fdata = new FormData();
+        console.log(this.dataset.type)
+        console.log(this.dataset)
+        console.log(config.id)
 
-        fdata.append('srv_id',  srv_id)
+        var fdata = new FormData();
+        fdata.append('id', config.id)
+        fdata.append('image_type', this.dataset.type);
 
         $.ajax({
-          url: '/admin/organizations/delete-service/',
+          url: '/admin/organizations/clear-image',
           data: fdata,
           type: "POST",
           contentType: false,
           processData: false,
         }).done(function(data) {
           console.log(data)
-
-          var srvRow = document.getElementById('srv_'+srv_id);
-          srvRow.parentNode.removeChild(srvRow);
+          document.location.reload(true);
         })
       })
     }
-
 
   </script>
 

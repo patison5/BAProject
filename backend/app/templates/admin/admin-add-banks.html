@@ -112,8 +112,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </div>
 
                       <div class="form-group">
-                        <label for="exampleInputPassword1">Местоположение</label>                    
-                        <div class="chips chips-address" id="data_address"></div>
+                        <label for="data_address">Местоположение</label>                    
+                        <input type="text" class="form-control" id="data_address" value="">
                       </div>
                     </div>
                   </div>
@@ -253,41 +253,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script>
 
-    function convertToArray (config) {
-       var arr = [];
-       for (var i = 0; i < config.length; i++) {
-        var obj = {}
-        obj.tag = config[i];
-
-        arr.push(obj);
-      }
-
-      return arr
-    }
-
-    var config = {}
-    config.address = []
-    config.phones =  []
-
-    var addressChips = $('.chips-address').chips({
-      data: config.address,
-    });
-
-    var phonesChips = $('.chips-phones').chips({
-      data: config.phones,
-    });
-
-
-    function getTags (arr) {
-      var res = []
-      for (var i = 0; i < arr.length; i++) {
-        res.push(arr[i].tag)
-      }
-
-      return res
-    }
-
-
     var sendData = document.getElementById('sendData-js');
     sendData.addEventListener('click', function (e) {
       e.preventDefault();
@@ -298,25 +263,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
       var data_timetable  = document.getElementById('data_timetable');
       var data_email      = document.getElementById('data_email');
       var data_link       = document.getElementById('data_link');
-      var data_address    = getTags(M.Chips.getInstance(addressChips).chipsData);
-      var data_phones     = getTags(M.Chips.getInstance(phonesChips).chipsData);
+      var data_address    = document.getElementById('data_address');
 
       var areaText = $('.textarea').summernote('code');
       // cleanText = areaText.replace(/<\/?[^>]+(>|$)/g, "");
 
       formData.append("title",      data_title.value);
       formData.append("timetable",  data_timetable.value);
-      formData.append("email",      data_email.value);
-      formData.append("link" ,      data_link.value);
-      formData.append("address",    JSON.stringify(data_address));
-      formData.append("phones",     JSON.stringify(data_phones));
-      formData.append("text",       areaText)      
+      formData.append("address",    data_address.value);
+      formData.append("text",       areaText)     
+      formData.append("page_type",  3)       
 
 
       var xhttp;
       xhttp = new XMLHttpRequest();
       xhttp.withCredentials = false;
-      xhttp.open('PUT', '/admin/pharmacy');
+      xhttp.open('POST', '/admin/banks/add');
 
       xhttp.onload = function () {
         var json;
@@ -336,43 +298,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         alert("Данные обновлены!")
       }
 
-      // // Display the values
-      // for (var value of formData.values()) {
-      //    console.log(value); 
-      // }
-
       console.log(JSON.stringify(data_address))
       xhttp.send(formData)
-    })
-
-
-
-
-
-    var save_images = document.getElementById('save_images-js');
-
-    save_images.addEventListener('click', function (e) {
-      var logo_file = document.getElementById('logo_file');
-      var fdata = new FormData();
-
-      fdata.append('logo', logo_file.files[0])
-
-      $.ajax({
-        url: '/admin/pharmacy/update-image',
-        data: fdata,
-        type: "POST",
-        contentType: false,
-        processData: false,
-      }).done(function(data) {
-        console.log(data)
-
-        var barcode_image = document.getElementsByClassName('barcode_image')[0];
-        var logo_image    = document.getElementsByClassName('logo_image')[0];
-
-        console.log(barcode_image);
-        console.log(logo_image);
-
-      })
     })
 
 

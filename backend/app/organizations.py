@@ -692,13 +692,13 @@ class OrganizationsController:
         SET 
             logo = ?
         WHERE id = ? """, (logo, id))
-        cdb.execute("""SELECT src FROM images WHERE id = ?""", (id,))
-        src = cdb.fetchall()[0][0]
+        # cdb.execute("""SELECT src FROM images WHERE id = ?""", (id,))
+        # src = cdb.fetchall()[0][0]
         db.commit()
         cdb.close()
         db.close()
-        
-        return src
+
+        return "src"
 
     def update_organization_main_image(self, id, image):
         db = sqlite3.connect(database, timeout=10)
@@ -766,3 +766,32 @@ class OrganizationsController:
         db.commit()
 
         return self.get_single_organization(data["id"])
+
+
+    def create_new_organization_bank (self, data):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        print(data)
+        page_type = data["page_type"]
+
+        cdb.execute('''
+        INSERT INTO organizations (
+            title,
+            text,
+            address,
+            timetable,
+            type
+        )
+        VALUES (?,?,?,?,?)''', (
+            data["title"], 
+            data["text"],
+            data["address"],
+            data["timetable"],
+            page_type)
+        )
+        cdb.execute('''SELECT last_insert_rowid()''')
+        id = cdb.fetchall()[0][0]
+        db.commit()
+
+        return id

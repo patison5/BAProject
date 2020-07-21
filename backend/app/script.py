@@ -348,6 +348,20 @@ if __name__ == '__main__':
             data=organizations.get_single_organization(id),
         )
 
+    @app.route('/admin/organizations/clear-image', methods=['POST'])
+    def admin_organization_clear_images():
+        data = request.form
+        data = data.to_dict()
+
+        image_type = data["image_type"]
+
+        if (image_type == "logo"):
+            organizations.update_organization_logo(data["id"], None)
+    
+        return json.dumps({
+            "message": "alles gut"
+        })
+
     @app.route('/admin/organizations/update-service/<int:id>', methods=['GET'])
     def admin_organizations_update_service_get(id):
         template = env.get_template('admin/admin-update-organization-service.html')
@@ -522,13 +536,21 @@ if __name__ == '__main__':
         )
 
 
-    @app.route('/admin/banks/add')
+    @app.route('/admin/banks/add', methods=['GET', 'POST'])
     def admin_banks_add():
-        template = env.get_template('admin/admin-add-banks.html')
-        return template.render(
-            title1="Банк",
-            title2="Банки",
-        )
+        if request.method == 'GET':
+            template = env.get_template('admin/admin-add-banks.html')
+            return template.render(
+                title1="Банк",
+                title2="Банки",
+            )
+
+
+        if request.method == 'POST':
+            data = request.form
+            data = data.to_dict()
+            return json.dumps(organizations.create_new_organization_bank(data))
+
 
 
     @app.route('/admin/banks/update/<int:id>')
