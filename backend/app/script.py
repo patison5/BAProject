@@ -173,14 +173,14 @@ if __name__ == '__main__':
         )
 
 
+    # используется
     @app.route('/kafe')
     def page_kafe():
-        cafe_info = misc.get_misc_info('cafe')
         template = env.get_template('cafe-all.html')
         return template.render(
             title='Кафе',
             menuElement="kafe-inactive",
-            data=cafe_info
+            data = convert_to_slide_array(organizations.get_all_organizations_full(1))
         )
 
     @app.route('/kafe/single')
@@ -205,7 +205,7 @@ if __name__ == '__main__':
         return template.render(
             title='Банкоматы',
             menuElement="banks-inactive",
-            data=convert_to_slide_array(organizations.get_all_organizations_full(3))
+            data = convert_to_slide_array(organizations.get_all_organizations_full(3))
         )
 
 
