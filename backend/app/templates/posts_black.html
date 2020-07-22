@@ -7,8 +7,14 @@
 
 	<script src="static/js/jquery.js"></script>
 
-	<link rel="stylesheet" href="static/css/swiper.css">
+<!-- 	<link rel="stylesheet" href="static/css/swiper.css">
 	<link rel="stylesheet" href="static/css/style.css">
+ -->
+	<script src="static/js/bxslider.js"></script>
+
+	<link rel="stylesheet" href="static/css/bxslider.css">
+	<link rel="stylesheet" href="static/css/style.css">
+
 </head>
 <body>
 	<div class="wraper">
@@ -22,19 +28,24 @@
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
 						
+						<div class="slider">
 						{% for slide in data %}
 							<!-- 1 слайд -->
-							<div class="swiper-slide">
+							<div class="slider-slide">
 
 							{% for post in slide %}
 								<div class="posts__block">
 									<div class="b-posts__image">
-										<!-- <img src="../{{ post.img }}" alt="" class="posts__image"> -->
-										<img src="../static/images/afisha.png" alt="" class="posts__image">
+										<img src="../{{ post.img }}" alt="" class="posts__image">
+										<!-- <img src="../static/images/afisha.png" alt="" class="posts__image"> -->
 									</div>
 
 									<div class="b-posts__content">
-										<div class="b-posts__title">{{ post.title }}</div>
+										<div class="b-posts__title">
+											<a href="/afisha/{{post.id}}" style="color:#fff;">
+												{{ post.title }}
+											</a>
+										</div>
 										<div class="b-posts__info">
 											<span class="info-calendar">{{ post.date }}</span>
 											<span class="info-time">{{ post.time }}</span>
@@ -49,6 +60,7 @@
 							{% endfor %}
 							</div> <!-- 1 слайд -->	
 						{% endfor %}
+						</div>
 						
 					</div>
 
@@ -69,6 +81,18 @@
 
 
     <!-- Swiper JS -->
-  	<script src="static/js/swiper.min.js"></script>
+  	<!-- <script src="static/js/swiper.min.js"></script> -->
+
+  	 <script>
+    	$(document).ready(function(){
+			$('.slider').bxSlider({
+				auto: true,
+				pager: false,
+				autoControls: false,
+				slideMargin: 10,
+				pause: 50000
+			});
+		});
+    </script>
 </body>
 </html>

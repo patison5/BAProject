@@ -61,11 +61,13 @@ class PostersController:
             SELECT *
             FROM posters
             LEFT JOIN images
-            ON posters.image = images.id
+            ON posters.logo = images.id
         ''')
 
 
         afisha = cdb.fetchall();
+
+        print(afisha)
 
         afishaData = []
 
@@ -78,7 +80,7 @@ class PostersController:
                 "date":     element[3],
                 "time":     element[4],
                 "address":  element[2],
-                "img":      element[8],
+                "img":      element[9],
             })
 
         return afishaData
@@ -244,26 +246,28 @@ class PostersController:
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
 
-        sql = ''' INSERT INTO posters(title, text, address, date, time, image)
-              VALUES(?,?,?,?,?,?) '''
+        sql = ''' INSERT INTO posters(title, text, address, date, time, image, logo)
+              VALUES(?,?,?,?,?,?,?) '''
 
 
         cdb.execute(sql, (
             "Комитет общественных связей и молодежной политики города Москвы", 
-            "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
+            "kv ipsum dolor  praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
             "Большой концертный зал",
             "22.02.12",
             "13:00",
+            "1",
             "1"
         ))
         db.commit()
 
         cdb.execute(sql, (
             "Комитет общественных связей и молодежной политики города Москвы", 
-            "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
+            "kv ipsum dolor  praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.", 
             "Большой концертный зал",
             "22.02.12",
             "13:00",
+            "1",
             "1"
         ))
         db.commit()
