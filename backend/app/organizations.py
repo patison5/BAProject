@@ -77,7 +77,7 @@ class OrganizationsController:
             image_title TEXT,
             image_desc TEXT,
             type INTEGER DEFAULT 0,
-            prev_img INTEGER DEFAULT NULL,
+
             -- orgs = 0
             -- restaraunts = 1
             -- servs = 2
@@ -86,6 +86,9 @@ class OrganizationsController:
             -- markets = 5
             -- pharms = 6
             -- tourizm = 7
+            prev_img INTEGER DEFAULT NULL,
+            prev_timetable TEXT DEFAULT NULL,
+            prev_adress TEXT DEFAULT NULL,
 
             FOREIGN KEY (prev_img) REFERENCES images (id),
             FOREIGN KEY (image)    REFERENCES images (id),
