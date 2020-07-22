@@ -25,7 +25,10 @@ class TravelsController:
         self.cursor.execute('''
         CREATE TABLE trv_rubrics (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            txt TEXT NOT NULL,
+            title TEXT NOT NULL,
+            address TEXT NOT NULL,
+            timetable TEXT NOT NULL,
+            desc TEXT NOT NULL,
             image INTEGER,
             FOREIGN KEY (image) REFERENCES images (id)
         )
@@ -34,10 +37,7 @@ class TravelsController:
         CREATE TABLE travels (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             rub_id INTEGER NOT NULL DEFAULT 0,
-            title TEXT NOT NULL,
-            address TEXT NOT NULL,
-            timetable TEXT NOT NULL,
-            desc TEXT NOT NULL,
+            title TEXT DEFAULT NULL,
             image INTEGER,
             data TEXT,
             FOREIGN KEY (rub_id) REFERENCES trv_rubrics (id),
@@ -46,30 +46,23 @@ class TravelsController:
         ''')
         self.conn.commit()
 
-        self.cursor.execute('''
-        INSERT INTO trv_rubrics (
-           txt,
-           image
-        )
-        VALUES (?,?)''', (
-            "Рубрика 1",
-            1)
-        )
-        self.conn.commit()
-
 
     def create_new_rubric(self, data):
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
 
-        page_type = data["page_type"]
-
         cdb.execute('''
         INSERT INTO trv_rubrics (
-            txt
+            title,
+            address,
+            timetable,
+            desc
         )
         VALUES (?)''', (
-                data["txt"]
+                data["title"],
+                data["address"],
+                data["timetable"],
+                data["desc"]
             )
         )
         cdb.execute('''SELECT last_insert_rowid()''')
@@ -96,9 +89,15 @@ class TravelsController:
         cdb.execute("""
         UPDATE trv_rubric 
         SET 
-            txt = ?
+            title = ?,
+            address = ?,
+            timetable = ?,
+            desc = ?
         WHERE id = ?""", (
-            data["txt"],
+            data["title"],
+            data["address"],
+            data["timetable"],
+            data["desc"],
             data["id"]))
 
         db.commit()
@@ -125,7 +124,7 @@ class TravelsController:
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
         cdb.execute('''
-            SELECT trv_rubrics.id, trv_rubrics.txt, images.src FROM trv_rubrics
+            SELECT trv_rubrics.id, trv_rubrics.title, images.src FROM trv_rubrics
             INNER JOIN images ON trv_rubrics.image = images.id
         ''')
         data = cdb.fetchall();
@@ -144,12 +143,14 @@ class TravelsController:
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
         cdb.execute('''
-            SELECT id, title, timetable, desc, images.src, data FROM travels
+            SELECT id, title, data, images.src FROM travels
             INNER JOIN images ON travels.image = images.id
             WHERE rub_id = ?
+            ORDER BY id ASC
         ''', (rub_id,))
         data = cdb.fetchall();
         json = []
+        ids = []
 
         for item in data:
             json.append({
@@ -159,11 +160,24 @@ class TravelsController:
                 "desc":            item[3],
                 "image_src":       item[4],
                 "additional_data": item[5],
+                "images_src":      []
             })
+            ids.append(item[0])
+
+
+        cdb.execute('''
+            SELECT images.src, travel_id FROM trv_images
+            INNER JOIN images ON trv_images.image_id = images.id
+            WHERE travel_id IN (?)
+            ORDER BY travel_id ASC
+        ''', (str(ids).strip('[]'),))
+        data = cdb.fetchall();
+        for i in data:
+            if i[1] in ids:
+                index = ids.index(i[1])
+                json[index]['images_src'].append(i[0])
 
         return json
-
-
 
 
     def get_single_rubric(self, id):
@@ -210,17 +224,11 @@ class TravelsController:
         INSERT INTO travels (
             rub_id,
             title,
-            address,
-            timetable,
-            desc,
-            data,
+            data
         )
         VALUES (?,?)''', (
                 data["rub_id"],
                 data["title"],
-                data["address"],
-                data["timetable"],
-                data["desc"],
                 data["data"]
             )
         )
@@ -240,16 +248,10 @@ class TravelsController:
         SET 
             rub_id = ?,
             title = ?,
-            address = ?,
-            timetable = ?,
-            desc = ?,
             data = ?,
         WHERE id = ?""", (
             data["rub_id"],
             data["title"],
-            data["address"],
-            data["timetable"],
-            data["desc"],
             data["data"],
             data["id"]
         ))
@@ -275,7 +277,7 @@ class TravelsController:
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
         cdb.execute('''
-            SELECT id, title, timetable, desc, images.src, data FROM travels
+            SELECT id, title, images.src, data FROM travels
             INNER JOIN images ON travels.image = images.id
             WHERE id = ?
         ''', (id,))
@@ -286,8 +288,6 @@ class TravelsController:
             json.append({
                 "id":              item[0],
                 "title":           item[1],
-                "timetable":       item[2],
-                "desc":            item[3],
                 "image_src":       item[4],
                 "additional_data": item[5],
             })
