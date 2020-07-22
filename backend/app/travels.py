@@ -39,7 +39,9 @@ class TravelsController:
             rub_id INTEGER NOT NULL DEFAULT 0,
             title TEXT DEFAULT NULL,
             image INTEGER,
-            data TEXT,
+            sec_title TEXT,
+            txt_a TEXT,
+            txt_b TEXT,
             FOREIGN KEY (rub_id) REFERENCES trv_rubrics (id),
             FOREIGN KEY (image) REFERENCES images (id)
         )
@@ -224,12 +226,16 @@ class TravelsController:
         INSERT INTO travels (
             rub_id,
             title,
-            data
+            sec_title,
+            txt_a,
+            txt_b
         )
         VALUES (?,?)''', (
                 data["rub_id"],
                 data["title"],
-                data["data"]
+                data["sec_title"],
+                data["txt_a"],
+                data["txt_b"]
             )
         )
         cdb.execute('''SELECT last_insert_rowid()''')
@@ -248,11 +254,15 @@ class TravelsController:
         SET 
             rub_id = ?,
             title = ?,
-            data = ?,
+            sec_title = ?,
+            txt_a = ?,
+            txt_b = ?
         WHERE id = ?""", (
             data["rub_id"],
             data["title"],
-            data["data"],
+            data["sec_title"],
+            data["txt_a"],
+            data["txt_b"]
             data["id"]
         ))
         db.commit()
@@ -277,7 +287,7 @@ class TravelsController:
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
         cdb.execute('''
-            SELECT id, title, images.src, data FROM travels
+            SELECT id, title, images.src, sec_title, txt_a, txt_b FROM travels
             INNER JOIN images ON travels.image = images.id
             WHERE id = ?
         ''', (id,))
@@ -288,8 +298,10 @@ class TravelsController:
             json.append({
                 "id":              item[0],
                 "title":           item[1],
-                "image_src":       item[4],
-                "additional_data": item[5],
+                "image_src":       item[2],
+                "sec_title":       item[3],
+                "txt_a":           item[4],
+                "txt_b":           item[5]
             })
 
         cdb.execute('''
