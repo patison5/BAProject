@@ -131,6 +131,7 @@ if __name__ == '__main__':
         )
 
 
+    # использую
     @app.route('/services')
     def page_services():
         single_service = services.get_titles_of_services()
