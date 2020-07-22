@@ -153,6 +153,34 @@ class ImagesController:
         self.conn.commit()
 
         self.cursor.execute(''' 
+            INSERT INTO images(
+                src,
+                desc,
+                title
+            )
+            VALUES(?,?,?) ''', (
+                "./static/uploads/155.png",
+                "description",
+                ""
+            )
+        )
+        self.conn.commit()
+
+        self.cursor.execute(''' 
+            INSERT INTO images(
+                src,
+                desc,
+                title
+            )
+            VALUES(?,?,?) ''', (
+                "./static/uploads/156.png",
+                "description",
+                ""
+            )
+        )
+        self.conn.commit()
+
+        self.cursor.execute(''' 
             INSERT INTO org_images(
                 image_id,
                 organization_id

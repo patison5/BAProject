@@ -117,6 +117,17 @@ if __name__ == '__main__':
         )
 
 
+    @app.route('/organization-service/<int:id>')
+    def show_single_organization_service(id):
+        single_org = services.get_single_service(id)
+        template = env.get_template('single_white_post_inside.html')
+        return template.render(
+            title='Фото и полиграфия',
+            menuElement="minimarket-inactive",
+            data=single_org
+        )
+
+
     @app.route('/services')
     def page_services():
         single_service = services.get_titles_of_services()
@@ -357,6 +368,12 @@ if __name__ == '__main__':
 
         if (image_type == "logo"):
             organizations.update_organization_logo(data["id"], None)
+
+        if (image_type == "main"):
+            organizations.update_organization_main_image(data["id"], None)
+
+        if (image_type == "barcode"):
+            organizations.update_organization_barcode(data["id"], None)
     
         return json.dumps({
             "message": "alles gut"

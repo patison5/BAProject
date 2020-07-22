@@ -106,25 +106,24 @@ class OrganizationsController:
             email,
             link,
             timetable,
+            barcode,
             type
         )
-        VALUES (?,?,?,?,?,?,?,?,?)''', (
+        VALUES (?,?,?,?,?,?,?,?,?,?)''', (
             "Комитет общественных связей и молодежной политики города Москвы", 
             1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
-            "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
+            "Студия дизайна и полиграфии оказывает широкий спектр услуг производства и печати: Оперативная печать фото на документы, копирование/сканирование. Разработка и производство полиграфический продукции, разработка дизайна и фирменного стиля, а также верстка, брошюровка, печать визиток и многое другое.",
             json.dumps([
                 "121099, Г. Москва",
                 "ул. Новый Арбат, д.36",
-                "19 этаж, кабинет 1928"
             ]),
             json.dumps([
-                "+7 (495) 633-60-02",
-                "+7 (495) 633-60-02 - Офис",
                 "+7 (495) 633-60-02 - Пресс-служба"
             ]),
             "kow@mos.ru",
             "https://www.mos.ru/kos",
             "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            2,
             0)
         )
         self.conn.commit()
@@ -139,21 +138,24 @@ class OrganizationsController:
             email,
             link,
             timetable,
+            barcode,
             type
         )
-        VALUES (?,?,?,?,?,?,?,?,?)''', (
+        VALUES (?,?,?,?,?,?,?,?,?,?)''', (
             "Комитет общественных связей и молодежной политики города Москвы", 
-            0, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
-            "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
+            1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
+            "Студия дизайна и полиграфии оказывает широкий спектр услуг производства и печати: Оперативная печать фото на документы, копирование/сканирование. Разработка и производство полиграфический продукции, разработка дизайна и фирменного стиля, а также верстка, брошюровка, печать визиток и многое другое.",
             json.dumps([
-                "121099, Г. Москва"
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
             ]),
             json.dumps([
-                "+7 (495) 633-60-02",
+                "+7 (495) 633-60-02 - Пресс-служба"
             ]),
             "kow@mos.ru",
             "https://www.mos.ru/kos",
             "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            2,
             0)
         )
         self.conn.commit()
@@ -495,19 +497,24 @@ class OrganizationsController:
 
         # ////////// Сервисы //////////
         cdb.execute('''
-            SELECT id, title, image     
+            SELECT services.id, services.title, images.src  
             FROM services
-            WHERE organization_id = ?
+            INNER JOIN images
+            ON services.image = images.id
+            WHERE services.organization_id = ?
         ''', (str(id)))
 
         services = cdb.fetchall();
+
+        print(services)
 
         servicesData = []
 
         for service in services:
             servicesData.append({
                 "id": service[0],
-                "title": service[1]
+                "title": service[1],
+                "src": service[2]
             })
 
         k = data[5]

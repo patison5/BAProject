@@ -86,24 +86,27 @@
 								</ul>
 								
 
-								{% if data.barcode %}
+								{% if (data.barcode and not data.image)  %}
 									<div class="content-list__barcode">
-										<img src="{{ data.barcode }}" alt="" class="list-barcode__img">
+										<img src="../{{ data.barcode }}" alt="" class="list-barcode__img">
 									</div>
 								{% endif %}
 							</div>
+							
 
+							{% if (data.services and not data.image) %}
 							<div class="white-content__galary">
 								
-								{% for img in data.images %}
+								{% for element in data.services %}
 									<div class="galary__block">
 										<div class="g-block__content">
-											<img src="{{ img.src }}" alt="" class="galary__img">
+											<img src="../{{ element.src }}" alt="" class="galary__img">
 											
 
-											{% if img.desc %}
+											{% if element.title %}
 											<div class="block-content__desc">
-												<p class="content__desc">{{ img.desc }}</p>
+												<a href="/organization-service/{{element.id}}"><p class="content__desc">{{ element.title }}</p></a>
+												
 											</div>
 											{% endif %}
 										</div>
@@ -111,14 +114,21 @@
 								{% endfor %}
 
 							</div>
+							{% endif %}
 						</div>
 
 
 						{% if data.image %}
 							<div class="white-wrap__right">
 								<img class="wrap-right__img" src="../{{ data.image }}" width="150">
-								<div class="wrap-write__title">{{ data.title }}</div>
-								<div class="wrap-write__desc">{{ data.desc }}</div>
+								<div class="wrap-write__title">{{ data.img_title }}</div>
+								<div class="wrap-write__desc">{{ data.img_desc }}</div>
+
+								{% if data.barcode  %}
+									<div class="right-content-barcode">
+										<img src="../{{ data.barcode }}" alt="" class="right-content--barcode__img">
+									</div>
+								{% endif %}
 							</div>
 						{% endif %}
 

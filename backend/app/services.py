@@ -127,11 +127,13 @@ class ServicesController:
 
 
     def init_data(self):
+        # фото на документы
         self.cursor.execute('''
         INSERT INTO services (
             organization_id,
             title,
             image,
+            logo,
             text,
             address,
             phones,
@@ -141,9 +143,10 @@ class ServicesController:
             image_title,
             image_desc
         )
-        VALUES (?,?,?,?,?,?,?,?,?,?,?)''', (
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)''', (
             1,
-            "Это какой-то 1 тестовый сервис у организации, хранящийся в бд", 
+            "Фото на документы", 
+            3,
             1,
             "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
             json.dumps([
@@ -164,22 +167,27 @@ class ServicesController:
         )
         self.conn.commit()
 
+        # полиграфические услуги
         self.cursor.execute('''
         INSERT INTO services (
             organization_id,
             title,
             image,
+            logo,
             text,
             address,
             phones,
             email,
             link,
-            timetable
+            timetable,
+            image_title,
+            image_desc
         )
-        VALUES (?,?,?,?,?,?,?,?,?)''', (
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)''', (
             1,
-            "Это какой-то 2 тестовый сервис у организации, хранящийся в бд", 
-            1, # надо сделать инсерт этого в таблицу images (можно с пустым desc, но с определенным id, например 1) и после этого уже сюда написать этот id
+            "полиграфические услуги", 
+            3,
+            1,
             "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
             json.dumps([
                 "121099, Г. Москва",
@@ -193,10 +201,91 @@ class ServicesController:
             ]),
             "kow@mos.ru",
             "https://www.mos.ru/kos",
-            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной")
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            "image_title",
+            "image_desc")
         )
         self.conn.commit()
 
+        # дизайн
+        self.cursor.execute('''
+        INSERT INTO services (
+            organization_id,
+            title,
+            image,
+            logo,
+            text,
+            address,
+            phones,
+            email,
+            link,
+            timetable,
+            image_title,
+            image_desc
+        )
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)''', (
+            1,
+            "дизайн", 
+            3,
+            1,
+            "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
+            json.dumps([
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+                "19 этаж, кабинет 1928"
+            ]),
+            json.dumps([
+                "+7 (495) 633-60-02",
+                "+7 (495) 633-60-02 - Офис",
+                "+7 (495) 633-60-02 - Пресс-служба"
+            ]),
+            "kow@mos.ru",
+            "https://www.mos.ru/kos",
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            "image_title",
+            "image_desc")
+        )
+        self.conn.commit()
+
+        # Разработка фирменного стиля
+        self.cursor.execute('''
+        INSERT INTO services (
+            organization_id,
+            title,
+            image,
+            logo,
+            text,
+            address,
+            phones,
+            email,
+            link,
+            timetable,
+            image_title,
+            image_desc
+        )
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)''', (
+            1,
+            "Разработка фирменного стиля", 
+            3,
+            1,
+            "kv ipsum dolor sit amet, consectetur adipisicing elit. Maxime iure adipisci fuga tenetur repudiandae explicabo ad voluptas unde distinctio? Sint laudantium quae minus nesciunt repellendus doloribus! Eos necessitatibus molestias sint reprehenderit cupiditate praesentium beatae fugit autem tempore iure aliquam culpa, suscipit inventore eaque. Et pariatur earum nam numquam soluta doloremque, repellat sapiente.",
+            json.dumps([
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+                "19 этаж, кабинет 1928"
+            ]),
+            json.dumps([
+                "+7 (495) 633-60-02",
+                "+7 (495) 633-60-02 - Офис",
+                "+7 (495) 633-60-02 - Пресс-служба"
+            ]),
+            "kow@mos.ru",
+            "https://www.mos.ru/kos",
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            "image_title",
+            "image_desc")
+        )
+        self.conn.commit()
 
 
 

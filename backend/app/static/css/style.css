@@ -748,6 +748,10 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
   margin-bottom: 35px;
 }
 
+.wrap-list__item:last-child {
+  margin-bottom: 0;
+}
+
 .list-item__text {
   font-size: 38px;
   line-height: 45px;
