@@ -126,13 +126,13 @@
 
 
 .bx-wrapper .bx-prev {
-	left: 0px;
-	/*background: url(../images/backl_OFF.png) no-repeat 0 0;*/
+	left: -160px;
+	background: url(../images/vlevo.png) no-repeat 0 0;
 }
 
 .bx-wrapper .bx-next {
-	right: 0;
-	/*background: url(../images/forward_OFF.png) no-repeat right 0;*/
+	right: -160px;
+	background: url(../images/vpravo.png) no-repeat right 0;
 }
 
 .bx-wrapper .bx-prev:hover {
@@ -147,12 +147,16 @@
 .bx-wrapper .bx-controls-direction a {
 	position: absolute;
 	top: 50%;
-	margin-top: -16px;
+	margin-top: -66px;
 	outline: 0;
-	width: 32px;
-	height: 32px;
+	width: 132px;
+	height: 132px;
 	text-indent: -9999px;
 	z-index: 9999;
+
+	/*background: #ccc;*/
+	-webkit-background-size: contain;
+	background-size: contain;
 }
 
 .bx-wrapper .bx-controls-direction a.disabled {

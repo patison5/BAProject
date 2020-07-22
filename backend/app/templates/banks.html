@@ -23,70 +23,26 @@
 
 					<div class="slider">
 
+						{% for row in data %}
 						<div class="content-list__short">
-
-							{% for post in data %}
-							<div class="list-short__block">
-								<div class="list-short__img-block">
-									<img src="{{ post.src }}" alt="" class="short__img">
-								</div>
-
-								<div class="short-content__wrap">
-									<h4 class="short-content__title">{{ post.title }}</h4>
-									<div class="short-content__info">
-										<span class="info-time">{{ post.timetable }}</span>
-										<span class="info-stage">{{ post.address }}</span>
+							{% for post in row %}
+								<div class="list-short__block">
+									<div class="list-short__img-block">
+										<img src="{{ post.src }}" alt="" class="short__img">
 									</div>
-									<div class="short-content__text">{{ post.text }}</div>
-								</div>
-							</div>
 
-							<div class="list-short__block">
-								<div class="list-short__img-block">
-									<img src="{{ post.src }}" alt="" class="short__img">
-								</div>
-
-								<div class="short-content__wrap">
-									<h4 class="short-content__title">{{ post.title }}</h4>
-									<div class="short-content__info">
-										<span class="info-time">{{ post.timetable }}</span>
-										<span class="info-stage">{{ post.address }}</span>
+									<div class="short-content__wrap">
+										<h4 class="short-content__title">{{ post.title }}</h4>
+										<div class="short-content__info">
+											<span class="info-time">{{ post.timetable }}</span>
+											<span class="info-stage">{{ post.address }}</span>
+										</div>
+										<div class="short-content__text">{{ post.text }}</div>
 									</div>
-									<div class="short-content__text">{{ post.text }}</div>
 								</div>
-							</div>
-
-							<div class="list-short__block">
-								<div class="list-short__img-block">
-									<img src="{{ post.src }}" alt="" class="short__img">
-								</div>
-
-								<div class="short-content__wrap">
-									<h4 class="short-content__title">{{ post.title }}</h4>
-									<div class="short-content__info">
-										<span class="info-time">{{ post.timetable }}</span>
-										<span class="info-stage">{{ post.address }}</span>
-									</div>
-									<div class="short-content__text">{{ post.text }}</div>
-								</div>
-							</div>
-
-							<div class="list-short__block">
-								<div class="list-short__img-block">
-									<img src="{{ post.src }}" alt="" class="short__img">
-								</div>
-
-								<div class="short-content__wrap">
-									<h4 class="short-content__title">{{ post.title }}</h4>
-									<div class="short-content__info">
-										<span class="info-time">{{ post.timetable }}</span>
-										<span class="info-stage">{{ post.address }}</span>
-									</div>
-									<div class="short-content__text">{{ post.text }}</div>
-								</div>
-							</div>
 							{% endfor %}
 						</div>
+						{% endfor %}
 
 					</div>
 				</div>
@@ -108,7 +64,8 @@
 				auto: true,
 				pager: false,
 				autoControls: false,
-				slideMargin: 10
+				slideMargin: 10,
+				pause: 50000
 			});
 		});
     </script>

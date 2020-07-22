@@ -77,6 +77,7 @@ class OrganizationsController:
             image_title TEXT,
             image_desc TEXT,
             type INTEGER DEFAULT 0,
+            prev_img INTEGER DEFAULT NULL,
             -- orgs = 0
             -- restaraunts = 1
             -- servs = 2
@@ -86,9 +87,10 @@ class OrganizationsController:
             -- pharms = 6
             -- tourizm = 7
 
-            FOREIGN KEY (image)   REFERENCES images (id)
-            FOREIGN KEY (logo)    REFERENCES images (id)
-            FOREIGN KEY (barcode) REFERENCES images (id)
+            FOREIGN KEY (prev_img) REFERENCES images (id),
+            FOREIGN KEY (image)    REFERENCES images (id),
+            FOREIGN KEY (logo)     REFERENCES images (id),
+            FOREIGN KEY (barcode)  REFERENCES images (id)
         )
         ''')
         self.conn.commit()

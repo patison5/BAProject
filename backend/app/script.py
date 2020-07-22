@@ -16,7 +16,7 @@ env = Environment(
 )
 
 UPLOAD_FOLDER = './static/uploads/'
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'svg'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -25,6 +25,13 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def convert_to_slide_array(array):
+    li2 = []
+    for i in range(0, len(array), 4):
+        li2.append(array[i:i + 4])
+    return li2
 
 
 def convert_to_slide_array(array):
@@ -113,7 +120,7 @@ if __name__ == '__main__':
         single_org = organizations.get_single_organization(id)
         template = env.get_template('single_white_post_inside.html')
         return template.render(
-            title='Фото и полиграфия',
+            title='Организации',
             menuElement="minimarket-inactive",
             data=single_org
         )
@@ -192,11 +199,13 @@ if __name__ == '__main__':
         banks_info = banks.get_banks()
         template = env.get_template('banks.html')
 
+        # banks = convert_to_slide_array(organizations.get_all_organizations_full(3))
+
         print(organizations.get_all_organizations_full(3))
         return template.render(
             title='Банкоматы',
             menuElement="banks-inactive",
-            data=organizations.get_all_organizations_full(3)
+            data=convert_to_slide_array(organizations.get_all_organizations_full(3))
         )
 
 
