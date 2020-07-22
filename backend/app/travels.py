@@ -301,6 +301,23 @@ class TravelsController:
 
         return (json, pics)
 
+    def get_travel_images(self, id):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+        cdb.execute("""SELECT images.src, trv_images.image_id
+            FROM trv_images
+            LEFT JOIN images ON images.id = trv_images.image_id
+            WHERE travel_id = ?""", (id,))
+        data = cdb.fetchall()
+        imgs = []
+        for item in data:
+            imgs.append({
+                "src" : item[0],
+                "id"  : item[1]
+                })
+        return imgs
+
+
     def get_organization_titles (self):
         # arr = []
         # for item in self.data_set:
