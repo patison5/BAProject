@@ -34,10 +34,10 @@ def convert_to_slide_array(array):
     return li2
 
 
-def convert_to_slide_array(array):
+def convert_to_slide_array_eight(array):
     li2 = []
-    for i in range(0, len(array), 4):
-        li2.append(array[i:i + 4])
+    for i in range(0, len(array), 8):
+        li2.append(array[i:i + 8])
     return li2
 
 def upload_file_on_server(file, desc="", title=""):
@@ -146,7 +146,7 @@ if __name__ == '__main__':
         return template.render(
             title='Услуги',
             menuElement="services-inactive",
-            data = organizations.get_all_organizations(2)
+            data = convert_to_slide_array_eight(organizations.get_all_organizations(2))
         )
 
 

@@ -5,6 +5,9 @@
 	<title>Document</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 
+	<script src="static/js/bxslider.js"></script>
+
+	<link rel="stylesheet" href="static/css/bxslider.css">
 	<link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
@@ -18,14 +21,32 @@
 			<div class="center">
 				<div class="content-black services">
 					<div class="services-list__wrap">
-						<ul class="services-list">
+						
+						<div class="slider">
+							{% for row in data %}
+							<ul class="services-list">
+								{% for post in row %}
+									<a href="/organizations/{{post.id}}">
+										<li class="services__item">
+											<img src="../static/images/icons/service-2.svg" alt="" class="services-icon">
+											<span>{{ post.title }}</span>
+										</li>
+									</a>
+								{% endfor %}
+							</ul>
+							{% endfor %}
+						</div>
+
+
+
+						<!-- <ul class="services-list"> -->
 							
-							{% for post in data %}
+							<!-- {% for post in data %}
 								<li class="services__item">
 									<img src="../static/images/icons/service-2.svg" alt="" class="services-icon">
 									<span>{{ post.title }}</span>
 								</li>
-							{% endfor %}
+							{% endfor %} -->
 
 							<!-- <li class="services__item">
 								<img src="../static/images/icons/service-2.svg" alt="" class="services-icon">
@@ -59,7 +80,7 @@
 								<img src="../static/images/icons/service-10.svg" alt="" class="services-icon">
 								<span>Ремонт обуви</span>
 							</li>	 -->						
-						</ul>
+						<!-- </ul> -->
 					</div>
 				</div>
 			</div>
@@ -73,5 +94,17 @@
 	<div class="black__bg"></div>
 
     <script src="static/js/app.js"></script>
+
+    <script>
+    	$(document).ready(function(){
+			$('.slider').bxSlider({
+				auto: true,
+				pager: false,
+				autoControls: false,
+				slideMargin: 10,
+				pause: 50000
+			});
+		});
+    </script>
 </body>
 </html>
