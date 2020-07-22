@@ -28,7 +28,9 @@
 							{% for post in row %}
 								<div class="list-short__block">
 									<div class="list-short__img-block">
+										{% if post.src %}
 										<img src="{{ post.src }}" alt="" class="short__img">
+										{% endif %}
 									</div>
 
 									<div class="short-content__wrap">
@@ -45,6 +47,8 @@
 						{% endfor %}
 
 					</div>
+
+					
 				</div>
 			</div>
 		</div>

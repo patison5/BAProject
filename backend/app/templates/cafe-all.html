@@ -5,6 +5,9 @@
 	<title>Document</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 
+	<script src="static/js/bxslider.js"></script>
+
+	<link rel="stylesheet" href="static/css/bxslider.css">
 	<link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
@@ -17,64 +20,35 @@
 
 			<div class="center">
 				<div class="content-white banks">
-					<div class="content-list__short">
 
-						<div class="list-short__block">
-							<div class="list-short__img-block">
-								<img src="http://127.0.0.1:5000/static/images/icons/cafe-1.svg" alt="" class="short__img">
-							</div>
+					<div class="slider">
 
-							<div class="short-content__wrap">
-								<h4 class="short-content__title"><a href="/kafe/single">Столовая комбината питания</a></h4>
-								<div class="short-content__info">
-									<span class="info-stage">1 Этаж</span>
-									<span class="info-time">9:00-13:32, СБ-ВСК-ВЫХОДНОЙ</span>
+						{% for row in data %}
+						<div class="content-list__short">
+							{% for post in row %}
+								<div class="list-short__block">
+									<div class="list-short__img-block">
+										{% if post.src %}
+										<img src="{{ post.src }}" alt="" class="short__img">
+										{% endif %}
+									</div>
+
+									<div class="short-content__wrap">
+										<a href="/organizations/{{post.id}}">
+										<h4 class="short-content__title">{{ post.title }}</h4>
+										<div class="short-content__info">
+											<span class="info-time">1 Этаж</span>
+											<span class="info-stage">9:00-19:32  СБ-ВСК - ВЫХОДНОЙ</span>
+										</div>
+										</a>
+									</div>
 								</div>
-							</div>
+							{% endfor %}
 						</div>
+						{% endfor %}
 
-						<div class="list-short__block">
-							<div class="list-short__img-block">
-								<img src="http://127.0.0.1:5000/static/images/icons/cafe-1.svg" alt="" class="short__img">
-							</div>
-
-							<div class="short-content__wrap">
-								<h4 class="short-content__title"><a href="/kafe/single">Столовая комбината питания</a></h4>
-								<div class="short-content__info">
-									<span class="info-stage">1 Этаж</span>
-									<span class="info-time">9:00-13:32, СБ-ВСК-ВЫХОДНОЙ</span>
-								</div>
-							</div>
-						</div>
-
-						<div class="list-short__block">
-							<div class="list-short__img-block">
-								<img src="http://127.0.0.1:5000/static/images/icons/cafe-1.svg" alt="" class="short__img">
-							</div>
-
-							<div class="short-content__wrap">
-								<h4 class="short-content__title"><a href="/kafe/single">Столовая комбината питания</a></h4>
-								<div class="short-content__info">
-									<span class="info-stage">1 Этаж</span>
-									<span class="info-time">9:00-13:32, СБ-ВСК-ВЫХОДНОЙ</span>
-								</div>
-							</div>
-						</div>
-
-						<div class="list-short__block">
-							<div class="list-short__img-block">
-								<img src="http://127.0.0.1:5000/static/images/icons/cafe-1.svg" alt="" class="short__img">
-							</div>
-
-							<div class="short-content__wrap">
-								<h4 class="short-content__title"><a href="/kafe/single">Столовая комбината питания</a></h4>
-								<div class="short-content__info">
-									<span class="info-stage">1 Этаж</span>
-									<span class="info-time">9:00-13:32, СБ-ВСК-ВЫХОДНОЙ</span>
-								</div>
-							</div>
-						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>
@@ -87,5 +61,17 @@
 	<div class="black__bg"></div>
 
     <script src="static/js/app.js"></script>
+
+    <script>
+    	$(document).ready(function(){
+			$('.slider').bxSlider({
+				auto: true,
+				pager: false,
+				autoControls: false,
+				slideMargin: 10,
+				pause: 50000
+			});
+		});
+    </script>
 </body>
 </html>

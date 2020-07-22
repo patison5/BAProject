@@ -34,10 +34,10 @@ def convert_to_slide_array(array):
     return li2
 
 
-def convert_to_slide_array(array):
+def convert_to_slide_array_eight(array):
     li2 = []
-    for i in range(0, len(array), 4):
-        li2.append(array[i:i + 4])
+    for i in range(0, len(array), 8):
+        li2.append(array[i:i + 8])
     return li2
 
 def upload_file_on_server(file, desc="", title=""):
@@ -146,7 +146,7 @@ if __name__ == '__main__':
         return template.render(
             title='Услуги',
             menuElement="services-inactive",
-            data = organizations.get_all_organizations(2)
+            data = convert_to_slide_array_eight(organizations.get_all_organizations(2))
         )
 
 
@@ -173,14 +173,14 @@ if __name__ == '__main__':
         )
 
 
+    # используется
     @app.route('/kafe')
     def page_kafe():
-        cafe_info = misc.get_misc_info('cafe')
         template = env.get_template('cafe-all.html')
         return template.render(
             title='Кафе',
             menuElement="kafe-inactive",
-            data=cafe_info
+            data = convert_to_slide_array(organizations.get_all_organizations_full(1))
         )
 
     @app.route('/kafe/single')
@@ -205,7 +205,7 @@ if __name__ == '__main__':
         return template.render(
             title='Банкоматы',
             menuElement="banks-inactive",
-            data=convert_to_slide_array(organizations.get_all_organizations_full(3))
+            data = convert_to_slide_array(organizations.get_all_organizations_full(3))
         )
 
 

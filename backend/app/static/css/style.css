@@ -1208,11 +1208,12 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 
 .services__item span {
   font-family: 'Museo Sans Cyrl 300';
+  color: #fff;
 }
 .services-icon {
-  width: 230px;
-  display: block;
-  margin-right: 40px;
+  width: 230px !important;
+  display: block !important;
+  margin-right: 40px !important;
 }
 
 .servces-icon span {
