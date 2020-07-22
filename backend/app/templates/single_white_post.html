@@ -28,7 +28,7 @@
 			<div class="center">
 				<div class="content-white organization">
 					<div class="content-white__header">
-						<img class="white-header__img" src="{{ data.logo }}">
+						<img class="white-header__img" src="../{{ data.logo }}" width="160" height="160">
 						<h2 class="white-header__title">{{ data.title }}</h2>
 					</div>
 
@@ -86,39 +86,49 @@
 								</ul>
 								
 
-								{% if data.barcode %}
+								{% if (data.barcode and not data.image)  %}
 									<div class="content-list__barcode">
-										<img src="{{ data.barcode }}" alt="" class="list-barcode__img">
+										<img src="../{{ data.barcode }}" alt="" class="list-barcode__img">
 									</div>
 								{% endif %}
 							</div>
+							
 
+							{% if (data.services and not data.image) %}
 							<div class="white-content__galary">
 								
-								{% for img in data.images %}
+								{% for element in data.services %}
 									<div class="galary__block">
 										<div class="g-block__content">
-											<img src="{{ img.src }}" alt="" class="galary__img">
-											
+											<a href="/organization-service/{{element.id}}">
+												<img src="../{{ element.src }}" alt="" class="galary__img">
 
-											{% if img.desc %}
-											<div class="block-content__desc">
-												<a href="/tour_single_info"><p class="content__desc">{{ img.desc }}</p></a>
-											</div>
-											{% endif %}
+												{% if element.title %}
+												<div class="block-content__desc">
+													<p class="content__desc">{{ element.title }}</p>
+												</div>
+												{% endif %}
+											</a>
 										</div>
 									</div>
 								{% endfor %}
 
 							</div>
+							{% endif %}
 						</div>
 
 
-						{% if data.right_part %}
+						{% if data.image %}
 							<div class="white-wrap__right">
-								<img class="wrap-right__img" src="{{ data.right_part.image }}" width="150">
-								<div class="wrap-write__title">{{ data.right_part.title }}</div>
-								<div class="wrap-write__desc">{{ data.right_part.desc }}</div>
+								<img class="wrap-right__img" src="../{{ data.image }}" width="150">
+								<div class="wrap-write__title">{{ data.img_title }}</div>
+								<div class="wrap-write__desc">{{ data.img_desc }}</div>
+
+								{% if data.barcode  %}
+									<div class="right-content-barcode">
+										<img src="../{{ data.barcode }}" alt="" class="right-content--barcode__img">
+									</div>
+								{% endif %}
 							</div>
 						{% endif %}
 

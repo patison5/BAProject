@@ -19,7 +19,15 @@
 				<div class="content-black services">
 					<div class="services-list__wrap">
 						<ul class="services-list">
-							<li class="services__item">
+							
+							{% for post in data %}
+								<li class="services__item">
+									<img src="../static/images/icons/service-2.svg" alt="" class="services-icon">
+									<span>{{ post.title }}</span>
+								</li>
+							{% endfor %}
+
+							<!-- <li class="services__item">
 								<img src="../static/images/icons/service-2.svg" alt="" class="services-icon">
 								<span>нотариус</span>
 							</li>
@@ -50,7 +58,7 @@
 							<li class="services__item">
 								<img src="../static/images/icons/service-10.svg" alt="" class="services-icon">
 								<span>Ремонт обуви</span>
-							</li>							
+							</li>	 -->						
 						</ul>
 					</div>
 				</div>

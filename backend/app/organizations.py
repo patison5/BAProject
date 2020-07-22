@@ -306,7 +306,38 @@ class OrganizationsController:
             type
         )
         VALUES (?,?,?,?,?,?,?,?,?)''', (
-            'Студия дизайна и полиграфии', 
+            'Нотариус', 
+            1,
+            "Студия дизайна и полиграфии оказывает широкий спектр услуг производства и печати: оперативная печать фото на документы, копирования/канирование, разработка и производство полиграфической продукции, разработка дизайна и фирменного стиля, а также верстка, брошюровка, печать визиток и многое другое",
+            json.dumps([
+                "121099, Г. Москва",
+                "ул. Новый Арбат, д.36",
+                "19 этаж, кабинет 1928"
+            ]),
+            json.dumps([
+                "+7 (495) 633-60-02",
+            ]),
+            "kow@mos.ru",
+            "https://www.mos.ru/kos",
+            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            2)
+        )
+        self.conn.commit()
+
+        self.cursor.execute('''
+        INSERT INTO organizations (
+            title,
+            logo,
+            text,
+            address,
+            phones,
+            email,
+            link,
+            timetable,
+            type
+        )
+        VALUES (?,?,?,?,?,?,?,?,?)''', (
+            'Подарки', 
             1,
             "Студия дизайна и полиграфии оказывает широкий спектр услуг производства и печати: оперативная печать фото на документы, копирования/канирование, разработка и производство полиграфической продукции, разработка дизайна и фирменного стиля, а также верстка, брошюровка, печать визиток и многое другое",
             json.dumps([
@@ -340,7 +371,7 @@ class OrganizationsController:
             1,
             "Прием и выдача наличных, оплата квитанций",
             "1,5,12,19 Этажи",
-            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
+            "Круглосуточно",
             3)
         )
         self.conn.commit()
@@ -434,7 +465,8 @@ class OrganizationsController:
         cdb = db.cursor()
 
         cdb.execute('''
-            SELECT id, title, text FROM organizations
+            SELECT id, title, text, address, timetable 
+            FROM organizations
             WHERE type = ?
         ''', (type,))
 
@@ -446,6 +478,36 @@ class OrganizationsController:
                 "id":           item[0],
                 "title":        item[1],
                 "text":         item[2]
+            })
+
+        return json
+
+    def get_all_organizations_full (self, type=0): 
+
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+            SELECT 
+            organizations.id, organizations.title, organizations.text, 
+            organizations.address, organizations.timetable,images.src
+            FROM organizations
+            LEFT JOIN images
+            ON organizations.logo = images.id
+            WHERE type = ?
+        ''', (type,))
+
+        data = cdb.fetchall();
+        json = []
+
+        for item in data:
+            json.append({
+                "id":           item[0],
+                "title":        item[1],
+                "text":         item[2],
+                "address":      item[3],
+                "timetable":    item[4],
+                "src":          item[5],
             })
 
         return json
@@ -593,12 +655,21 @@ class OrganizationsController:
         barcode = cdb.fetchone();
 
 
+        # # ////////// Сервисы //////////
+        # cdb.execute('''
+        #     SELECT id, title, image     
+        #     FROM services
+        #     WHERE organization_id = ?
+        # ''', (str(data[0])))
+
         # ////////// Сервисы //////////
         cdb.execute('''
-            SELECT id, title, image     
+            SELECT services.id, services.title, images.src  
             FROM services
-            WHERE organization_id = ?
-        ''', (str(data[0])))
+            INNER JOIN images
+            ON services.image = images.id
+            WHERE services.organization_id = ?
+        ''',  (str(data[0])))
 
         services = cdb.fetchall();
 
@@ -607,7 +678,8 @@ class OrganizationsController:
         for service in services:
             servicesData.append({
                 "id": service[0],
-                "title": service[1]
+                "title": service[1],
+                "src": service[2]
             })
 
         single_organization = {

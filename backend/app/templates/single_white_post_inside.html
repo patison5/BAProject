@@ -100,15 +100,17 @@
 								{% for element in data.services %}
 									<div class="galary__block">
 										<div class="g-block__content">
-											<img src="../{{ element.src }}" alt="" class="galary__img">
 											
+											<a href="/organization-service/{{element.id}}">
+												<img src="../{{ element.src }}" alt="" class="galary__img">
 
-											{% if element.title %}
-											<div class="block-content__desc">
-												<a href="/organization-service/{{element.id}}"><p class="content__desc">{{ element.title }}</p></a>
-												
-											</div>
-											{% endif %}
+												{% if element.title %}
+												<div class="block-content__desc">
+													<p class="content__desc">{{ element.title }}</p>
+												</div>
+												{% endif %}
+											</a>
+
 										</div>
 									</div>
 								{% endfor %}

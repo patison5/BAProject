@@ -91,6 +91,7 @@ if __name__ == '__main__':
         )
 
 
+    # использую
     @app.route('/organizations', methods=['GET', 'POST'])
     def page_organizations():
         if request.method == 'GET':
@@ -106,6 +107,7 @@ if __name__ == '__main__':
             return json.dumps(titles)
 
 
+    # использую
     @app.route('/organizations/<int:id>')
     def show_single_organizations(id):
         single_org = organizations.get_single_organization(id)
@@ -117,6 +119,7 @@ if __name__ == '__main__':
         )
 
 
+    # использую
     @app.route('/organization-service/<int:id>')
     def show_single_organization_service(id):
         single_org = services.get_single_service(id)
@@ -135,7 +138,7 @@ if __name__ == '__main__':
         return template.render(
             title='Услуги',
             menuElement="services-inactive",
-            # data = single_service
+            data = organizations.get_all_organizations(2)
         )
 
 
@@ -186,11 +189,13 @@ if __name__ == '__main__':
     @app.route('/banks')
     def page_banks():
         banks_info = banks.get_banks()
-        template = env.get_template('page5.html')
+        template = env.get_template('banks.html')
+
+        print(organizations.get_all_organizations_full(3))
         return template.render(
             title='Банкоматы',
             menuElement="banks-inactive",
-            data=banks_info
+            data=organizations.get_all_organizations_full(3)
         )
 
 
@@ -231,34 +236,31 @@ if __name__ == '__main__':
 
     @app.route('/photo')
     def page_photo():
-        photo_info = misc.get_misc_info('photo')
         template = env.get_template('single_white_post.html')
         return template.render(
             title='Фото и полиграфия',
             menuElement="photo-inactive",
-            data=photo_info
+            data = organizations.get_single_organization_by_type(4)
         )
 
 
     @app.route('/minimarket')
     def page_minimarket():
-        minimarket_info = misc.get_misc_info('minimarket')
         template = env.get_template('single_white_post.html')
         return template.render(
-            title='Фото и полиграфия',
-            menuElement="minimarket-inactive",
-            data=minimarket_info
+            title = 'Фото и полиграфия',
+            menuElement = "minimarket-inactive",
+            data = organizations.get_single_organization_by_type(5)
         )
 
 
     @app.route('/pharmacy')
     def page_pharmacy():
-        pharmacy_info = misc.get_misc_info('pharmacy')
         template = env.get_template('single_white_post.html')
         return template.render(
             title='Фото и полиграфия',
             menuElement="pharmacy-inactive",
-            data=pharmacy_info
+            data = organizations.get_single_organization_by_type(6)
         )
 
 
