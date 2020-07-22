@@ -805,7 +805,7 @@ class OrganizationsController:
         SET 
             image = ?
         WHERE id = ? """, (image, id))
-        cdb.execute("""SELECT src FROM images WHERE id = ?""", (id,))
+        cdb.execute("""SELECT src FROM images WHERE id = ?""", (image,))
         src = cdb.fetchall()[0][0]
         db.commit()
         return src

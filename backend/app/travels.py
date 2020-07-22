@@ -58,7 +58,67 @@ class TravelsController:
         self.conn.commit()
 
 
+    def create_new_rubric(self, data):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
 
+        page_type = data["page_type"]
+
+        cdb.execute('''
+        INSERT INTO trv_rubrics (
+            txt
+        )
+        VALUES (?)''', (
+                data["txt"]
+            )
+        )
+        cdb.execute('''SELECT last_insert_rowid()''')
+        id = cdb.fetchall()[0][0]
+        db.commit()
+
+        return id
+
+
+    def delete_rubric(self, id):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''DELETE FROM travels WHERE rub_id = ?''', (str(id)))
+        cdb.execute('''DELETE FROM trv_rubrics WHERE id = ?''', (str(id)))
+
+        db.commit()
+
+
+    def update_rubric(self, data):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE trv_rubric 
+        SET 
+            txt = ?
+        WHERE id = ?""", (
+            data["txt"],
+            data["id"]))
+
+        db.commit()
+
+        return self.get_single_rubric(data["id"])
+
+
+    def update_rubric_image(self, id, image):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE trv_rubrics
+        SET 
+            image = ?
+        WHERE id = ? """, (image, id))
+        cdb.execute("""SELECT src FROM images WHERE id = ?""", (image,))
+        src = cdb.fetchall()[0][0]
+        db.commit()
+        return src
 
 
     def get_all_rubrics(self):
@@ -142,9 +202,74 @@ class TravelsController:
         return single_rubric
 
 
+    def create_new_travel(self, data):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute('''
+        INSERT INTO travels (
+            rub_id,
+            title,
+            address,
+            timetable,
+            desc,
+            data,
+        )
+        VALUES (?,?)''', (
+                data["rub_id"],
+                data["title"],
+                data["address"],
+                data["timetable"],
+                data["desc"],
+                data["data"]
+            )
+        )
+        cdb.execute('''SELECT last_insert_rowid()''')
+        id = cdb.fetchall()[0][0]
+        db.commit()
+
+        return id
 
 
+    def update_travel(self, data):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
 
+        cdb.execute("""
+        UPDATE travels 
+        SET 
+            rub_id = ?,
+            title = ?,
+            address = ?,
+            timetable = ?,
+            desc = ?,
+            data = ?,
+        WHERE id = ?""", (
+            data["rub_id"],
+            data["title"],
+            data["address"],
+            data["timetable"],
+            data["desc"],
+            data["data"],
+            data["id"]
+        ))
+        db.commit()
+
+        return self.get_travel(data["id"])
+
+    def update_travel_image(self, id, image):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+
+        cdb.execute("""
+        UPDATE travels
+        SET 
+            image = ?
+        WHERE id = ? """, (image, id))
+        cdb.execute("""SELECT src FROM images WHERE id = ?""", (image,))
+        src = cdb.fetchall()[0][0]
+        db.commit()
+        return src
 
     def get_travel(self, id):
         db = sqlite3.connect(database, timeout=10)
@@ -188,11 +313,6 @@ class TravelsController:
 
     def get_all_organizations (self): 
         return self.data_set
-
-
-    def get_single_organization (self, id):
-        # находит и возвращает организацию по id
-        return self.data_set[id]
 
 
     def create_new_organization (self, data):
