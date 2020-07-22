@@ -1100,7 +1100,7 @@ a, p, h1, h2, h3, h5, h4, span, div, li {
 .posts-single__text {
   font-size: 36px;
   line-height: 45px;
-  margin-bottom: 5em;
+  margin-bottom: 2em;
   margin-top: 2em;
   font-family: 'Museo Sans Cyrl 300';
 }
@@ -1252,4 +1252,14 @@ hr {
 .services-list__wrap {
   margin-top: 50px;
   margin-left: 50px;
+}
+
+
+
+.slider-slide {
+  padding: 2% 2%;
+}
+
+.swiper-wrapper {
+  margin-top: 70px;
 }
