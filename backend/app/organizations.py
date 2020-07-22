@@ -64,6 +64,7 @@ class OrganizationsController:
         self.cursor.execute('''
         CREATE TABLE organizations (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            prev_img INTEGER DEFAULT NULL,
             title TEXT NOT NULL,
             image INTEGER,
             text TEXT,
@@ -86,9 +87,10 @@ class OrganizationsController:
             -- pharms = 6
             -- tourizm = 7
 
-            FOREIGN KEY (image)   REFERENCES images (id)
-            FOREIGN KEY (logo)    REFERENCES images (id)
-            FOREIGN KEY (barcode) REFERENCES images (id)
+            FOREIGN KEY (prev_img) REFERENCES images (id),
+            FOREIGN KEY (image)    REFERENCES images (id),
+            FOREIGN KEY (logo)     REFERENCES images (id),
+            FOREIGN KEY (barcode)  REFERENCES images (id)
         )
         ''')
         self.conn.commit()

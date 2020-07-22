@@ -65,6 +65,8 @@ class ServicesController:
         CREATE TABLE services (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             organization_id INTEGER NOT NULL,
+            prev_img INTEGER DEFAULT NULL,
+            prev_title TEXT DEFAULT NULL,
             title TEXT,
             image INTEGER,
             text TEXT,
@@ -78,6 +80,7 @@ class ServicesController:
             image_title TEXT,
             image_desc TEXT,
             FOREIGN KEY (organization_id) REFERENCES organizations (id),
+            FOREIGN KEY (prev_img) REFERENCES images (id),
             FOREIGN KEY (image) REFERENCES images (id)
         )
         ''')
