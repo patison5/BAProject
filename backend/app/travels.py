@@ -393,3 +393,59 @@ class TravelsController:
     def delete_organization (self, id):
         # удаляет организацию по id
         return True
+
+
+
+
+
+    def get_single_rubric_note_by_id (self, id):
+        db = sqlite3.connect(database, timeout=10)
+        cdb = db.cursor()
+        cdb.execute('''
+            SELECT *
+            FROM travels
+            WHERE id = ?
+            ORDER BY travels.id ASC
+        ''', (id,))
+        data = cdb.fetchone();
+
+        json.append({
+            "id":              item[0],
+            "title":           item[1],
+            "sec_title":       item[2],
+            "txt_a":           item[3],
+            "txt_b":           item[4],
+        })
+
+        cdb.execute('''
+            SELECT src
+            FROM travels
+            LEFT JOIN images
+            ON travels.barcode = images.id
+            WHERE travels.id = ?
+        ''', (str(id)))
+        barcode = cdb.fetchone();
+
+        cdb.execute('''
+            SELECT src
+            FROM travels
+            LEFT JOIN images
+            ON travels.image = images.id
+            WHERE travels.id = ?
+        ''', (str(id)))
+        image = cdb.fetchone();
+
+
+        cdb.execute('''
+            SELECT images.src, travel_id FROM trv_images
+            INNER JOIN images ON trv_images.image_id = images.id
+            WHERE travel_id IN (?)
+            ORDER BY travel_id ASC
+        ''', (str(ids).strip('[]'),))
+        data = cdb.fetchall();
+        for i in data:
+            if i[1] in ids:
+                index = ids.index(i[1])
+                json[index]['images_src'].append(i[0])
+
+        return json

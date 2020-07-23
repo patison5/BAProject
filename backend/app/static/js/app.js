@@ -53,13 +53,16 @@ window.onload = function () {
 				counter = 0;
 			}
 
-			var swiper = new Swiper('.swiper-container', {
-				direction: 'horizontal',
-		    	loop: true,
-				navigation: {
-					nextEl: '.swiper-button-next',
-					prevEl: '.swiper-button-prev',
-				},
+
+			// тут был свайпер, я просто заменил вызов. МОЖЕТ ЧТО-ТО СЛОМАТЬСЯ!
+			$(document).ready(function(){
+				$('.swiper-wrapper').bxSlider({
+					auto: true,
+					pager: false,
+					autoControls: false,
+					slideMargin: 10,
+					pause: 50000
+				});
 			});
 	    }
 	}
