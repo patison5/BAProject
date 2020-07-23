@@ -26,9 +26,7 @@ class TravelsController:
         CREATE TABLE trv_rubrics (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
-            address TEXT NOT NULL,
-            timetable TEXT NOT NULL,
-            desc TEXT NOT NULL,
+            desc TEXT,
             image INTEGER,
             FOREIGN KEY (image) REFERENCES images (id)
         )
@@ -42,10 +40,54 @@ class TravelsController:
             sec_title TEXT,
             txt_a TEXT,
             txt_b TEXT,
+            barcode INTEGER,
+            timetable TEXT,
+            text TEXT,
             FOREIGN KEY (rub_id) REFERENCES trv_rubrics (id),
             FOREIGN KEY (image) REFERENCES images (id)
+            FOREIGN KEY (barcode) REFERENCES images (id)
         )
         ''')
+        self.conn.commit()
+
+        # рубрика
+        self.cursor.execute('''
+        INSERT INTO trv_rubrics (
+            title,
+            image
+        )
+        VALUES (?,?)''', (
+                "Рубрика",
+                1
+            )
+        )
+        self.conn.commit()
+
+        # пост из рубрики
+        self.cursor.execute('''
+        INSERT INTO travels (
+            rub_id,
+            title,
+            image,
+            sec_title,
+            txt_a,
+            txt_b,
+            barcode,
+            timetable,
+            text
+        )
+        VALUES (?,?,?,?,?,?,?,?,?)''', (
+                1,
+                "Путевка",
+                1,
+                "sec_title",
+                "text_a",
+                "text_b",
+                1,
+                "22.12.2019 - 22.12.2019",
+                "Сука как же я хочу спать, еп твою мать!"
+            )
+        )
         self.conn.commit()
 
 
@@ -55,16 +97,10 @@ class TravelsController:
 
         cdb.execute('''
         INSERT INTO trv_rubrics (
-            title,
-            address,
-            timetable,
-            desc
+            title
         )
         VALUES (?)''', (
                 data["title"],
-                data["address"],
-                data["timetable"],
-                data["desc"]
             )
         )
         cdb.execute('''SELECT last_insert_rowid()''')
@@ -145,10 +181,12 @@ class TravelsController:
         db = sqlite3.connect(database, timeout=10)
         cdb = db.cursor()
         cdb.execute('''
-            SELECT id, title, data, images.src FROM travels
-            INNER JOIN images ON travels.image = images.id
+            SELECT travels.id, travels.title, sec_title, 
+            txt_a, txt_b, images.src
+            FROM travels
+            LEFT JOIN images ON travels.image = images.id
             WHERE rub_id = ?
-            ORDER BY id ASC
+            ORDER BY travels.id ASC
         ''', (rub_id,))
         data = cdb.fetchall();
         json = []
@@ -158,11 +196,9 @@ class TravelsController:
             json.append({
                 "id":              item[0],
                 "title":           item[1],
-                "timetable":       item[2],
-                "desc":            item[3],
-                "image_src":       item[4],
-                "additional_data": item[5],
-                "images_src":      []
+                "sec_title":       item[2],
+                "txt_a":           item[3],
+                "txt_b":           item[4],
             })
             ids.append(item[0])
 
@@ -262,7 +298,7 @@ class TravelsController:
             data["title"],
             data["sec_title"],
             data["txt_a"],
-            data["txt_b"]
+            data["txt_b"],
             data["id"]
         ))
         db.commit()

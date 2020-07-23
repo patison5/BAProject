@@ -772,6 +772,28 @@ if __name__ == '__main__':
                 title2="Туристического агенства"
             )
 
+    @app.route('/admin/travels/notes/<int:id>', methods=['GET'])
+    def admin_tour_agent_notes(id):
+        if request.method == 'GET':
+            all_tour_agent = travels.get_all_travels_by_rubric(id)
+            template = env.get_template('admin/admin-watch-travel-notes.html')
+            return template.render(
+                data=all_tour_agent,
+                title1="Туристическое агенство",
+                title2="Туристического агенства"
+            )
+
+    @app.route('/admin/travels/notes/update/<int:id>', methods=['GET'])
+    def admin_tour_agent_notes_update(id):
+        if request.method == 'GET':
+            all_tour_agent = travels.get_all_travels_by_rubric(id)
+            template = env.get_template('admin/admin-update-travel-note.html')
+            return template.render(
+                data=all_tour_agent,
+                title1="Туристическое заметки",
+                title2="Туристического заметки"
+            )
+
 
     @app.route('/admin/tour_agent/agents-add')
     def admin_tour_agent_agents_add():

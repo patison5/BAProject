@@ -329,37 +329,6 @@ class OrganizationsController:
         )
         self.conn.commit()
 
-        self.cursor.execute('''
-        INSERT INTO organizations (
-            title,
-            logo,
-            text,
-            address,
-            phones,
-            email,
-            link,
-            timetable,
-            type
-        )
-        VALUES (?,?,?,?,?,?,?,?,?)''', (
-            'Подарки', 
-            1,
-            "Студия дизайна и полиграфии оказывает широкий спектр услуг производства и печати: оперативная печать фото на документы, копирования/канирование, разработка и производство полиграфической продукции, разработка дизайна и фирменного стиля, а также верстка, брошюровка, печать визиток и многое другое",
-            json.dumps([
-                "121099, Г. Москва",
-                "ул. Новый Арбат, д.36",
-                "19 этаж, кабинет 1928"
-            ]),
-            json.dumps([
-                "+7 (495) 633-60-02",
-            ]),
-            "kow@mos.ru",
-            "https://www.mos.ru/kos",
-            "ПН-ЧТ – 09:00 - 17:00 ПТ – 08:00 - 15:45 СБ-ВС – выходной",
-            2)
-        )
-        self.conn.commit()
-
 
         # Банки
         self.cursor.execute('''
@@ -569,7 +538,7 @@ class OrganizationsController:
             INNER JOIN images
             ON services.image = images.id
             WHERE services.organization_id = ?
-        ''', (str(id)))
+        ''', str(data[0]))
 
         services = cdb.fetchall();
 
@@ -669,12 +638,11 @@ class OrganizationsController:
 
         # ////////// Сервисы //////////
         cdb.execute('''
-            SELECT services.id, services.title, images.src  
+            SELECT id, title
             FROM services
-            INNER JOIN images
-            ON services.image = images.id
-            WHERE services.organization_id = ?
-        ''',  (str(data[0])))
+            WHERE organization_id = ?
+        ''', (str(data[0])))
+
 
         services = cdb.fetchall();
 
@@ -683,8 +651,7 @@ class OrganizationsController:
         for service in services:
             servicesData.append({
                 "id": service[0],
-                "title": service[1],
-                "src": service[2]
+                "title": service[1]
             })
 
         single_organization = {
